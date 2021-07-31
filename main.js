@@ -34,15 +34,15 @@ function makeStorageClient() {
   return new Web3Storage({ token: getAccessToken() })
 }
 
-async function storeFiles(files) {
-  try {
-    const client = makeStorageClient()
-    const cid = await client.put(files)
-     return cid
-  } catch (e) {
-    console.error(e)
-  }
-}
+// async function storeFiles(files) {
+//   try {
+//     const client = makeStorageClient()
+//     const cid = await client.put(files)
+//      return cid
+//   } catch (e) {
+//     console.error(e)
+//   }
+// }
 
 async function storeWithProgress(files) {
   // show the root cid as soon as it's ready

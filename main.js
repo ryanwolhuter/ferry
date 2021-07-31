@@ -21,13 +21,13 @@ async function uploadFiles() {
 function getAccessToken() {
     // If you're just testing, you can paste in a token
   // and uncomment the following line:
-  return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEM4OEFCMjExYTY2MDIwQ0E5RjJEYjhlRjNGNjk5ZUQwZWQ5NjA0ZkQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2Mjc3MzQ3Mjk5NzcsIm5hbWUiOiJyeSJ9.y9UM2Wlm0keCCnrOmTXFya-2-SkSOlVD6ENSVgbeIoA'
+  // return ''
 
   // In a real app, it's better to read an access token from an 
   // environement variable or other configuration that's kept outside of 
   // your code base. For this to work, you need to set the
   // WEB3STORAGE_TOKEN environment variable before you run your code.
-  // return process.env.WEB3STORAGE_TOKEN
+  return import.meta.env.VITE_WEB3STORAGE_TOKEN
 }
 
 function makeStorageClient() {

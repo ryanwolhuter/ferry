@@ -47,7 +47,7 @@ async function storeFiles(files) {
 async function storeWithProgress(files) {
   // show the root cid as soon as it's ready
   const onRootCidReady = cid => {
-    resultBox.innerText = `uploading files with cid: ${cid}`
+    resultBox.innerText = `uploading... 5% complete`
   }
 
   // when each chunk is stored, update the percentage complete and display

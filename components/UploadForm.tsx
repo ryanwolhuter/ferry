@@ -53,7 +53,7 @@ export default function UploadForm() {
 
   function getFileName(files: File[]) {
     if (!files) return 'no file yet buddy'
-    return files?.[0]?.name
+    return encodeURI(files?.[0]?.name)
   }
 
   function makeFileUrl(rootCid: string, files: File[]) {

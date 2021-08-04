@@ -11,6 +11,7 @@ function makeStorageClient() {
 export default function Home() {
   const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
   const [files, setFiles] = useState<File[]>([])
+  const [fileName, setFileName] = useState('')
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState('0%')
 
@@ -42,6 +43,7 @@ export default function Home() {
   function handleInput(inputEvent: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
+    setFileName(files?.[0]?.name)
     setIsUploadButtonDisabled(false)
   }
 
@@ -68,6 +70,7 @@ export default function Home() {
       <button onClick={e => handleSubmit(e)} disabled={isUploadButtonDisabled}>Submit</button>
       <div>Percent uploaded: {percentUploaded}</div>
       <div>Result: https://dweb.link/ipfs/{rootCid}</div>
+      <div>Direct <a download href={`https://${rootCid}.ipfs.dweb.link/${fileName}`}>download</a></div>
       </main>
 
       <footer className={styles.footer}>

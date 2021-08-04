@@ -4,7 +4,6 @@ import { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from './lib/storageClient'
 
 export default function UploadForm() {
-  const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState('0%')
@@ -36,8 +35,6 @@ export default function UploadForm() {
   function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
-
-    setIsUploadButtonDisabled(false)
   }
 
   async function handleSubmit(submitEvent: FormEvent) {
@@ -74,7 +71,7 @@ export default function UploadForm() {
         Receiver email
         <input type="text" name="email" onChange={e => setEmail(e.target.value)}></input>
       </label>
-      <button type="submit" disabled={isUploadButtonDisabled}>Submit</button>
+      <button type="submit" disabled={files.length === 0}>Submit</button>
       { rootCid ? (
         <>
           <div>Percent uploaded: {percentUploaded}</div>

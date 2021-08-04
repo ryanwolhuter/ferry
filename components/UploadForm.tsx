@@ -10,11 +10,8 @@ export default function UploadForm() {
   const [email, setEmail] = useState('')
 
   async function storeWithProgress(files: File[]) {
+    const client = makeStorageClient()
 
-    const onRootCidReady = (rootCid: string) => {
-      setRootCid(rootCid)
-    }
-  
     const totalSize = files
       .map(f => f.size)
       .reduce((a, b) => a + b)
@@ -26,9 +23,11 @@ export default function UploadForm() {
       const percentUploaded = `${Math.round(uploaded / totalSize * 100)}%`
       setPercentUploaded(percentUploaded)
     }
-  
-    const client = makeStorageClient()
 
+    const onRootCidReady = (rootCid: string) => {
+      setRootCid(rootCid)
+    }
+  
     return client.put(files, { onRootCidReady, onStoredChunk })
   }
   
@@ -51,7 +50,7 @@ export default function UploadForm() {
   }
 
   function getFileName(files: File[]) {
-    if (!files) return 'no file yet buddy'
+    if (!files) return ''
     return encodeURI(files?.[0]?.name)
   }
 
@@ -71,9 +70,17 @@ export default function UploadForm() {
       </label>
       <label htmlFor="email">
         Receiver email
-        <input type="text" name="email" onChange={e => setEmail(e.target.value)}></input>
+        <input 
+          type="text" 
+          name="email" 
+          onChange={e => setEmail(e.target.value)}
+        ></input>
       </label>
-      <button type="submit" disabled={files.length === 0}>Submit</button>
+      <button 
+        type="submit" 
+        disabled={files.length === 0}
+      >Submit
+      </button>
       { rootCid ? (
         <>
           <div>Percent uploaded: {percentUploaded}</div>

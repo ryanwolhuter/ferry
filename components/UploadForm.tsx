@@ -10,25 +10,29 @@ export default function UploadForm() {
   const [email, setEmail] = useState('')
 
   async function storeWithProgress(files: File[]) {
-    const client = makeStorageClient()
+    try {
+      const client = makeStorageClient()
 
-    const totalSize = files
-      .map(f => f.size)
-      .reduce((a, b) => a + b)
+      const totalSize = files
+        .map(f => f.size)
+        .reduce((a, b) => a + b)
 
-    let uploaded = 0
-  
-    const onStoredChunk = (size: number) => {
-      uploaded += size
-      const percentUploaded = `${Math.round(uploaded / totalSize * 100)}%`
-      setPercentUploaded(percentUploaded)
+      let uploaded = 0
+    
+      const onStoredChunk = (size: number) => {
+        uploaded += size
+        const percentUploaded = `${Math.round(uploaded / totalSize * 100)}%`
+        setPercentUploaded(percentUploaded)
+      }
+
+      const onRootCidReady = (rootCid: string) => {
+        setRootCid(rootCid)
+      }
+    
+      return client.put(files, { onRootCidReady, onStoredChunk })
+    } catch (error) {
+      console.error(error)
     }
-
-    const onRootCidReady = (rootCid: string) => {
-      setRootCid(rootCid)
-    }
-  
-    return client.put(files, { onRootCidReady, onStoredChunk })
   }
   
   function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
@@ -41,7 +45,7 @@ export default function UploadForm() {
 
     const cid = await storeWithProgress(files)
 
-    if (!email) return
+    if (!email || !cid) return
 
     await axios.post('/api/send-mail', {
       email,

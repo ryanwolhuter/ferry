@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useState, ChangeEvent, MouseEvent } from 'react'
 import { Web3Storage } from 'web3.storage'
+import axios from 'axios'
 
 function makeStorageClient() {
   const token = process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN ?? ''
@@ -12,8 +13,10 @@ export default function Home() {
   const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
   const [files, setFiles] = useState<File[]>([])
   const [fileName, setFileName] = useState('')
+  const [fileUrl, setFileUrl] = useState('')
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState('0%')
+  const [email, setEmail] = useState('')
 
   async function storeWithProgress(files: File[]) {
 
@@ -44,6 +47,7 @@ export default function Home() {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
     setFileName(files?.[0]?.name)
+    setFileUrl(`https://${rootCid}.ipfs.dweb.link/${fileName}`)
     setIsUploadButtonDisabled(false)
   }
 
@@ -51,6 +55,11 @@ export default function Home() {
     submitEvent.preventDefault()
 
     await storeWithProgress(files)
+
+    axios.post('/api/send-mail', {
+      email,
+      url: fileUrl
+    })
   }
 
   return (
@@ -67,6 +76,7 @@ export default function Home() {
         </h1>
 
       <input type="file" name="fileInput" onChange={e => handleInput(e)}></input>
+      <input type="text" name="email" onChange={e => setEmail(e.target.value)}></input>
       <button onClick={e => handleSubmit(e)} disabled={isUploadButtonDisabled}>Submit</button>
       <div>Percent uploaded: {percentUploaded}</div>
       <div>Result: https://dweb.link/ipfs/{rootCid}</div>

@@ -12,12 +12,18 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  const to = req?.body?.email
+  const fileUrl = req?.body?.url
+  const html = `
+  <p>Someone sent you a file</p>
+  <p>Download it <a href="${fileUrl}">here</a></p>
+  `
   const msg = {
-    to: 'dev@ryanwolhuter.com', // Change to your recipient
-    from: 'dev@ryanwolhuter.com', // Change to your verified sender
-    subject: 'Sending with SendGrid is Fun',
-    text: 'and easy to do anywhere, even with Node.js',
-    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    to,
+    from: 'dev@ryanwolhuter.com',
+    subject: 'Taam to daanload your faals',
+    text: 'Someone sent you a file',
+    html
   }
   try {
     await sgMail.send(msg)

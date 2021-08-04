@@ -70,7 +70,7 @@ export default function Home() {
       <button onClick={e => handleSubmit(e)} disabled={isUploadButtonDisabled}>Submit</button>
       <div>Percent uploaded: {percentUploaded}</div>
       <div>Result: https://dweb.link/ipfs/{rootCid}</div>
-      <div>Direct <a download href={`https://${rootCid}.ipfs.dweb.link/${fileName}`}>download</a></div>
+      <div>Direct <a download={fileName} href={`https://${rootCid}.ipfs.dweb.link/${fileName}`}>download</a></div>
       </main>
 
       <footer className={styles.footer}>

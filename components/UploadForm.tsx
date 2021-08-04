@@ -58,8 +58,8 @@ export default function UploadForm() {
     return encodeURI(files?.[0]?.name)
   }
 
-  function makeFileUrl(rootCid: string, files: File[]) {
-    return `https://${rootCid}.ipfs.dweb.link/${getFileName(files)}`
+  function makeFileUrl(cid: string, files: File[]) {
+    return `https://${cid}.ipfs.dweb.link/${getFileName(files)}`
   }
 
   return (

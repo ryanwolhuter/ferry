@@ -1,7 +1,8 @@
 
-import axios from 'axios'
 import { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from './lib/storageClient'
+import makeFileUrl from './lib/fileUpload'
+import sendEmail from './lib/sendEmail'
 
 export default function UploadForm() {
   const [files, setFiles] = useState<File[]>([])
@@ -47,19 +48,8 @@ export default function UploadForm() {
 
     if (!email || !cid) return
 
-    await axios.post('/api/send-mail', {
-      email,
-      url: makeFileUrl(cid, files)
-    })
-  }
-
-  function getFileName(files: File[]) {
-    if (!files) return ''
-    return encodeURI(files?.[0]?.name)
-  }
-
-  function makeFileUrl(cid: string, files: File[]) {
-    return `https://${cid}.ipfs.dweb.link/${getFileName(files)}`
+    const fileUrl = makeFileUrl(cid, files)
+    sendEmail(email, fileUrl)
   }
 
   return (

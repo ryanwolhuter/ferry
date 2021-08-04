@@ -16,8 +16,7 @@ export default function UploadForm() {
       setRootCid(rootCid)
     }
   
-    const totalSize = 
-      files
+    const totalSize = files
       .map(f => f.size)
       .reduce((a, b) => a + b)
 
@@ -76,9 +75,11 @@ export default function UploadForm() {
         <input type="text" name="email" onChange={e => setEmail(e.target.value)}></input>
       </label>
       <button type="submit" disabled={isUploadButtonDisabled}>Submit</button>
-      {/* <div>Percent uploaded: {percentUploaded}</div> */}
       { rootCid ? (
-        <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
+        <>
+          <div>Percent uploaded: {percentUploaded}</div>
+          <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
+        </>
       ) : <div></div>}
   </form>
   )

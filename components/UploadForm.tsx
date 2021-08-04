@@ -8,17 +8,8 @@ export default function UploadForm() {
     const token = process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN ?? ''
     return new Web3Storage({ token })
   }
-  function handleInput(inputEvent: ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(inputEvent?.target?.files ?? [])
-    setFiles(files)
-    setFileName(files?.[0]?.name)
-    setFileUrl(`https://${rootCid}.ipfs.dweb.link/${fileName}`)
-    setIsUploadButtonDisabled(false)
-  }
   const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
   const [files, setFiles] = useState<File[]>([])
-  const [fileName, setFileName] = useState('')
-  const [fileUrl, setFileUrl] = useState('')
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState('0%')
   const [email, setEmail] = useState('')
@@ -46,27 +37,54 @@ export default function UploadForm() {
 
     return client.put(files, { onRootCidReady, onStoredChunk })
   }
+  
+  function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(inputEvent?.target?.files ?? [])
+    setFiles(files)
+
+    setIsUploadButtonDisabled(false)
+  }
+
   async function handleSubmit(submitEvent: FormEvent) {
     submitEvent.preventDefault()
 
     await storeWithProgress(files)
 
-    axios.post('/api/send-mail', {
-      email,
-      url: fileUrl
-    })
+
+    // axios.post('/api/send-mail', {
+    //   email,
+    //   url: fileUrl
+    // })
   }
+
+  function getFileName(files: File[]) {
+    if (!files) return 'no file yet buddy'
+    return files?.[0]?.name
+  }
+
+  function makeFileUrl(rootCid: string, files: File[]) {
+    return `https://${rootCid}.ipfs.dweb.link/${getFileName(files)}`
+  }
+
   return (
   <form onSubmit={e => handleSubmit(e)}>
-      <input 
-      type="file" 
-      name="fileInput" 
-      onChange={e => handleInput(e)}></input>
-      <input type="text" name="email" onChange={e => setEmail(e.target.value)}></input>
+      <label htmlFor="fileInput">
+        Choose file
+        <input 
+          type="file" 
+          name="fileInput" 
+          onChange={e => handleChooseFile(e)}
+        ></input>
+      </label>
+      <label htmlFor="email">
+        Receiver email
+        <input type="text" name="email" onChange={e => setEmail(e.target.value)}></input>
+      </label>
       <button type="submit" disabled={isUploadButtonDisabled}>Submit</button>
-      <div>Percent uploaded: {percentUploaded}</div>
-      <div>Result: https://dweb.link/ipfs/{rootCid}</div>
-      <div>Direct <a download={fileName} href={`https://${rootCid}.ipfs.dweb.link/${fileName}`}>download</a></div>
+      {/* <div>Percent uploaded: {percentUploaded}</div> */}
+      { rootCid ? (
+        <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
+      ) : <div></div>}
   </form>
   )
 }

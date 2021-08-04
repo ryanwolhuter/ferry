@@ -42,6 +42,8 @@ export default function UploadForm() {
 
     const cid = await storeWithProgress(files)
 
+    if (!email) return
+
     await axios.post('/api/send-mail', {
       email,
       url: makeFileUrl(cid, files)

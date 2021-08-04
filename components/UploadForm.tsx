@@ -1,13 +1,9 @@
 
-import { useState, ChangeEvent, FormEvent } from 'react'
-import { Web3Storage } from 'web3.storage'
 import axios from 'axios'
+import { useState, ChangeEvent, FormEvent } from 'react'
+import makeStorageClient from './lib/storageClient'
 
 export default function UploadForm() {
-  function makeStorageClient() {
-    const token = process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN ?? ''
-    return new Web3Storage({ token })
-  }
   const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(true)
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
@@ -48,13 +44,12 @@ export default function UploadForm() {
   async function handleSubmit(submitEvent: FormEvent) {
     submitEvent.preventDefault()
 
-    await storeWithProgress(files)
+    const cid = await storeWithProgress(files)
 
-
-    // axios.post('/api/send-mail', {
-    //   email,
-    //   url: fileUrl
-    // })
+    await axios.post('/api/send-mail', {
+      email,
+      url: makeFileUrl(cid, files)
+    })
   }
 
   function getFileName(files: File[]) {

@@ -1,8 +1,8 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react'
-import makeStorageClient from './lib/storageClient'
-import makeFileUrl from './lib/fileUpload'
-import sendEmail from './lib/sendEmail'
+import makeStorageClient from '../lib/storageClient'
+import makeFileUrl from '../lib/fileUpload'
+import sendEmail from '../lib/sendEmail'
 
 export default function UploadForm() {
   const [files, setFiles] = useState<File[]>([])

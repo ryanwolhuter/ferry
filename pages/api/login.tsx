@@ -3,8 +3,6 @@ import { Magic } from '@magic-sdk/admin'
 import Iron from '@hapi/iron'
 import CookieService from '../../lib/cookie'
 
-let magic = new Magic(process.env.MAGIC_SECRET_KEY)
-
 export default async function login(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end()
 

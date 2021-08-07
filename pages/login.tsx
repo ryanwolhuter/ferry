@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { FormEvent } from 'react'
 import { Magic } from 'magic-sdk'
 
 /**
@@ -10,7 +9,7 @@ import { Magic } from 'magic-sdk'
 
 export default function Login() {
   const router = useRouter()
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const { elements } = event.target

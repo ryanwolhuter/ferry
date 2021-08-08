@@ -1,16 +1,14 @@
-import Iron from '@hapi/iron'
-import { NextApiRequest, NextApiResponse } from 'next'
-import CookieService from '../../lib/cookie'
+import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "../../lib/cookie";
 
 export default async function user(req: NextApiRequest, res: NextApiResponse) {
-  let user
-  try {
-    user = await Iron.unseal(CookieService.getAuthToken(req.cookies), process.env.ENCRYPTION_SECRET, Iron.defaults)
-  } catch (error) {
-    res.status(401).end()
-  }
+  
+  const session = await getSession(req)
 
-  // now we have access to the data inside of user
-  // and we could make database calls or just send back what we have in the token
-  res.json(user)
+  if (session) {
+    const { email, issuer } = session
+    res.status(200).json({ user: { email, issuer }})
+  } else {
+    res.status(200).json({ user: null })
+  }
 }

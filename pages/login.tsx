@@ -3,6 +3,7 @@ import { useIsMounted, useUser } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
 import Layout from '../components/Layout'
+import Button from '../components/Button'
 
 export default function Login() {
   const router = useRouter()
@@ -61,7 +62,7 @@ export default function Login() {
         <input type="email" name="email" required placeholder="you@example.com" />
         </label>
 
-        <button disabled={isLoggingIn} type="submit">Sign Up / Log in</button>
+        <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
 
         {errorMsg && <p className="error">{errorMsg}</p>}
       </form>

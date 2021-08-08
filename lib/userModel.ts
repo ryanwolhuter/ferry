@@ -20,7 +20,17 @@ export class UserModel {
   }
 
   async obtainFaunaDBToken(user) {
-
+    return adminClient
+      .query(
+        q.Create(
+          q.Tokens(),
+          { instance: q.Select('ref', user) }
+        )
+      )
+      // TODO figure out the type for this response
+      // @ts-ignore
+      .then(res => res?.secret)
+      .catch(() => undefined)
   }
 
   async invalidateFaunaDBToken(token) {

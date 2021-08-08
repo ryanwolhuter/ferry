@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { useUser } from '../lib/hooks'
 
 export default function Layout({ children }) {
@@ -20,7 +21,9 @@ export default function Layout({ children }) {
       {user &&
         <div>
           <span>{user.email}</span>
-          <a href="/api/logout">Logout</a>
+          <Link href="/api/logout">
+            <a>Logout</a>
+          </Link>
         </div>}
     </main>
     </>

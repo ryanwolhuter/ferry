@@ -1,44 +1,70 @@
+import { useCallback, useEffect, useState } from 'react'
+import { useIsMounted, useUser } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
-
-/**
- * Once we have the SDK installed we will need to import it and call Magic.loginWithMagicLink when the form is submitted. loginWithMagicLink will send an email to the authenticating user and they will follow a secure authentication process outside of our application.
- *
-* Once the user has successfully authenticated with Magic, they'll be instructed to return to our app. At that point Magic will return a decentralized identifier or DID which we can use as a token in our application. 
- */
+import Layout from '../components/Layout'
 
 export default function Login() {
   const router = useRouter()
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  const { user } = useUser()
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [errorMsg, setErrorMsg] = useState(null)
+  const isMounted = useIsMounted()
+  
+  useEffect(() => {
+    // if a user is already logged in,
+    // redirect to home page
+    if (user) router.push('/')
+  }, [user, router])
 
-    const { elements } = event.target
+  const login = useCallback(async (email: string) => {
+    if (isMounted() && errorMsg) setErrorMsg(null)
 
-    const did = await new Magic(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
-    .auth
-    .loginWithMagicLink({ email: elements.email.value })
+    try {
+      const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
+      const didToken = await magic.auth.loginWithMagicLink({ email })
 
-    // once we have the did from magic, login with our own api
-    const authRequest = await fetch('/api/login', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${did}`}
-    })
-
-    if (authRequest.ok) {
-      // we successfullu logged in,
-      // our api set authorization cookies
-      // and now we can redirect to the dashboard
-      router.push('/dashboard')
-    } else {
-      // TODO handle errors
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${didToken}`
+        },
+        body: JSON.stringify({ email })
+      })
+      if (res.status === 200) {
+        router.push('/')
+      } else {
+        throw new Error(await res.text())
+      }
+    } catch (error) {
+      console.error('ERROR: ', error)
+      if (isMounted()) setErrorMsg(error.message)
     }
-  }
+  }, [errorMsg, isMounted, router])
+
+  const onSubmit = useCallback(e => {
+    e.preventDefault()
+
+    if (isLoggingIn) return
+
+    setIsLoggingIn(true)
+    login(e.currentTarget.email.value)
+      .then(() => setIsLoggingIn(false))
+  }, [login, isLoggingIn])
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email</label>
-      <input name="email" type="email" />
-      <button>Log in</button>
-    </form>
+    <Layout>
+      <form onSubmit={onSubmit}>
+        <h2>Log in</h2>
+        <label htmlFor="email">Email <span aria-hidden={true}>*</span>
+        <input type="email" name="email" required placeholder="you@example.com" />
+        </label>
+
+        <button disabled={isLoggingIn} type="submit">Sign Up / Log in</button>
+
+        {errorMsg && <p className="error">{errorMsg}</p>}
+      </form>
+    </Layout>
   )
 }

@@ -34,6 +34,9 @@ export class UserModel {
   }
 
   async invalidateFaunaDBToken(token) {
-
+    await getClient(token)
+      .query(
+        q.Logout(true)
+      )
   }
 }

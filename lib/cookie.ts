@@ -9,8 +9,8 @@ function parseCookies(req) {
   if (req.cookies) return req.cookies
 
   // for pages, we do need to parse the cookies
-  const cookie = req.headers?.cookie ?? ''
-  return parse(cookie)
+  const cookie = req.headers?.cookie
+  return parse(cookie || '')
 }
 
 export async function createSession(res, data) {

@@ -12,7 +12,7 @@ export default function Layout({ children }) {
     </Head>
 
     <header>
-      <h1>Your Files</h1>
+      <h1>Ferry</h1>
     </header>
 
     <main>

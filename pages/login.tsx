@@ -22,7 +22,7 @@ export default function Login() {
     if (isMounted() && errorMsg) setErrorMsg(null)
 
     try {
-      const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
+      const magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
       const didToken = await magic.auth.loginWithMagicLink({ email })
 
       const res = await fetch('/api/login', {

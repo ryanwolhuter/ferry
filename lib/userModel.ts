@@ -36,6 +36,7 @@ export class UserModel {
   async invalidateFaunaDBToken(token) {
     await getClient(token)
       .query(
+        // invalidates the user's FaunaDB session and burns any associated access tokens
         q.Logout(true)
       )
   }

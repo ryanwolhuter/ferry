@@ -1,4 +1,4 @@
-import { q, adminClient, getClient } from './faunadb'
+import { q, adminClient, getClient } from '../faunadb'
 
 export class UserModel {
   async createUser(email: string) {

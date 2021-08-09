@@ -8,14 +8,15 @@ const handlers = {
   POST: async (req: NextApiRequest, res: NextApiResponse) => {
     // validate the users did token
     const magic = new Magic(process.env.MAGIC_SECRET_KEY)
-    const didToken = magic.utils.parseAuthorizationHeader(req.headers.authorization)
+    const didToken = magic.utils.parseAuthorizationHeader(req.headers.authorization ?? 'NO AUTH HEADER')
     const { email, issuer } = await magic.users.getMetadataByToken(didToken)
 
     // get or create a user's entity in faunadb
     const userModel = new UserModel()
 
     // auto-detect signups if `getUserByEmail` is null
-    const user = await userModel.getUserByEmail(email) ?? await userModel.createUser(email)
+    const user = await userModel.getUserByEmail(email)
+      ?? await userModel.createUser(email)
     const token = await userModel.obtainFaunaDBToken(user)
 
     // create session cookie with the user's verified information

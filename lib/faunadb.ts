@@ -11,4 +11,4 @@ export function getClient(secret: string) {
 }
 
 /** Faunadb `Client` configured with vercel fauna admin key */
-export const adminClient = getClient(process.env.FAUNA_ADMIN_KEY)
+export const adminClient = getClient(process.env.FAUNA_ADMIN_KEY ?? 'NO FAUNA ADMIN KEY')

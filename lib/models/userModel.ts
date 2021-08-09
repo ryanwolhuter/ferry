@@ -1,7 +1,7 @@
 import { q, adminClient, getClient } from '../faunadb'
 
 export class UserModel {
-  async createUser(email: string) {
+  async createUser(email: string | null) {
     return adminClient
       .query(
         q.Create(
@@ -10,7 +10,9 @@ export class UserModel {
         }))
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string | null) {
+    if (!email) return null
+
     return adminClient
       .query(
         q.Get(
@@ -19,7 +21,9 @@ export class UserModel {
       ).catch(() => null)
   }
 
-  async obtainFaunaDBToken(user) {
+  async obtainFaunaDBToken(user: object | null) {
+    if (!user) return null
+
     return adminClient
       .query(
         q.Create(
@@ -30,10 +34,10 @@ export class UserModel {
       // TODO figure out the type for this response
       // @ts-ignore
       .then(res => res?.secret)
-      .catch(() => undefined)
+      .catch(() => null)
   }
 
-  async invalidateFaunaDBToken(token) {
+  async invalidateFaunaDBToken(token: string) {
     await getClient(token)
       .query(
         // invalidates the user's FaunaDB session and burns any associated access tokens

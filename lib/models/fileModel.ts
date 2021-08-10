@@ -18,10 +18,7 @@ export class FileModel {
         Lambda('fileRef', Get(Var('fileRef'))))
     )
       // TODO figure out type for response
-      .then((res: any) => {
-        console.log(res.data)
-        return res.data
-      })
+      .then((res: any) => res.data)
   }
 
   async addFile(name: string, cid: string) {

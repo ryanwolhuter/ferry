@@ -12,7 +12,7 @@ export default function Uploads({ uploads }: UploadsProps) {
   return (
     <ul>
       {uploads.map(({ name, cid }) => (
-        <li key={name}>
+        <li key={cid}>
           <p>name: {name}</p>
           <p>cid: {cid}</p>
         </li>

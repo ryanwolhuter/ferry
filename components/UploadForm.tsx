@@ -50,7 +50,7 @@ export default function UploadForm() {
 
     const name = getFileName(files)
 
-    const res = await fetch('/api/files', {
+    await fetch('/api/files', {
       method: 'POST',
       body: JSON.stringify({ name, cid })
     })

@@ -11,13 +11,14 @@ export default function Home() {
   const isFirstRender = useFirstRender()
 
   const { user, loading: userLoading } = useUser()
-  // const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
+  const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
 
   useEffect(() => {
-    if (user && !userLoading && !initialized) {
+    if (user && !userLoading &&!filesLoading && !initialized) {
+      console.log(files)
       setInitialized(true)
     }
-  }, [user, userLoading, initialized])
+  }, [user, files, userLoading, filesLoading, initialized])
 
   useEffect(() => {
     // if no user is logged in,

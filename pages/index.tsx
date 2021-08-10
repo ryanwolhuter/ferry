@@ -16,7 +16,6 @@ export default function Home() {
 
   useEffect(() => {
     if (user && !userLoading &&!filesLoading && !initialized) {
-      console.log(files)
       setInitialized(true)
     }
   }, [user, files, userLoading, filesLoading, initialized])

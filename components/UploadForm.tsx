@@ -1,7 +1,7 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from '../lib/storageClient'
-import makeFileUrl from '../lib/fileUpload'
+import { getFileName, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
 
 export default function UploadForm() {
@@ -47,6 +47,13 @@ export default function UploadForm() {
     const cid = await storeWithProgress(files)
 
     if (!email || !cid) return
+
+    const name = getFileName(files)
+
+    const res = await fetch('/api/files', {
+      method: 'POST',
+      body: JSON.stringify({ name, cid })
+    })
 
     const fileUrl = makeFileUrl(cid, files)
     sendEmail(email, fileUrl)

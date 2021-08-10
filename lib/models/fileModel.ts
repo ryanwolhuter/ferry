@@ -1,4 +1,4 @@
-import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, CurrentIdentity } from 'faunadb'
+import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, Identity, CurrentIdentity, Create } from 'faunadb'
 import { getClient } from '../faunadb'
 
 export class FileModel {
@@ -14,10 +14,35 @@ export class FileModel {
         Paginate(
           Match(
             Index('all_files_by_user'),
-            Ref(Collection('users'), "306365774328496652"))),
+            CurrentIdentity())),
         Lambda('fileRef', Get(Var('fileRef'))))
     )
-    // TODO figure out type for response
-    .then((res: any) => res.data)
+      // TODO figure out type for response
+      .then((res: any) => {
+        console.log(res.data)
+        return res.data
+      })
+  }
+
+  async addFile(name: string, cid: string) {
+    try {
+      const res = await this.client.query(
+        Create(
+          Collection('files'),
+          {
+            data: {
+              name,
+              cid,
+              user: CurrentIdentity()
+            }
+          }
+        )
+      )
+
+      // @ts-ignore
+      return res.ref.id
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

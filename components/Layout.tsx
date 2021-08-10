@@ -2,7 +2,11 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useUser } from '../lib/hooks'
 
-export default function Layout({ children }) {
+type LayoutProps = {
+  children: JSX.Element
+}
+
+export default function Layout({ children }: LayoutProps) {
   const { user } = useUser()
 
   return (

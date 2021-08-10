@@ -1,6 +1,6 @@
 import { getSession, removeSession } from "../../lib/cookie";
 import { createHandlers } from "../../lib/restUtils";
-import { UserModel } from "../../lib/userModel";
+import { UserModel } from "../../lib/models/userModel";
 import { Magic } from "@magic-sdk/admin";
 import { NextApiRequest, NextApiResponse } from "next";
 

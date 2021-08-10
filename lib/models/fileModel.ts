@@ -13,7 +13,7 @@ export class FileModel {
       Map(
         Paginate(
           Match(
-            Index('all_files_by_user'),
+            Index('all_files_by_user'), 
             CurrentIdentity())),
         Lambda('fileRef', Get(Var('fileRef'))))
     )

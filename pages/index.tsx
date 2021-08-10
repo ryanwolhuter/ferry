@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import Spinner from "../components/Spinner"
 import UploadForm from "../components/UploadForm"
+import Uploads from "../components/Uploads"
 
 export default function Home() {
   const router = useRouter()
@@ -33,6 +34,7 @@ export default function Home() {
       {initialized 
         ? <>
           <UploadForm />
+          <Uploads uploads={files.map((result: any) => result?.data)} />
         </>
         : <Spinner />
       }

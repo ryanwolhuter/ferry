@@ -4,7 +4,7 @@ import makeStorageClient from '../lib/storageClient'
 import { getFileName, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
 
-export default function UploadForm() {
+export default function UploadForm({ mutateUploads }) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState('0%')
@@ -49,6 +49,8 @@ export default function UploadForm() {
     if (!email || !cid) return
 
     const name = getFileName(files)
+
+    mutateUploads(currentUploads => [...currentUploads, { data: { name, cid }}], false)
 
     await fetch('/api/files', {
       method: 'POST',

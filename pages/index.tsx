@@ -32,7 +32,7 @@ export default function Home() {
     <Layout>
       {initialized 
         ? <>
-          <UploadForm />
+          <UploadForm mutateUploads={mutateFiles} />
           <Uploads uploads={files.map((result: any) => result?.data)} />
         </>
         : <Spinner />

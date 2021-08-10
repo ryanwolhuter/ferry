@@ -9,6 +9,17 @@ const handlers = {
     const model = new FileModel(token)
     const files = await model.getAllFiles()
     res.status(200).json({ files })
+  },
+  POST: async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const { token } = await getSession(req)
+      const { name, cid } = JSON.parse(req.body)
+      const fileModel = new FileModel(token)
+      const id = await fileModel.addFile(name, cid)
+      res.status(200).json({ id })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 

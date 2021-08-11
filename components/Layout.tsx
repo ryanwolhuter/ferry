@@ -7,7 +7,7 @@ type LayoutProps = {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { user } = useUser()
+  const { user, loading: userLoading } = useUser()
 
   return (
     <>

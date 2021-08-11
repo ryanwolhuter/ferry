@@ -1,7 +1,7 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from '../lib/storageClient'
-import { getFileName, makeFileUrl } from '../lib/fileUpload'
+import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
 import Spinner from './Spinner'
 import styles from '../styles/UploadForm.module.css'
@@ -54,17 +54,20 @@ export default function UploadForm({ mutateUploads }) {
 
     const cid = await storeWithProgress(files)
 
-    if (!email || !cid) return
+    if (!cid) return
 
     const name = getFileName(files)
+    const size = getFileSize(files)
 
-    mutateUploads(currentUploads => [...currentUploads, { data: { name, cid } }], false)
+    mutateUploads(currentUploads => [...currentUploads, { data: { name, cid, size } }], false)
 
     await fetch('/api/files', {
       method: 'POST',
-      body: JSON.stringify({ name, cid })
+      body: JSON.stringify({ name, cid, size })
     })
 
+    if (!email) return
+    
     const fileUrl = makeFileUrl(cid, files)
     sendEmail(email, fileUrl)
   }

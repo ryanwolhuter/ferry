@@ -21,7 +21,7 @@ export class FileModel {
       .then((res: any) => res.data)
   }
 
-  async addFile(name: string, cid: string) {
+  async addFile(name: string, cid: string, size: number) {
     try {
       const res = await this.client.query(
         Create(
@@ -30,6 +30,7 @@ export class FileModel {
             data: {
               name,
               cid,
+              size,
               user: CurrentIdentity()
             }
           }

@@ -13,9 +13,9 @@ const handlers = {
   POST: async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { token } = await getSession(req)
-      const { name, cid } = JSON.parse(req.body)
+      const { name, cid, size } = JSON.parse(req.body)
       const fileModel = new FileModel(token)
-      const id = await fileModel.addFile(name, cid)
+      const id = await fileModel.addFile(name, cid, size)
       res.status(200).json({ id })
     } catch (error) {
       console.error(error)

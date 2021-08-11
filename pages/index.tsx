@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import { useUser, useFirstRender, useAllFiles } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
-import Spinner from "../components/Spinner"
-import UploadForm from "../components/UploadForm"
-import Uploads from "../components/Uploads"
+import Spinner from '../components/Spinner'
+import UploadForm from '../components/UploadForm'
+import BlurContainer from '../components/BlurContainer'
 
 export default function Home() {
   const router = useRouter()
@@ -31,10 +31,11 @@ export default function Home() {
   return (
     <Layout>
       {initialized 
-        ? <>
+        ? <BlurContainer>
+          <>
           <UploadForm mutateUploads={mutateFiles} />
-          <Uploads uploads={files.map((result: any) => result?.data)} />
-        </>
+          </>
+        </BlurContainer>
         : <Spinner />
       }
     </Layout>

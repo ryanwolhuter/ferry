@@ -3,8 +3,10 @@ import { useIsMounted, useUser } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
 import Layout from '../components/Layout'
+import BlurContainer from '../components/BlurContainer'
 import Spinner from '../components/Spinner'
 import Button from '../components/Button'
+import styles from '../styles/Login.module.css'
 
 export default function Login() {
   const router = useRouter()
@@ -57,21 +59,22 @@ export default function Login() {
 
   return (
     <Layout>
-
-      <form onSubmit={onSubmit}>
-        <h2>Log in</h2>
-        {isLoggingIn
-          ? <Spinner />
-          : <>
-            <label htmlFor="email">Email <span aria-hidden={true}>*</span>
+      <BlurContainer>
+        <form onSubmit={onSubmit} className={styles.form}>
+          <h2>Log in</h2>
+          {isLoggingIn
+            ? <Spinner />
+            : <>
+              <label htmlFor="email">Email <span aria-hidden={true}>*</span>
+              </label>
               <input type="email" name="email" required placeholder="you@example.com" />
-            </label>
 
-            <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
-          </>}
+              <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
+            </>}
 
-        {errorMsg && <p className="error">{errorMsg}</p>}
-      </form>
+          {errorMsg && <p className="error">{errorMsg}</p>}
+        </form>
+      </BlurContainer>
     </Layout>
   )
 }

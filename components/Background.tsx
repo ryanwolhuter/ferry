@@ -11,6 +11,7 @@ export default function Background() {
         layout="fill"
         objectFit="cover"
         quality={100}
+        placeholder="blur"
       />
     </div>
   )

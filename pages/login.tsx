@@ -60,20 +60,22 @@ export default function Login() {
   return (
     <Layout>
       <BlurContainer>
-        <form onSubmit={onSubmit} className={styles.form}>
-          <h2>Log in</h2>
-          {isLoggingIn
-            ? <Spinner />
-            : <>
-              <label htmlFor="email">Email <span aria-hidden={true}>*</span>
-              </label>
-              <input type="email" name="email" required placeholder="you@example.com" />
+        <section className={styles.container}>
+          <form onSubmit={onSubmit} className={styles.form}>
+            <h1>Log in</h1>
+            {isLoggingIn
+              ? <Spinner />
+              : <>
+                <label className={styles.label} htmlFor="email"><span aria-hidden={true}>Email *</span>
+                </label>
+                <input type="email" name="email" required placeholder="Email Address" />
 
-              <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
-            </>}
+                <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
+              </>}
 
-          {errorMsg && <p className="error">{errorMsg}</p>}
-        </form>
+            {errorMsg && <p className="error">{errorMsg}</p>}
+          </form>
+        </section>
       </BlurContainer>
     </Layout>
   )

@@ -1,7 +1,6 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import Background from './Background'
-import { useUser } from '../lib/hooks'
+import NavBar from './NavBar'
 import styles from '../styles/Layout.module.css'
 
 type LayoutProps = {
@@ -9,7 +8,6 @@ type LayoutProps = {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { user, loading: userLoading } = useUser()
 
   return (
     <>
@@ -19,15 +17,9 @@ export default function Layout({ children }: LayoutProps) {
       </Head>
       <Background />
 
+      <NavBar />
       <main className={styles.main}>
         <div className={styles.container}>{children}</div>
-        {user &&
-          <div>
-            <span>{user.email}</span>
-            <Link href="/api/logout">
-              <a>Logout</a>
-            </Link>
-          </div>}
       </main>
     </>
   )

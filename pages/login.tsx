@@ -3,6 +3,7 @@ import { useIsMounted, useUser } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
 import Layout from '../components/Layout'
+import Spinner from '../components/Spinner'
 import Button from '../components/Button'
 
 export default function Login() {
@@ -11,7 +12,7 @@ export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [errorMsg, setErrorMsg] = useState(null)
   const isMounted = useIsMounted()
-  
+
   useEffect(() => {
     // if a user is already logged in,
     // redirect to home page
@@ -56,16 +57,18 @@ export default function Login() {
 
   return (
     <Layout>
-      <form onSubmit={onSubmit}>
-        <h2>Log in</h2>
-        <label htmlFor="email">Email <span aria-hidden={true}>*</span>
-        <input type="email" name="email" required placeholder="you@example.com" />
-        </label>
+      {isLoggingIn
+        ? <Spinner />
+        : <form onSubmit={onSubmit}>
+          <h2>Log in</h2>
+          <label htmlFor="email">Email <span aria-hidden={true}>*</span>
+            <input type="email" name="email" required placeholder="you@example.com" />
+          </label>
 
-        <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
+          <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
 
-        {errorMsg && <p className="error">{errorMsg}</p>}
-      </form>
+          {errorMsg && <p className="error">{errorMsg}</p>}
+        </form>}
     </Layout>
   )
 }

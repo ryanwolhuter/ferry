@@ -6,12 +6,14 @@ export default function NavBar() {
   const { user } = useUser()
 
   return (
-    user &&
-    <nav>
-      <span>{user.email}</span>
-      <Link href="/api/logout">
-        <a>Logout</a>
-      </Link>
+    <nav className={styles.navbar}>
+      {user &&
+        <>
+          <span>{user.email}</span>
+          <Link href="/api/logout">
+            <a>Logout</a>
+          </Link>
+        </>}
     </nav>
   )
 }

@@ -57,18 +57,21 @@ export default function Login() {
 
   return (
     <Layout>
-      {isLoggingIn
-        ? <Spinner />
-        : <form onSubmit={onSubmit}>
-          <h2>Log in</h2>
-          <label htmlFor="email">Email <span aria-hidden={true}>*</span>
-            <input type="email" name="email" required placeholder="you@example.com" />
-          </label>
 
-          <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
+      <form onSubmit={onSubmit}>
+        <h2>Log in</h2>
+        {isLoggingIn
+          ? <Spinner />
+          : <>
+            <label htmlFor="email">Email <span aria-hidden={true}>*</span>
+              <input type="email" name="email" required placeholder="you@example.com" />
+            </label>
 
-          {errorMsg && <p className="error">{errorMsg}</p>}
-        </form>}
+            <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
+          </>}
+
+        {errorMsg && <p className="error">{errorMsg}</p>}
+      </form>
     </Layout>
   )
 }

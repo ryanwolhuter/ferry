@@ -59,7 +59,7 @@ export default function Login() {
 
   return (
     <Layout>
-      <BlurContainer>
+      <BlurContainer isFullScreen={true}>
         <section className={styles.container}>
           <form onSubmit={onSubmit} className={styles.form}>
             <h1>Log in</h1>

@@ -1,11 +1,16 @@
 import classNames from 'classnames'
+import { useState } from 'react'
 
 export default function Button(props) {
-  const { className, isActive, ...otherProps } = props
+  const { className, ...otherProps } = props
+  const [isSelected, setIsSelected] = useState(false)
 
   return (
     <>
-    <button className={classNames(className, isActive && 'active')} {...otherProps} />
+      <button
+        onClick={e => setIsSelected(true)}
+        className={classNames(className, isSelected && 'selected')}
+        {...otherProps} />
     </>
   )
 }

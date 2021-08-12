@@ -106,6 +106,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
           ></input>
           <button
             type="submit"
+            className="default"
             disabled={files.length === 0}
           >Submit
           </button>

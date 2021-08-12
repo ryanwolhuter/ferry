@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useUser, useFirstRender, useAllFiles } from '../lib/hooks'
+import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import Spinner from '../components/Spinner'
@@ -13,12 +13,13 @@ export default function Home() {
 
   const { user, loading: userLoading } = useUser()
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
+  const { spaceUsed, loading: spaceUsedLoading } = useUserSpaceUsed()
 
   useEffect(() => {
-    if (user && !userLoading &&!filesLoading && !initialized) {
+    if (user && !userLoading && !spaceUsedLoading && !initialized) {
       setInitialized(true)
     }
-  }, [user, files, userLoading, filesLoading, initialized])
+  }, [user, spaceUsedLoading, userLoading, initialized])
 
   useEffect(() => {
     // if no user is logged in,

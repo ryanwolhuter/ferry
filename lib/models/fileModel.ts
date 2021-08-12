@@ -1,4 +1,4 @@
-import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, Identity, CurrentIdentity, Create } from 'faunadb'
+import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, Identity, CurrentIdentity, Create, Call, Function } from 'faunadb'
 import { getClient } from '../faunadb'
 
 export class FileModel {
@@ -19,6 +19,13 @@ export class FileModel {
     )
       // TODO figure out type for response
       .then((res: any) => res.data)
+  }
+
+  async getUserSpaceUsed() {
+    return this.client.query(
+      Call(Function('getUserSpaceUsed'), CurrentIdentity())
+    )
+    .then((res: any) => res.spaceUsed.data[0])
   }
 
   async addFile(name: string, cid: string, size: number) {

@@ -14,6 +14,11 @@ export function useAllFiles() {
   return { files: data ?? [], loading: isValidating, mutate }
 }
 
+export function useUserSpaceUsed() {
+  const { data, isValidating, mutate } = useSWR('/api/space-used', jsonFetcher('spaceUsed'))
+  return { spaceUsed: data ?? 0, loading: isValidating, mutate }
+}
+
 export function useUser() {
   const { data, isValidating } = useSWR('/api/user', jsonFetcher())
   const user = data?.user ?? null

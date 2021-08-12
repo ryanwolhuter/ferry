@@ -25,7 +25,7 @@ export class FileModel {
     return this.client.query(
       Call(Function('getUserSpaceUsed'), CurrentIdentity())
     )
-    .then((res: any) => res.spaceUsed.data)
+    .then((res: any) => res.spaceUsed.data[0])
   }
 
   async addFile(name: string, cid: string, size: number) {

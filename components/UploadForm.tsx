@@ -5,13 +5,22 @@ import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
 import Spinner from './Spinner'
 import styles from '../styles/UploadForm.module.css'
+import { oneGigabyte, freeMemberSpaceAllowance } from '../constants/space'
 
-export default function UploadForm({ mutateUploads }) {
+export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState('0%')
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  function getRemainingSpace() {
+    return freeMemberSpaceAllowance - spaceUsed
+  }
+
+  function bytesToGigabytes(bytes) {
+    return (bytes / oneGigabyte).toFixed(2)
+  }
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -67,7 +76,7 @@ export default function UploadForm({ mutateUploads }) {
     })
 
     if (!email) return
-    
+
     const fileUrl = makeFileUrl(cid, files)
     sendEmail(email, fileUrl)
   }
@@ -77,6 +86,7 @@ export default function UploadForm({ mutateUploads }) {
       {isLoading
         ? <Spinner />
         : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
+          <div>Space used: {bytesToGigabytes(spaceUsed)}/2Gb</div>
           <label htmlFor="fileInput">
             Choose file
           </label>

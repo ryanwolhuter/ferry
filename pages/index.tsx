@@ -13,7 +13,7 @@ export default function Home() {
 
   const { user, loading: userLoading } = useUser()
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
-  const { spaceUsed, loading: spaceUsedLoading } = useUserSpaceUsed()
+  const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
   useEffect(() => {
     if (user && !userLoading && !spaceUsedLoading && !initialized) {
@@ -31,10 +31,13 @@ export default function Home() {
 
   return (
     <Layout>
-      {initialized 
+      {initialized
         ? <BlurContainer>
           <>
-          <UploadForm mutateUploads={mutateFiles} />
+            <UploadForm
+              spaceUsed={spaceUsed}
+              mutateUploads={mutateFiles}
+              mutateSpaceUsed={mutateSpaceUsed} />
           </>
         </BlurContainer>
         : <Spinner />

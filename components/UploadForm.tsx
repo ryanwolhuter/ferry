@@ -3,7 +3,7 @@ import { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from '../lib/storageClient'
 import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
-import Spinner from './Spinner'
+import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import { oneGigabyte, freeMemberSpaceAllowance } from '../constants/space'
 import prettyBytes from 'pretty-bytes'
@@ -11,7 +11,7 @@ import prettyBytes from 'pretty-bytes'
 export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
-  const [percentUploaded, setPercentUploaded] = useState('0%')
+  const [percentUploaded, setPercentUploaded] = useState(0)
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [fileSize, setFileSize] = useState('')
@@ -35,7 +35,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
 
       const onStoredChunk = (size: number) => {
         uploaded += size
-        const percentUploaded = `${Math.round(uploaded / totalSize * 100)}%`
+        const percentUploaded = Math.round(uploaded / totalSize * 100)
         setPercentUploaded(percentUploaded)
       }
 
@@ -90,7 +90,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
   return (
     <>
       {isLoading
-        ? <Spinner />
+        ? <Progress progress={percentUploaded} radius={100} stroke={10} />
         : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
           <div>Space used: {prettyBytes(spaceUsed)}/2 GB</div>
           <div className="file-input">

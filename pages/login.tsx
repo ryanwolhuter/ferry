@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
 import Layout from '../components/Layout'
 import BlurContainer from '../components/BlurContainer'
-import Spinner from '../components/Spinner'
+import Spinner from '../components/Progress'
 import Button from '../components/Button'
 import styles from '../styles/Login.module.css'
 

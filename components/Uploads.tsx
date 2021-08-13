@@ -1,6 +1,15 @@
 import Link from 'next/link'
+import { Mutator, Upload } from '../lib'
 
-export default function Uploads({ files, mutateUploads, mutateSpaceUsed }: any) {
+type UploadsProps = {
+  files: any[],
+  mutateUploads: Mutator,
+  mutateSpaceUsed: Mutator
+}
+
+export default function Uploads(
+  { files, mutateUploads, mutateSpaceUsed }: UploadsProps
+) {
   const uploads = files.map(f => {
     return {
       ...f.ref?.['@ref'],
@@ -8,15 +17,15 @@ export default function Uploads({ files, mutateUploads, mutateSpaceUsed }: any) 
     }
   })
 
-  async function handleDeleteFile(cid, faunaId, size) {
+  async function handleDeleteFile(cid: string, faunaId: string, size: number) {
     // TODO implement delete on web3.storage when it is implemented
     // in the javascript client
 
-    mutateUploads(currentUploads =>
+    mutateUploads((currentUploads: Upload[]) =>
       currentUploads.filter(
         upload => upload?.data?.cid !== cid),
       false)
-    mutateSpaceUsed(currentSpaceUsed =>
+    mutateSpaceUsed((currentSpaceUsed: number) =>
       currentSpaceUsed - size,
       false)
 

@@ -14,8 +14,17 @@ function parseCookies(req: NextApiRequest) {
   return parse(cookie || '')
 }
 
-export async function createSession(res: NextApiResponse, data) {
+export async function createSession(
+  res: NextApiResponse,
+  data: {
+    token: string,
+    email: string,
+    issuer: string
+  }
+) {
   const encryptedToken = await encrypt(data)
+
+  if (!encryptedToken) throw new Error('Missing token!')
 
   const cookie = serialize(TOKEN_NAME, encryptedToken, {
     maxAge: MAX_AGE,

@@ -6,8 +6,17 @@ import sendEmail from '../lib/sendEmail'
 import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import prettyBytes from 'pretty-bytes'
+import { Mutator, Upload } from '../lib'
 
-export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }) {
+type UploadFormProps = {
+  spaceUsed: number,
+  mutateSpaceUsed: Mutator,
+  mutateUploads: Mutator
+}
+
+export default function UploadForm(
+  { spaceUsed, mutateSpaceUsed, mutateUploads }: UploadFormProps
+) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState(10)
@@ -69,14 +78,14 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
     const size = getFileSize(files)
     const expiration = Date.now()
 
-    mutateUploads(currentUploads =>
+    mutateUploads((currentUploads: Upload[]) =>
       [...currentUploads,
       {
         data: { name, cid, size, expiration }
       }],
       false)
 
-    mutateSpaceUsed(currentSpaceUsed =>
+    mutateSpaceUsed((currentSpaceUsed: number) =>
       currentSpaceUsed + size,
       false)
 

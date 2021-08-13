@@ -1,11 +1,14 @@
+import { NextApiRequest, NextApiResponse } from "next"
+
 /**
  * Handles REST HTTP methods defined in `handlers`
  * as a dictionary of methods-to-functions.
  *
  * Errors are caught and returned.
  */
-export function createHandlers(handlers) {
-  return async (req, res) => {
+export function createHandlers(handlers: any) {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    // @ts-ignore
     const handler = handlers[req.method]
 
     if (handler) {

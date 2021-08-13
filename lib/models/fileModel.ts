@@ -55,7 +55,7 @@ export class FileModel {
     }
   }
 
-  async deleteFile(id) {
+  async deleteFile(id: string) {
     try {
       return await this.client.query(
         Delete(Ref(Collection('files'), id))

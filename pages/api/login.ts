@@ -11,6 +11,8 @@ const handlers = {
     const didToken = magic.utils.parseAuthorizationHeader(req.headers.authorization ?? 'NO AUTH HEADER')
     const { email, issuer } = await magic.users.getMetadataByToken(didToken)
 
+    if (!email || !issuer) return
+
     // get or create a user's entity in faunadb
     const userModel = new UserModel()
 

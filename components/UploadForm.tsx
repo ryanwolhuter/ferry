@@ -122,7 +122,6 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
           </button>
           {rootCid ? (
             <>
-              {/* <div>Percent uploaded: {percentUploaded}</div> */}
               <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
             </>
           ) : <div></div>}

@@ -1,4 +1,4 @@
-import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, Identity, CurrentIdentity, Create, Call, Function } from 'faunadb'
+import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, Identity, CurrentIdentity, Create, Call, Function, Delete } from 'faunadb'
 import { getClient } from '../faunadb'
 
 export class FileModel {
@@ -46,6 +46,16 @@ export class FileModel {
 
       // @ts-ignore
       return res.ref.id
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async deleteFile(id) {
+    try {
+      return await this.client.query(
+        Delete(Ref(Collection('files'), id))
+      )
     } catch (error) {
       console.error(error)
     }

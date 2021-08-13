@@ -106,36 +106,32 @@ input {
   }
 }
 
-.file {
-  opacity: 0;
-  width: 0.1px;
-  height: 0.1px;
-  position: absolute;
-}
-
-.file-input label {
-  display: block;
-  position: relative;
-  width: 200px;
-  height: 50px;
-  border-radius: 25px;
-  background: linear-gradient(40deg, #ff6ec4, #7873f5);
-  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bold;
+input[type="file"] {
+  color: transparent;
+  box-shadow: none;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: none;
+  border-radius: 100px;
+  background: var(--turquoise-gradient);
   cursor: pointer;
-  transition: transform .2s ease-out;
+  position: relative;
+
+  &::file-selector-button {
+    display: none;
+  }
+
+  &::after {
+    color: white;
+    content: "+";
+    position: absolute;
+    font-size: 64px;
+    top: 28px;
+    left: 14px;
+  }
 }
 
-input:hover + label,
-input:focus + label {
-  transform: scale(1.02);
-}
-
-input:focus + label {
-  outline: 1px solid #000;
-  outline: -webkit-focus-ring-color auto 2px;
+label[for="file"] {
+  display: none;
 }

@@ -99,7 +99,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
               name="file"
               onChange={e => handleChooseFile(e)}
             ></input>
-            <label htmlFor="file">
+            <label htmlFor="file" aria-hidden={true}>
               Choose file
             </label>
             {fileName}

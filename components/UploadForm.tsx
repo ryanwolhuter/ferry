@@ -72,8 +72,9 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
 
     const name = getFileName(files)
     const size = getFileSize(files)
+    const expiration = Date.now()
 
-    mutateUploads(currentUploads => [...currentUploads, { data: { name, cid, size } }], false)
+    mutateUploads(currentUploads => [...currentUploads, { data: { name, cid, size, expiration } }], false)
     mutateSpaceUsed(currentSpaceUsed => currentSpaceUsed + size, false)
 
     await fetch('/api/files', {

@@ -18,9 +18,9 @@ export default function Home() {
 
   useEffect(() => {
     if (
-      user && !userLoading 
-      && files &&!filesLoading 
-      && !spaceUsedLoading 
+      user && !userLoading
+      && files && !filesLoading
+      && !spaceUsedLoading
       && !initialized) {
       setInitialized(true)
     }
@@ -43,7 +43,10 @@ export default function Home() {
               spaceUsed={spaceUsed}
               mutateUploads={mutateFiles}
               mutateSpaceUsed={mutateSpaceUsed} />
-              <Uploads files={files} />
+            <Uploads
+              files={files}
+              mutateUploads={mutateFiles}
+              mutateSpaceUsed={mutateSpaceUsed} />
           </>
         </BlurContainer>
         : <Spinner />

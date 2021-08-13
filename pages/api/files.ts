@@ -20,6 +20,17 @@ const handlers = {
     } catch (error) {
       console.error(error)
     }
+  },
+  DELETE: async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const { token } = await getSession(req)
+      const { id } = JSON.parse(req.body)
+      const fileModel = new FileModel(token)
+      const result = await fileModel.deleteFile(id)
+      res.status(200).json({ result })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 

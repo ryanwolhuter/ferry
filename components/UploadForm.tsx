@@ -59,6 +59,8 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
   function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
+    if (!files.length) return
+    
     const name = getFileName(files)
     const size = getFileSize(files)
     setFileName(name)
@@ -111,7 +113,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
             Receiver email
           </label>
           <input
-            type="text"
+            type="email"
             name="email"
             onChange={e => setEmail(e.target.value)}
           ></input>

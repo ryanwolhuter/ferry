@@ -117,6 +117,13 @@ input[type="file"] {
   background: var(--turquoise-gradient);
   cursor: pointer;
   position: relative;
+  box-shadow: 0px 0px 25px rgba(98, 11, 129, 0.12);
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--pink-orange-gradient);
+    box-shadow: 0px 0px 17px rgba(116, 6, 226, 0.37);
+  }
 
   &::file-selector-button {
     display: none;

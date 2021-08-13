@@ -6,6 +6,7 @@ import sendEmail from '../lib/sendEmail'
 import Spinner from './Spinner'
 import styles from '../styles/UploadForm.module.css'
 import { oneGigabyte, freeMemberSpaceAllowance } from '../constants/space'
+import prettyBytes from 'pretty-bytes'
 
 export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }) {
   const [files, setFiles] = useState<File[]>([])
@@ -13,6 +14,8 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
   const [percentUploaded, setPercentUploaded] = useState('0%')
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [fileSize, setFileSize] = useState('')
+  const [fileName, setFileName] = useState('')
 
   function getRemainingSpace() {
     return freeMemberSpaceAllowance - spaceUsed
@@ -56,6 +59,10 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
   function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
+    const name = getFileName(files)
+    const size = getFileSize(files)
+    setFileName(name)
+    setFileSize(prettyBytes(size))
   }
 
   async function handleSubmit(submitEvent: FormEvent) {
@@ -88,14 +95,18 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
         ? <Spinner />
         : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
           <div>Space used: {bytesToGigabytes(spaceUsed)}/2Gb</div>
-          <label htmlFor="fileInput">
-            Choose file
-          </label>
-          <input
-            type="file"
-            name="fileInput"
-            onChange={e => handleChooseFile(e)}
-          ></input>
+          <div className="file-input">
+            <input
+              type="file"
+              name="file"
+              onChange={e => handleChooseFile(e)}
+            ></input>
+            <label htmlFor="file">
+              Choose file
+            </label>
+            {fileName}
+            {fileSize}
+          </div>
           <label htmlFor="email">
             Receiver email
           </label>

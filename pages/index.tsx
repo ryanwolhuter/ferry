@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import Spinner from '../components/Progress'
 import UploadForm from '../components/UploadForm'
 import BlurContainer from '../components/BlurContainer'
+import Uploads from '../components/Uploads'
 
 export default function Home() {
   const router = useRouter()
@@ -16,10 +17,14 @@ export default function Home() {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
   useEffect(() => {
-    if (user && !userLoading && !spaceUsedLoading && !initialized) {
+    if (
+      user && !userLoading 
+      && files &&!filesLoading 
+      && !spaceUsedLoading 
+      && !initialized) {
       setInitialized(true)
     }
-  }, [user, spaceUsedLoading, userLoading, initialized])
+  }, [user, spaceUsedLoading, filesLoading, userLoading, initialized, files])
 
   useEffect(() => {
     // if no user is logged in,
@@ -38,6 +43,7 @@ export default function Home() {
               spaceUsed={spaceUsed}
               mutateUploads={mutateFiles}
               mutateSpaceUsed={mutateSpaceUsed} />
+              <Uploads files={files} />
           </>
         </BlurContainer>
         : <Spinner />

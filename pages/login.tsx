@@ -70,7 +70,7 @@ export default function Login() {
                 </label>
                 <input type="email" name="email" required placeholder="Email Address" />
 
-                <Button disabled={isLoggingIn} type="submit">Sign Up / Log in</Button>
+                <Button disabled={isLoggingIn} type="submit" className="default">Login</Button>
               </>}
 
             {errorMsg && <p className="error">{errorMsg}</p>}

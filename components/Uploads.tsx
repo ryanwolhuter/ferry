@@ -40,12 +40,15 @@ export default function Uploads({ files, mutateUploads, mutateSpaceUsed }: any) 
 
   return (
     <ul>
-      {uploads.map(({ name, cid, id: faunaId, size }) => (
+      {uploads.map(({ name, cid, id: faunaId, size, expiration }) => (
         <li key={cid + Math.random()}>
           <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>
             <a>{name}</a>
           </Link>
+          <br />
           <a onClick={e => handleDeleteFile(cid, faunaId, size)}>delete</a>
+          <br />
+          <span>Expires {(new Date(expiration).toLocaleTimeString())}</span>
         </li>
       ))}
     </ul>

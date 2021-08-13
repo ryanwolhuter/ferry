@@ -28,7 +28,10 @@ export class FileModel {
     .then((res: any) => res.spaceUsed.data[0])
   }
 
-  async addFile(name: string, cid: string, size: number) {
+  async addFile(name: string, cid: string, size: number, expiration = 12) {
+    const expirationInMilliseconds = expiration * 60 * 60 * 100
+    const timestamp = Date.now()
+
     try {
       const res = await this.client.query(
         Create(
@@ -38,7 +41,8 @@ export class FileModel {
               name,
               cid,
               size,
-              user: CurrentIdentity()
+              user: CurrentIdentity(),
+              expiration: timestamp + expirationInMilliseconds
             }
           }
         )

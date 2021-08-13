@@ -43,10 +43,10 @@ export default function Home() {
               spaceUsed={spaceUsed}
               mutateUploads={mutateFiles}
               mutateSpaceUsed={mutateSpaceUsed} />
-            {/* <Uploads
+            <Uploads
               files={files}
               mutateUploads={mutateFiles}
-              mutateSpaceUsed={mutateSpaceUsed} /> */}
+              mutateSpaceUsed={mutateSpaceUsed} />
           </>
         </BlurContainer>
         : <Spinner />

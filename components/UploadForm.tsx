@@ -1,5 +1,5 @@
 
-import { useState, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from '../lib/storageClient'
 import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
@@ -11,7 +11,7 @@ import prettyBytes from 'pretty-bytes'
 export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
-  const [percentUploaded, setPercentUploaded] = useState(0)
+  const [percentUploaded, setPercentUploaded] = useState(10)
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [fileSize, setFileSize] = useState('')

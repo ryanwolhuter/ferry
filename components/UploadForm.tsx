@@ -21,10 +21,6 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
     return freeMemberSpaceAllowance - spaceUsed
   }
 
-  function bytesToGigabytes(bytes) {
-    return (bytes / oneGigabyte).toFixed(2)
-  }
-
   async function storeWithProgress(files: File[]) {
     try {
       setIsLoading(true)
@@ -60,7 +56,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
     if (!files.length) return
-    
+
     const name = getFileName(files)
     const size = getFileSize(files)
     setFileName(name)
@@ -96,7 +92,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
       {isLoading
         ? <Spinner />
         : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
-          <div>Space used: {bytesToGigabytes(spaceUsed)}/2Gb</div>
+          <div>Space used: {prettyBytes(spaceUsed)}/2 GB</div>
           <div className="file-input">
             <input
               type="file"

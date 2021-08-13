@@ -1,18 +1,4 @@
-import { makeFileUrl } from "../lib/fileUpload"
 import Link from 'next/link'
-
-// type Upload = {
-//   name: string,
-//   cid: string,
-//   user: string
-// }
-
-// type Props = {
-//   files: {
-//     data: Upload[]
-//     ref: object
-//   }
-// }
 
 export default function Uploads({ files, mutateUploads, mutateSpaceUsed }: any) {
   const uploads = files.map(f => {
@@ -30,7 +16,9 @@ export default function Uploads({ files, mutateUploads, mutateSpaceUsed }: any) 
       currentUploads.filter(
         upload => upload?.data?.cid !== cid),
       false)
-    mutateSpaceUsed(currentSpaceUsed => currentSpaceUsed - size, false)
+    mutateSpaceUsed(currentSpaceUsed =>
+      currentSpaceUsed - size,
+      false)
 
     await fetch('/api/files', {
       method: 'DELETE',
@@ -41,7 +29,7 @@ export default function Uploads({ files, mutateUploads, mutateSpaceUsed }: any) 
   return (
     <ul>
       {uploads.map(({ name, cid, id: faunaId, size, expiration }) => (
-        <li key={cid + Math.random()}>
+        <li key={cid}>
           <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>
             <a>{name}</a>
           </Link>

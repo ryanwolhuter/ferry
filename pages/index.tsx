@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
-import Spinner from '../components/Progress'
+import Progress from '../components/Progress'
 import UploadForm from '../components/UploadForm'
 import BlurContainer from '../components/BlurContainer'
 import Uploads from '../components/Uploads'
@@ -49,7 +49,7 @@ export default function Home() {
               mutateSpaceUsed={mutateSpaceUsed} />
           </>
         </BlurContainer>
-        : <Spinner />
+        : <Progress />
       }
     </Layout>
   )

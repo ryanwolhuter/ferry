@@ -1,11 +1,10 @@
 
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from '../lib/storageClient'
 import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
 import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
-import { oneGigabyte, freeMemberSpaceAllowance } from '../constants/space'
 import prettyBytes from 'pretty-bytes'
 
 export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }) {
@@ -16,10 +15,6 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
   const [isLoading, setIsLoading] = useState(false)
   const [fileSize, setFileSize] = useState('')
   const [fileName, setFileName] = useState('')
-
-  function getRemainingSpace() {
-    return freeMemberSpaceAllowance - spaceUsed
-  }
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -74,8 +69,16 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
     const size = getFileSize(files)
     const expiration = Date.now()
 
-    mutateUploads(currentUploads => [...currentUploads, { data: { name, cid, size, expiration } }], false)
-    mutateSpaceUsed(currentSpaceUsed => currentSpaceUsed + size, false)
+    mutateUploads(currentUploads =>
+      [...currentUploads,
+      {
+        data: { name, cid, size, expiration }
+      }],
+      false)
+
+    mutateSpaceUsed(currentSpaceUsed =>
+      currentSpaceUsed + size,
+      false)
 
     await fetch('/api/files', {
       method: 'POST',
@@ -104,6 +107,7 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
               Choose file
             </label>
             {fileName}
+            <br />
             {fileSize}
           </div>
           <label htmlFor="email">
@@ -120,11 +124,9 @@ export default function UploadForm({ spaceUsed, mutateSpaceUsed, mutateUploads }
             disabled={files.length === 0}
           >Submit
           </button>
-          {rootCid ? (
-            <>
-              <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
-            </>
-          ) : <div></div>}
+          {rootCid
+            ? <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
+            : <div></div>}
         </form>
       }
     </>

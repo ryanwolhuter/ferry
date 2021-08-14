@@ -1,4 +1,4 @@
-import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, Identity, CurrentIdentity, Create, Call, Function, Delete } from 'faunadb'
+import { Client, Map, Paginate, Match, Index, Ref, Collection, Lambda, Get, Var, CurrentIdentity, Create, Call, Function, Delete } from 'faunadb'
 import { getClient } from '../faunadb'
 
 export class FileModel {

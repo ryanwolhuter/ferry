@@ -34,7 +34,6 @@ export default function NavBar() {
             <span>Account: {wallet.account}</span>
           </div>
 
-
           <Button onClick={handleClick}>{buttonLabel}</Button>
 
           <Link href="/api/logout">

@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+// import { useWeb3React } from '@web3-react/core';
+// @ts-ignore
+import { useWallet, UseWalletProvider } from 'use-wallet'
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
@@ -11,12 +14,16 @@ export default function Home() {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
   const isFirstRender = useFirstRender()
+  const wallet = useWallet()
+  // const { account } = useWeb3React();
 
   const { user, loading: userLoading } = useUser()
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
   useEffect(() => {
+    console.log(wallet, wallet.status);
+  
     if (
       user && !userLoading
       && files && !filesLoading

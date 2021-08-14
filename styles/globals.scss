@@ -41,7 +41,9 @@ button {
   width: 101px;
   height: 48px;
   border: none;
-
+  outline: none;
+  white-space: nowrap;
+  
   &.default {
     color: var(--white);
     background: var(--purple-gradient);
@@ -80,7 +82,7 @@ button {
 }
 
 input {
-  width: 400px;
+  width: 282px;
   height: 40px;
   padding: 10px 12px;
   font-style: normal;
@@ -95,8 +97,9 @@ input {
   box-shadow: inset 0px 0px 10px rgba(91, 34, 112, 0.32);
 
   &:hover, &:focus {
-    filter: drop-shadow(0px 0px 25px rgba(90, 5, 120, 0.14));
+    filter: drop-shadow(0px 0px 25px rgba(113, 68, 129, 0.14));
     outline: none;
+    background: var(--white);
   }
 
   &:disabled {
@@ -112,6 +115,7 @@ input[type="file"] {
   width: 64px;
   height: 64px;
   padding: 0;
+  margin: 16px;
   border: none;
   border-radius: 100px;
   background: var(--turquoise-gradient);

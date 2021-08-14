@@ -100,11 +100,25 @@ export default function UploadForm(
     sendEmail(email, fileUrl)
   }
 
+  async function handleSubscribe() {
+    const expiration = Date.now() + (30 * 24 * 60 * 60 * 1000)
+    try {
+      const response = await fetch('/api/user', {
+        method: 'POST',
+        body: JSON.stringify({ expiration })
+      })
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       {isLoading
         ? <Progress progress={percentUploaded} radius={100} stroke={10} />
         : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
+          <button type="button" onClick={e => handleSubscribe()}>subscribe</button>
           <div>Space used: {prettyBytes(spaceUsed)}/2 GB</div>
           <div className="file-input">
             <input

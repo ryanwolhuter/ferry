@@ -3,8 +3,6 @@ import { useUser } from '../lib/hooks'
 import Link from 'next/link'
 import Button from './Button'
 
-import { chainID } from '../constants/chain'
-
 // @ts-ignore
 import { useWallet } from 'use-wallet'
 

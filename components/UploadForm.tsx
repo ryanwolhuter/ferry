@@ -7,6 +7,7 @@ import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import prettyBytes from 'pretty-bytes'
 import { Mutator, Upload } from '../lib'
+import BlurContainer from './BlurContainer'
 
 type UploadFormProps = {
   spaceUsed: number,
@@ -98,6 +99,8 @@ export default function UploadForm(
 
     const fileUrl = makeFileUrl(cid, files)
     sendEmail(email, fileUrl)
+
+    setFiles([])
   }
 
   async function handleSubscribe() {
@@ -114,13 +117,12 @@ export default function UploadForm(
   }
 
   return (
-    <>
+    <BlurContainer>
       {isLoading
         ? <Progress progress={percentUploaded} radius={100} stroke={10} />
         : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
-          <button type="button" onClick={e => handleSubscribe()}>subscribe</button>
-          <div>Space used: {prettyBytes(spaceUsed)}/2 GB</div>
-          <div className="file-input">
+          {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
+          <div className={styles.fileInputContainer}>
             <input
               type="file"
               name="file"
@@ -129,29 +131,36 @@ export default function UploadForm(
             <label htmlFor="file" aria-hidden={true}>
               Choose file
             </label>
-            {fileName}
-            <br />
-            {fileSize}
+            <div className={styles.details}>
+              <h1 className={styles.heading}>Add your files</h1>
+              <p className={styles.spaceUsed}>You have used {prettyBytes(spaceUsed)} of 2 GB</p>
+            </div>
           </div>
-          <label htmlFor="email">
-            Receiver email
-          </label>
-          <input
-            type="email"
-            name="email"
-            onChange={e => setEmail(e.target.value)}
-          ></input>
+          <div className={styles.container}>
+            {fileName 
+            ? <div className={styles.fileDetails}>{fileName}</div>
+            : <div className={styles.noFileChosen}>No file chosen</div>}
+            <hr className={styles.divider} />
+            <label htmlFor="email">
+              To: (Optional)
+            </label>
+            <input
+              type="email"
+              name="email"
+              className={styles.email}
+              onChange={e => setEmail(e.target.value)}
+            ></input>
+            <hr className={styles.divider} />
+            {rootCid && <a href={makeFileUrl(rootCid, files)}>download</a>}
+          </div>
           <button
             type="submit"
-            className="default"
+            className={`${styles.submitButton} default`}
             disabled={files.length === 0}
-          >Submit
+          >Ferry it
           </button>
-          {rootCid
-            ? <div>Direct <a href={makeFileUrl(rootCid, files)}>download</a></div>
-            : <div></div>}
         </form>
       }
-    </>
+    </BlurContainer>
   )
 }

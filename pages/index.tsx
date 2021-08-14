@@ -37,18 +37,16 @@ export default function Home() {
   return (
     <Layout>
       {initialized
-        ? <BlurContainer>
-          <>
-            <UploadForm
-              spaceUsed={spaceUsed}
-              mutateUploads={mutateFiles}
-              mutateSpaceUsed={mutateSpaceUsed} />
-            <Uploads
-              files={files}
-              mutateUploads={mutateFiles}
-              mutateSpaceUsed={mutateSpaceUsed} />
-          </>
-        </BlurContainer>
+        ? <>
+          <UploadForm
+            spaceUsed={spaceUsed}
+            mutateUploads={mutateFiles}
+            mutateSpaceUsed={mutateSpaceUsed} />
+          {/* <Uploads
+            files={files}
+            mutateUploads={mutateFiles}
+            mutateSpaceUsed={mutateSpaceUsed} /> */}
+        </>
         : <Progress />
       }
     </Layout>

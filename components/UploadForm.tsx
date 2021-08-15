@@ -98,12 +98,17 @@ export default function UploadForm(
       body: JSON.stringify({ name, cid, size })
     })
 
-    if (!email) return
-
     const fileUrl = makeFileUrl(cid, files)
-    sendEmail(email, fileUrl)
+
+    if (email) {
+      sendEmail(email, fileUrl)
+    }
 
     setFiles([])
+    setFileName('')
+    setFileSize('')
+    setEmail('')
+    setShowProgress(false)
   }
 
   async function handleSubscribe() {

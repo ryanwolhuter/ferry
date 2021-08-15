@@ -89,14 +89,25 @@ export default function SubscribeForm(props: any) {
               Duration in months
             </label>
             <input
+            style={{
+              width: "100%"
+            }}
               type="number"
               name="subscriptionDuration"
               className={styles.email}
               onChange={handleMonthsChange}
               value={months}
             ></input>
-            <h2>{getCostString()}</h2>
             <hr className={styles.divider} />
+            <div style={{
+              display: 'flex',
+              justifyContent: "space-between"
+            }}>
+            <h2 style={{textAlign: "justify"}}>Total</h2>
+            <h2 style={{textAlign: "justify"}}>{getCostString()}</h2>
+            </div>
+            
+            
           </div>
           <div className="buttonsContainer">
             <Button className="default" onClick={(e) => handleApprove(e)}>Approve</Button>

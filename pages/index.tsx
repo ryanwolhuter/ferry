@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
-import Progress from '../components/Progress'
 import UploadForm from '../components/UploadForm'
 import SubscribeForm from '../components/SubscribeForm'
 import { getContracts } from '../lib/contracts/ContractBooter';
@@ -70,7 +69,7 @@ export default function Home() {
           />}
           {showSubscribeForm && <SubscribeForm />}
         </>
-        : <Progress />
+        : <div />
       }
     </Layout>
   )

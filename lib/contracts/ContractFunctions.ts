@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { contractAddresses } from "../../constants/chain";
+import { contractAddresses, gasPrice } from "../../constants/chain";
 
 // TODO test
 // amount = number of $ or DAI e.g. 1 if $1
@@ -9,7 +9,8 @@ export const approveDaiFerry = async (DaiContract: any, userAddress: string, amo
 
     const scaledAmount = ethers.utils.parseUnits(amount+"", "ether")
     const res = await DaiContract.methods.approve(contractAddresses.ferry, scaledAmount).send({
-        from: userAddress
+        from: userAddress,
+        gasPrice: gasPrice
     })
 
     console.log(res)
@@ -24,7 +25,8 @@ export const paySubscription = async (FerryContract: any, address: string, amoun
 
     const scaledAmount = ethers.utils.parseUnits(amount+"", "ether")
     const res = await FerryContract.methods.paySubscription(address, scaledAmount).send({
-        from: address
+        from: address,
+        gasPrice: gasPrice
     })
 
     console.log(res)
@@ -36,7 +38,8 @@ export const mintNFT = async (FerryContract: any, address: string) => {
     if (!FerryContract || !address ) return null
 
     const res = await FerryContract.methods.mintNFT(address).send({
-        from: address
+        from: address,
+        gasPrice: gasPrice
     })
 
     console.log(res)

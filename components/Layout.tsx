@@ -5,11 +5,12 @@ import styles from '../styles/Layout.module.css'
 
 
 type LayoutProps = {
-  children: JSX.Element
+  children: JSX.Element,
+  provider?: any,
+  updateProvider?: any
 }
 
-export default function Layout(props: any, { children }: LayoutProps) {
-  const { provider, updateProvider } = props
+export default function Layout({ children, provider, updateProvider }: LayoutProps) {
 
   return (
     <>

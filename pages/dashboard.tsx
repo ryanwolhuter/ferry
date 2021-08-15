@@ -134,9 +134,9 @@ export default function Dashboard(props: any) {
       <div>
         {nftSVG && <Image src={nftSVG} alt={nftRarity + " Ferry NFT."} />}
       </div>
-      <h3>Properties</h3>
+      <h3>Properties:</h3>
       <p>{nftRarity}</p>
-      <button onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>
+      <button className="viewOnPolyscan" onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>
     </div>
   }
 
@@ -198,13 +198,19 @@ export default function Dashboard(props: any) {
         <div className="tokens">
           {/* TODO add Connect Wallet view on panel */}
           <h1>Token Balances</h1>
-          <div className="gov">
-            {shipBalance} SHIP
+          <div className="stats">
+          <div className="gov stat">
+            <h2>Gove ERC20</h2>
+            <p className="bigNumber">{shipBalance}</p>
+            <p className="bigUnit">SHIP</p>
           </div>
-          <div className="nft">
-            {showClaimNFTView ? 0 : 1} FERRY
+          <div className="nft stat">
+            <h2>NFT ERC721</h2>
+            <p className="bigNumber">{showClaimNFTView ? 0 : 1}</p>
+             <p className="bigUnit">FERRY</p>
           </div>
 
+          </div>
           <h1>Your NFTs</h1>
 
           {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}

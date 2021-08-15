@@ -159,14 +159,15 @@ export default function Dashboard(props: any) {
     <Layout hasBackground={false}>
       <div className="container">
         <div className="menu">
-          <button>Account</button>
+          <button className="account">⭑</button>
+          <p>Account</p>
         </div>
         <div className="userDetails">
           <div className="details">
             <div className="basics">
               <h1>Basics</h1>
               <div className="avatar"></div>
-              <p>Email</p>
+              <p>{user?.email}</p>
             </div>
             <div className="quickStats">
               <h1>Quick Stats</h1>
@@ -190,6 +191,8 @@ export default function Dashboard(props: any) {
 
             </div>
           </div>
+          <br />
+          <h1>Link Management</h1>
           <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
         </div>
         <div className="tokens">

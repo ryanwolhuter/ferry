@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import prettyBytes from 'pretty-bytes'
 import { Mutator, Upload } from '../lib'
 
 type UploadsProps = {
@@ -36,18 +37,40 @@ export default function Uploads(
   }
 
   return (
-    <ul>
-      {uploads.map(({ name, cid, id: faunaId, size, expiration }) => (
-        <li key={cid}>
-          <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>
-            <a>{name}</a>
-          </Link>
-          <br />
-          <a onClick={e => handleDeleteFile(cid, faunaId, size)}>delete</a>
-          <br />
-          <span>Expires {(new Date(expiration).toLocaleTimeString())}</span>
-        </li>
-      ))}
-    </ul>
+    //     <table>
+    //     <thead>
+    //         <tr>
+    //             <th colspan="2">The table header</th>
+    //         </tr>
+    //     </thead>
+    //     <tbody>
+    //         <tr>
+    //             <td>The table body</td>
+    //             <td>with two columns</td>
+    //         </tr>
+    //     </tbody>
+    // </table>
+    <table>
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>File Size</th>
+          <th>Expiry Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {uploads.map(({ name, cid, id: faunaId, size, expiration }) => (
+          <tr key={cid + Math.random()}>
+              <td>
+              <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>
+                <a>{name}</a>
+              </Link>
+              </td>
+              <td>{prettyBytes(size)}</td>
+              <td>{(new Date(expiration).toLocaleTimeString())}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }

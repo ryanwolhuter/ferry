@@ -10,7 +10,7 @@ import { approveDaiFerry, paySubscription } from '../lib/contracts/ContractFunct
 
 
 export default function SubscribeForm(props: any) {
-  const {provider, contracts} = props
+  const { provider, contracts } = props
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState("START")
   const [statusMessage, setStatusMessage] = useState("Enter details, approve, and pay")
@@ -31,21 +31,32 @@ export default function SubscribeForm(props: any) {
     return `$${cost}.00`
   }
 
-  const handleApprove = async () => {
-    if (provider && provider.selectedAddress && contracts && contracts.daiContract){
+  const handleApprove = async (e: any) => {
+    e.preventDefault()
+    if (provider && provider.selectedAddress && contracts && contracts.daiContract) {
       setStatus("APPROVING")
       console.log(status);
       const res = await approveDaiFerry(contracts.daiContract, provider.selectedAddress, cost)
+      // TODO check if error / approved
       setStatus("APPROVED")
       console.log(status);
+    } else {
+      setStatus("CONNECT WALLET")
     }
   }
-  const handlePay = async () => {
-    setStatus("PAYING")
-    console.log(status);
-    const res = await paySubscription(contracts.ferryContract, provider.selectedAddress, cost)
-    setStatus("PAID")
-    console.log(status);
+
+  const handlePay = async (e: any) => {
+    e.preventDefault()
+    if (provider && provider.selectedAddress && contracts && contracts.ferryContract) {
+      setStatus("PAYING")
+      console.log(status);
+      const res = await paySubscription(contracts.ferryContract, provider.selectedAddress, cost)
+      // TODO check if error / paid
+      setStatus("PAID")
+      console.log(status);
+    } else {
+      setStatus("CONNECT WALLET")
+    }
   }
 
   async function handleSubscribe() {
@@ -94,8 +105,8 @@ export default function SubscribeForm(props: any) {
             <hr className={styles.divider} />
           </div>
           <div>
-            <Button onClick={handleApprove}>Approve</Button>
-            <Button onClick={handlePay}>Pay</Button>
+            <Button onClick={(e) => handleApprove(e)}>Approve</Button>
+            <Button onClick={(e) => handlePay(e)}>Pay</Button>
           </div>
         </form>
       </BlurContainer>
@@ -103,6 +114,7 @@ export default function SubscribeForm(props: any) {
         <BlurContainer isBackground>
           <div className={styles.progressContainer}>
             <Progress progress={20} radius={100} stroke={10} />
+            {/* 0. Show connect wallet if no contracts/provider */}
             {/* 1. Approving spinner */}
             {/* 2. Paying spinner */}
             {/* 3. Success check */}

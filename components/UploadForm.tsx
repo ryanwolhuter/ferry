@@ -81,7 +81,6 @@ export default function UploadForm(
 
     const name = getFileName(files)
     const size = getFileSize(files)
-    const expiration = Date.now()
 
     mutateUploads((currentUploads: Upload[]) =>
       [...currentUploads,

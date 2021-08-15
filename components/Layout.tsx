@@ -7,10 +7,11 @@ import styles from '../styles/Layout.module.css'
 type LayoutProps = {
   children: JSX.Element,
   provider?: any,
-  updateProvider?: any
+  updateProvider?: any,
+  hasBackground?: boolean
 }
 
-export default function Layout({ children, provider, updateProvider }: LayoutProps) {
+export default function Layout({ children, provider, updateProvider, hasBackground = true }: LayoutProps) {
 
   return (
     <>
@@ -18,7 +19,7 @@ export default function Layout({ children, provider, updateProvider }: LayoutPro
         <title>Ferry</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Background />
+      {hasBackground && <Background />}
 
       {/* @ts-ignore */}
       <NavBar provider={provider} updateProvider={updateProvider}/>

@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
-// import { CommonSVG, EpicSVG, LegendarySVG, PolygonscanURL, RareSVG } from '../constants/chain';
+import { PolygonscanURL } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
 import { getContracts } from '../lib/contracts/ContractBooter';

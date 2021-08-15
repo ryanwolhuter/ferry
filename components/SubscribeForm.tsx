@@ -4,19 +4,26 @@ import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import BlurContainer from './BlurContainer'
 import { useRouter } from 'next/router'
+import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
 
 
 export default function SubscribeForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [months, setMonths] = useState(1)
+  const [cost, setCost] = useState(2)
   const router = useRouter()
 
   const handleMonthsChange = (e: any) => {
     let m = 1
     if(e.target.value) m = Math.floor(parseInt(e.target.value))
     m = (m < 1) ? 1 : m
-    m = (m > 24) ? 24 : m
+    m = (m > maxSubscribeMonths) ? maxSubscribeMonths : m
     setMonths(m)
+    setCost(m*DaiPricePerMonth)
+  }
+
+  const getCostString = () => {
+    return `$${cost}.00`
   }
 
   function handleSubmit(e: any) {
@@ -65,6 +72,7 @@ export default function SubscribeForm() {
               onChange={handleMonthsChange}
               value={months}
             ></input>
+            <h2>{getCostString()}</h2>
             <hr className={styles.divider} />
           </div>
           <button

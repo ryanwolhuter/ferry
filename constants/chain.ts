@@ -1,5 +1,6 @@
 // All values here are for Mumbai Testnet
 export const chainID = 80001
+export const gasPrice = 2000000000 // 2 gwei
 export const maxSubscribeMonths = 24
 export const DaiPricePerMonth = 2
 export const PolygonscanURL = "https://mumbai.polygonscan.com/token/0xabefbc9fd2f806065b4f3c237d4b59d9a97bcac7?a="

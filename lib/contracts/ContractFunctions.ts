@@ -33,7 +33,6 @@ export const paySubscription = async (FerryContract: any, address: string, amoun
 
 // TODO test
 export const mintNFT = async (FerryContract: any, address: string) => {
-    // 0/blank amount or no contract/address will cause fail
     if (!FerryContract || !address ) return null
 
     const res = await FerryContract.methods.mintNFT(address).send({

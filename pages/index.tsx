@@ -6,10 +6,18 @@ import Progress from '../components/Progress'
 import UploadForm from '../components/UploadForm'
 import BlurContainer from '../components/BlurContainer'
 import Uploads from '../components/Uploads'
+import { getContracts } from '../lib/contracts/ContractBooter';
+
+import { getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
+import { isPro } from '../lib/contracts/contractUtils';
+
 
 export default function Home() {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
+  const [provider, setProvider] = useState<any>(null)
+  const [contracts, setContracts] = useState<any>()
+  const [subEndTime, setSubEndTime] = useState(0)
   const isFirstRender = useFirstRender()
 
   const { user, loading: userLoading } = useUser()
@@ -17,6 +25,10 @@ export default function Home() {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
   useEffect(() => {
+
+    // TODO use this
+    // isPro
+
     if (
       user && !userLoading
       && files && !filesLoading
@@ -34,8 +46,22 @@ export default function Home() {
     }
   }, [user, userLoading, isFirstRender, router])
 
+  useEffect(() => {
+    if (provider && provider.selectedAddress) {
+      const contracts = getContracts(provider)
+      console.log(contracts);
+      setContracts(contracts)
+    }
+  }, [provider])
+
+  useEffect(() => {
+    if (contracts && contracts.ferryContract && provider && provider.selectedAddress) {
+      getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
+    }
+  }, [contracts, provider])
+
   return (
-    <Layout>
+    <Layout provider={provider} updateProvider={setProvider}>
       {initialized
         ? <>
           <UploadForm

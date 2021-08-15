@@ -4,12 +4,9 @@ import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import Progress from '../components/Progress'
 import UploadForm from '../components/UploadForm'
-import BlurContainer from '../components/BlurContainer'
-import Uploads from '../components/Uploads'
+import SubscribeForm from '../components/SubscribeForm'
 import { getContracts } from '../lib/contracts/ContractBooter';
-
 import { getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
-import { isPro } from '../lib/contracts/contractUtils';
 
 
 export default function Home() {
@@ -18,8 +15,9 @@ export default function Home() {
   const [provider, setProvider] = useState<any>(null)
   const [contracts, setContracts] = useState<any>()
   const [subEndTime, setSubEndTime] = useState(0)
-  const isFirstRender = useFirstRender()
+  const [showSubscribeForm, setShowSubscribeForm] = useState(false)
 
+  const isFirstRender = useFirstRender()
   const { user, loading: userLoading } = useUser()
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
@@ -64,14 +62,13 @@ export default function Home() {
     <Layout provider={provider} updateProvider={setProvider}>
       {initialized
         ? <>
-          <UploadForm
+          <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button>
+          {!showSubscribeForm && <UploadForm
             spaceUsed={spaceUsed}
             mutateUploads={mutateFiles}
-            mutateSpaceUsed={mutateSpaceUsed} />
-          {/* <Uploads
-            files={files}
-            mutateUploads={mutateFiles}
-            mutateSpaceUsed={mutateSpaceUsed} /> */}
+            mutateSpaceUsed={mutateSpaceUsed}
+          />}
+          {showSubscribeForm && <SubscribeForm />}
         </>
         : <Progress />
       }

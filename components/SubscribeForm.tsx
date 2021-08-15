@@ -100,7 +100,7 @@ export default function SubscribeForm(props: any) {
           </div>
           <div className="buttonsContainer">
             <Button className="default" onClick={(e) => handleApprove(e)}>Approve</Button>
-            <Button className="other" onClick={(e) => handlePay(e)}>Pay {getCostString()}</Button>
+            <Button className="secondary" onClick={(e) => handlePay(e)}>Pay {getCostString()}</Button>
           </div>
         </form>
       </BlurContainer>

@@ -1,10 +1,10 @@
 // All values here are for Mumbai Testnet
 export const chainID = 80001
 export const contractAddresses = {
-    shipToken: "0x1EFcb17a4F5B628E82Fe8048D3B41ED0fdF375E3",
-    shipStaking: "0x74972961bbC7739403cA9ceec7Bab1290E1b555d",
-    ferry: "0x0D3e25E6B337bdf1F6293609F59133C57522c0A8",
-    minter: "0x26205b8667286bB528f9D81af40A9415Ec30a3fa",
+    shipToken: "0xDFa0D38387edad2176F6dE96ddE2833C9949606E",
+    shipStaking: "0x8B910250892cc78c41FcF5889744Fb638Fead54d",
+    ferry: "0x1BEc7A448e663bB0c738F5384aAA5C0746Ca2f98",
+    minter: "0xB2eEa6CB978FE625755952ee03B9125345831641",
     dai: "0x001b3b4d0f3714ca98ba10f6042daebf0b1b7b6f"
 }
 

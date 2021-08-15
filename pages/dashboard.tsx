@@ -14,12 +14,6 @@ export default function Dashboard() {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
   const { subscriptionExpires, loading: subscriptionExpiresLoading, mutate: mutateSubscriptionExpires } = useSubscriptionExpires()
 
-  function isPro() {
-    if (!subscriptionExpires) return false
-
-    return subscriptionExpires > Date.now()
-  }
-
   useEffect(() => {
 
     // TODO use this
@@ -45,10 +39,16 @@ export default function Dashboard() {
   }, [user, userLoading, isFirstRender, router])
 
   useEffect(() => {
+    function isPro() {
+      if (!subscriptionExpires) return false
+  
+      return subscriptionExpires > Date.now()
+    }
+    
     if (!(isPro() || subscriptionExpiresLoading) && !isFirstRender) {
       router.push('/')
     }
-  }, [isFirstRender, router, subscriptionExpiresLoading])
+  }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
 
 
   return (

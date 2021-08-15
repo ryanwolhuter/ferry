@@ -6,7 +6,7 @@ import BlurContainer from './BlurContainer'
 import Button from './Button'
 import { useRouter } from 'next/router'
 import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
-import { approveDaiFerry } from '../lib/contracts/ContractFunctions'
+import { approveDaiFerry, paySubscription } from '../lib/contracts/ContractFunctions'
 
 
 export default function SubscribeForm(props: any) {
@@ -33,13 +33,19 @@ export default function SubscribeForm(props: any) {
 
   const handleApprove = async () => {
     if (provider && provider.selectedAddress && contracts && contracts.daiContract){
-      // set status to APPROVING
       setStatus("APPROVING")
+      console.log(status);
       const res = await approveDaiFerry(contracts.daiContract, provider.selectedAddress, cost)
+      setStatus("APPROVED")
+      console.log(status);
     }
   }
   const handlePay = async () => {
-
+    setStatus("PAYING")
+    console.log(status);
+    const res = await paySubscription(contracts.ferryContract, provider.selectedAddress, cost)
+    setStatus("PAID")
+    console.log(status);
   }
 
   async function handleSubscribe() {

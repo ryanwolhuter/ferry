@@ -7,7 +7,7 @@ var Contract = require('web3-eth-contract');
 
 export function getContracts(provider: any) {
 
-    if(!provider || !provider.selectedAddress){
+    if (!provider || !provider.selectedAddress) {
         return null
     }
 
@@ -22,6 +22,16 @@ export function getContracts(provider: any) {
         contractAddresses.minter
     )
 
+    const shipTokenContract = new Contract(
+        abis.ERC20,
+        contractAddresses.shipToken
+    );
+
+    const shipStakingContract = new Contract(
+        abis.ERC20,
+        contractAddresses.shipStaking
+    );
+
     const daiContract = new Contract(
         abis.ERC20,
         contractAddresses.dai
@@ -31,6 +41,8 @@ export function getContracts(provider: any) {
     const contracts = {
         ferryContract,
         minterContract,
+        shipTokenContract,
+        shipStakingContract,
         daiContract
     };
     return contracts;

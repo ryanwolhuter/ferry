@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { getSHIPBalance, getAccountNFTDetails, mintNFT } from '../lib/contracts/ContractFunctions';
 import { CommonSVG, EpicSVG, LegendarySVG, PolygonscanURL, RareSVG } from '../constants/chain';
 import Image from 'next/image'
+import prettyBytes from 'pretty-bytes';
 
 // TODO use these instead of links
 // const LegendarySVG = require("../assets/LEGENDARY.svg")
@@ -131,7 +132,7 @@ export default function Dashboard(props: any) {
       </h2>
       {/* NFT image */}
       <div>
-        <Image src={nftSVG} alt={nftRarity + " Ferry NFT."} />
+        {nftSVG && <Image src={nftSVG} alt={nftRarity + " Ferry NFT."} />}
       </div>
       <h3>Properties</h3>
       <p>{nftRarity}</p>
@@ -164,15 +165,29 @@ export default function Dashboard(props: any) {
           <div className="details">
             <div className="basics">
               <h1>Basics</h1>
-              {/* avatar */}
-              <p>Username</p>
+              <div className="avatar"></div>
               <p>Email</p>
-              <p>Pro account</p>
             </div>
-            <div className="stats">
-              <p>Storage Limit</p>
-              <p>Storage Used</p>
-              <p>Subscription</p>
+            <div className="quickStats">
+              <h1>Quick Stats</h1>
+              <div className="stats">
+                <div className="stat">
+                  <h2>Size Limit</h2>
+                  <p className="bigNumber">32</p>
+                  <p className="bigUnit">GB</p>
+                </div>
+                <div className="stat">
+                  <h2>Used</h2>
+                  <p className="bigNumber">{prettyBytes(spaceUsed).split(' ')[0]}</p>
+                  <p className="bigUnit">{prettyBytes(spaceUsed).split(' ')[1]}</p>
+                </div>
+                <div className="stat">
+                  <h2>Subscription</h2>
+                  <p className="bigNumber">12</p>
+                  <p className="bigUnit">M</p>
+                </div>
+              </div>
+
             </div>
           </div>
           <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />

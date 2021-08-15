@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import BlurContainer from './BlurContainer'
+import Button from './Button'
 import { useRouter } from 'next/router'
 import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
 
@@ -15,18 +16,21 @@ export default function SubscribeForm() {
 
   const handleMonthsChange = (e: any) => {
     let m = 1
-    if(e.target.value) m = Math.floor(parseInt(e.target.value))
+    if (e.target.value) m = Math.floor(parseInt(e.target.value))
     m = (m < 1) ? 1 : m
     m = (m > maxSubscribeMonths) ? maxSubscribeMonths : m
     setMonths(m)
-    setCost(m*DaiPricePerMonth)
+    setCost(m * DaiPricePerMonth)
   }
 
   const getCostString = () => {
     return `$${cost}.00`
   }
 
-  function handleSubmit(e: any) {
+  const handleApprove = () => {
+
+  }
+  const handlePay = () => {
 
   }
 
@@ -46,7 +50,7 @@ export default function SubscribeForm() {
   return (
     <div className={styles.formContainer}>
       <BlurContainer>
-        <form onSubmit={e => handleSubmit(e)} className={styles.form}>
+        <form onSubmit={e => {console.log("hello")}} className={styles.form}>
           {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
             <input
@@ -75,18 +79,20 @@ export default function SubscribeForm() {
             <h2>{getCostString()}</h2>
             <hr className={styles.divider} />
           </div>
-          <button
-            type="button"
-            onClick={e => router.push('/dashboard')}
-            className={`${styles.submitButton} default`}
-          >Dashboard
-          </button>
+          <div>
+            <Button onClick={handleApprove}>Approve</Button>
+            <Button onClick={handlePay}>Pay</Button>
+          </div>
         </form>
       </BlurContainer>
       {!isLoading && (
         <BlurContainer isBackground>
           <div className={styles.progressContainer}>
             <Progress progress={20} radius={100} stroke={10} />
+            {/* 1. Approving spinner */}
+            {/* 2. Paying spinner */}
+            {/* 3. Success check */}
+            {/* 3b. Failed cross */}
           </div>
         </BlurContainer>
       )}

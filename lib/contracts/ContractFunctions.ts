@@ -1,5 +1,18 @@
 import { contractAddresses } from "../../constants/chain";
 
+// TODO test
+export const approveDaiFerry = async (DaiContract: any, userAddress: string, amount: number) => {
+    // 0/blank amount or no contract/address will cause fail
+    if (!DaiContract || !userAddress || !amount) return null
+
+    const res = await DaiContract.methods.approve(contractAddresses.ferry, amount).send({
+        from: userAddress
+    })
+
+    console.log(res)
+}
+
+// TODO test
 export const paySubscription = async (FerryContract: any, address: string, amount: number) => {
     // 0/blank amount or no contract/address will cause fail
     if (!FerryContract || !address || !amount) return null

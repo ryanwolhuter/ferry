@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-// import { useWeb3React } from '@web3-react/core';
 // @ts-ignore
-import { useWallet, UseWalletProvider } from 'use-wallet'
+import Web3 from "web3";
+import Web3Modal from "web3modal";
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
@@ -9,21 +9,28 @@ import Progress from '../components/Progress'
 import UploadForm from '../components/UploadForm'
 import BlurContainer from '../components/BlurContainer'
 import Uploads from '../components/Uploads'
+import { getContracts } from '../lib/contracts/ContractBooter';
+
+import { contractAddresses, abis } from '../constants/chain';
+import { balance } from '../lib/contracts/TokenFunctions';
+
 
 export default function Home() {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
+  const [provider, setProvider] = useState(null)
+  const [contracts, setContracts] = useState<any>()
   const isFirstRender = useFirstRender()
-  const wallet = useWallet()
-  // const { account } = useWeb3React();
 
   const { user, loading: userLoading } = useUser()
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
+  console.log(provider, contracts)
+
   useEffect(() => {
-    console.log(wallet, wallet.status);
-  
+    console.log(provider, contracts);
+
     if (
       user && !userLoading
       && files && !filesLoading
@@ -41,8 +48,18 @@ export default function Home() {
     }
   }, [user, userLoading, isFirstRender, router])
 
+  useEffect(() => {
+    // @ts-ignore
+    if (provider && provider.selectedAddress) {
+      const contracts = getContracts(provider)
+      console.log(contracts);
+      setContracts(contracts)
+    }
+  }, [provider])
+
   return (
-    <Layout>
+    // @ts-ignore
+    <Layout provider={provider} updateProvider={setProvider}>
       {initialized
         ? <BlurContainer>
           <>

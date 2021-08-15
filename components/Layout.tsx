@@ -3,11 +3,13 @@ import Background from './Background'
 import NavBar from './NavBar'
 import styles from '../styles/Layout.module.css'
 
+
 type LayoutProps = {
   children: JSX.Element
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout(props: any, { children }: LayoutProps) {
+  const { provider, updateProvider } = props
 
   return (
     <>
@@ -17,7 +19,8 @@ export default function Layout({ children }: LayoutProps) {
       </Head>
       <Background />
 
-      <NavBar />
+      {/* @ts-ignore */}
+      <NavBar provider={provider} updateProvider={updateProvider}/>
       <main className={styles.main}>
         <div className={styles.container}>{children}</div>
       </main>

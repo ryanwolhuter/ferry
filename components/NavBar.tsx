@@ -3,21 +3,48 @@ import { useUser } from '../lib/hooks'
 import Link from 'next/link'
 import Button from './Button'
 
-// @ts-ignore
-import { useWallet } from 'use-wallet'
+import Web3 from "web3";
+var Contract = require('web3-eth-contract');
+import Web3Modal from "web3modal";
 
-export default function NavBar() {
+import { contractAddresses, abis } from '../constants/chain'
+
+export default function NavBar(props: any) {
   const { user } = useUser()
-  const wallet = useWallet()
 
-  const buttonLabel = wallet.status === "connected" ? "Connected" : "Connect Wallet"
+  const { provider, updateProvider } = props
 
-  const handleClick = () => {
-    if (wallet.status === "connected") {
-      wallet.reset()
+  const buttonLabel = provider ? "Disconnect Wallet" : "Connect Wallet"
+
+  const handleClick = async () => {
+    if (provider) {
+      // Disconnect Wallet
+      updateProvider(null)
     } else {
-      wallet.connect()
+      // Connect Wallet
+      const providerOptions = {}
+      const web3Modal = new Web3Modal({
+        network: "mumbai", // optional
+        cacheProvider: true, // optional
+        providerOptions // required
+      });
+      const prov = await web3Modal.connect();
+      updateProvider(prov)
     }
+  }
+
+  const test = async () => {
+    console.log(provider);
+
+    Contract.setProvider(provider);
+
+    // @ts-ignore
+    const DaiContract = new Contract(abis.ERC20, contractAddresses.dai);
+
+    DaiContract.methods.approve(contractAddresses.ferry, 0).send({
+      // @ts-ignore
+      from: provider.selectedAddress
+    })
   }
 
   return (
@@ -29,10 +56,11 @@ export default function NavBar() {
             flexDirection: 'column',
           }}>
             <span>{user.email}</span>
-            <span>Account: {wallet.account}</span>
+            <span>Account: {provider.selectedAddress ?? "no address"}</span>
           </div>
 
           <Button onClick={handleClick}>{buttonLabel}</Button>
+          <Button onClick={test}>Test</Button>
 
           <Link href="/api/logout">
             <a>Logout</a>

@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import BlurContainer from './BlurContainer'
@@ -18,6 +18,12 @@ export default function SubscribeForm(props: any) {
   const [months, setMonths] = useState(1)
   const [cost, setCost] = useState(1 * DaiPricePerMonth)
   const router = useRouter()
+
+  useEffect(() => {
+    if (provider && provider.selectedAddress) {
+      setStatus("START")
+    }
+  }, [provider])
 
   const handleMonthsChange = (e: any) => {
     let m = 1
@@ -73,6 +79,54 @@ export default function SubscribeForm(props: any) {
     }
   }
 
+  const renderHintPanel = () => {
+    if (status == "START") {
+      return (
+        <div>
+          <h2>Choose the duration of your subscription then click Approve</h2>
+        </div>
+      )
+    } else if (status == "CONNECT WALLET") {
+      return (
+        <div>
+          <h2>Please connect your wallet</h2>
+        </div>
+      )
+    } else if (status == "APPROVING") {
+      return (
+        <div>
+          <h2>Approving...</h2>
+          <Image src={spinner} alt="loading animation" />
+        </div>
+      )
+    } else if (status == "APPROVED") {
+      return (
+        <div>
+          <h2>Click Pay to complete your purchase</h2>
+        </div>
+      )
+    } else if (status == "PAYING") {
+      return (
+        <div>
+          <h2>Paying...</h2>
+          <Image src={spinner} alt="loading animation" />
+        </div>
+      )
+    } else if (status == "PAID") {
+      return (
+        <div>
+          <h2>Successfully subscribed! 🎉</h2>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <h2>Choose the duration of your subscription then click Approve</h2>
+        </div>
+      )
+    } 
+  }
+
   return (
     <div className={styles.formContainer}>
       <BlurContainer>
@@ -89,9 +143,9 @@ export default function SubscribeForm(props: any) {
               Duration in months
             </label>
             <input
-            style={{
-              width: "100%"
-            }}
+              style={{
+                width: "100%"
+              }}
               type="number"
               name="subscriptionDuration"
               className={styles.email}
@@ -103,11 +157,11 @@ export default function SubscribeForm(props: any) {
               display: 'flex',
               justifyContent: "space-between"
             }}>
-            <h2 style={{textAlign: "justify"}}>Total</h2>
-            <h2 style={{textAlign: "justify"}}>{getCostString()}</h2>
+              <h2 style={{ textAlign: "justify" }}>Total</h2>
+              <h2 style={{ textAlign: "justify" }}>{getCostString()}</h2>
             </div>
-            
-            
+
+
           </div>
           <div className="buttonsContainer">
             <Button className="default" onClick={(e) => handleApprove(e)}>Approve</Button>
@@ -117,14 +171,12 @@ export default function SubscribeForm(props: any) {
       </BlurContainer>
       {!isLoading && (
         <BlurContainer isBackground>
-          <div className={styles.progressContainer}>
-            <Image src={spinner} alt="loading animation" />
-            {/* <Progress progress={20} radius={100} stroke={10} /> */}
-            {/* 0. Show connect wallet if no contracts/provider */}
-            {/* 1. Approving spinner */}
-            {/* 2. Paying spinner */}
-            {/* 3. Success check */}
-            {/* 3b. Failed cross */}
+          <div className={styles.progressContainer} style={{
+            marginLeft: '460px',
+            zIndex: 10,
+          }}>
+            {renderHintPanel()}
+            {/* <Image src={spinner} alt="loading animation" /> */}
           </div>
         </BlurContainer>
       )}

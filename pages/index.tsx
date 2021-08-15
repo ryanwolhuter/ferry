@@ -12,14 +12,15 @@ import Uploads from '../components/Uploads'
 import { getContracts } from '../lib/contracts/ContractBooter';
 
 import { contractAddresses, abis } from '../constants/chain';
-import { balance } from '../lib/contracts/TokenFunctions';
+import { balance, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
 
 
 export default function Home() {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
-  const [provider, setProvider] = useState(null)
+  const [provider, setProvider] = useState<any>(null)
   const [contracts, setContracts] = useState<any>()
+  const [subEndTime, setSubEndTime] = useState(0)
   const isFirstRender = useFirstRender()
 
   const { user, loading: userLoading } = useUser()
@@ -49,7 +50,6 @@ export default function Home() {
   }, [user, userLoading, isFirstRender, router])
 
   useEffect(() => {
-    // @ts-ignore
     if (provider && provider.selectedAddress) {
       const contracts = getContracts(provider)
       console.log(contracts);
@@ -57,8 +57,13 @@ export default function Home() {
     }
   }, [provider])
 
+  useEffect(() => {
+    if(contracts && contracts.ferryContract && provider.selectedAddress){
+      getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
+    }
+  }, [contracts, provider])
+
   return (
-    // @ts-ignore
     <Layout provider={provider} updateProvider={setProvider}>
       {initialized
         ? <BlurContainer>

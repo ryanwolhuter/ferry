@@ -4,12 +4,13 @@ import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSHIPBalance, getAccountNFTDetails } from '../lib/contracts/ContractFunctions';
-import { PolygonscanURL } from '../constants/chain';
+import { CommonSVG, EpicSVG, LegendarySVG, PolygonscanURL, RareSVG } from '../constants/chain';
 
-const LegendarySVG = require("../assets/LEGENDARY.svg")
-const EpicSVG = require("../assets/EPIC.svg")
-const RareSVG = require("../assets/RARE.svg")
-const CommonSVG = require("../assets/COMMON.svg")
+// TODO use these instead of links
+// const LegendarySVG = require("../assets/LEGENDARY.svg")
+// const EpicSVG = require("../assets/EPIC.svg")
+// const RareSVG = require("../assets/RARE.svg")
+// const CommonSVG = require("../assets/COMMON.svg")
 
 export default function Dashboard(props: any) {
   const { provider, contracts } = props
@@ -19,7 +20,7 @@ export default function Dashboard(props: any) {
   const [nftIndex, setNftIndex] = useState(0)
   const [nftTokenID, setNftTokenID] = useState(38)
   const [nftRarity, setNftRarity] = useState("")
-  const [nftSVG, setNftSVG] = useState<any>(null)
+  const [nftSVG, setNftSVG] = useState<any>("")
 
   const isFirstRender = useFirstRender()
 
@@ -144,7 +145,7 @@ export default function Dashboard(props: any) {
             </h2>
             {/* NFT image */}
             <div>
-              <img src={nftSVG} alt={nftRarity+" Ferry NFT."}/>
+              <img src={LegendarySVG} alt={nftRarity+" Ferry NFT."}/>
             </div>
             <h3>Properties</h3>
             <p>{nftRarity}</p>

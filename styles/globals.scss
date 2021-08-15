@@ -146,3 +146,24 @@ input[type="file"] {
 label[for="file"] {
   display: none;
 }
+
+.expiration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="range"] {
+  box-shadow: none;
+  margin-right: 12px;
+
+  &::-webkit-slider-thumb {
+  }
+}
+
+.fileExpiry {
+  margin: 0;
+  margin-top: 12px;
+  padding: 0;
+}
+

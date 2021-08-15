@@ -8,6 +8,7 @@ import styles from '../styles/UploadForm.module.css'
 import prettyBytes from 'pretty-bytes'
 import { Mutator, Upload } from '../lib'
 import BlurContainer from './BlurContainer'
+import Link from 'next/link'
 
 type UploadFormProps = {
   spaceUsed: number,
@@ -25,6 +26,8 @@ export default function UploadForm(
   const [isLoading, setIsLoading] = useState(false)
   const [fileSize, setFileSize] = useState('')
   const [fileName, setFileName] = useState('')
+  const [showProgress, setShowProgress] = useState(false)
+  const [expiration, setExpiration] = useState(24 * 60 * 60 * 1000)
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -70,6 +73,7 @@ export default function UploadForm(
 
   async function handleSubmit(submitEvent: FormEvent) {
     submitEvent.preventDefault()
+    setShowProgress(true)
 
     const cid = await storeWithProgress(files)
 
@@ -77,7 +81,6 @@ export default function UploadForm(
 
     const name = getFileName(files)
     const size = getFileSize(files)
-    const expiration = Date.now()
 
     mutateUploads((currentUploads: Upload[]) =>
       [...currentUploads,
@@ -95,12 +98,17 @@ export default function UploadForm(
       body: JSON.stringify({ name, cid, size })
     })
 
-    if (!email) return
-
     const fileUrl = makeFileUrl(cid, files)
-    sendEmail(email, fileUrl)
+
+    if (email) {
+      sendEmail(email, fileUrl)
+    }
 
     setFiles([])
+    setFileName('')
+    setFileSize('')
+    setEmail('')
+    setShowProgress(false)
   }
 
   async function handleSubscribe() {
@@ -137,7 +145,7 @@ export default function UploadForm(
           </div>
           <div className={styles.container}>
             {fileName
-              ? <div className={styles.fileDetails}>{fileName}</div>
+              ? <div className={styles.fileDetails}>{decodeURI(fileName)}</div>
               : <div className={styles.noFileChosen}>No file chosen</div>}
             <hr className={styles.divider} />
             <label htmlFor="email">
@@ -149,8 +157,20 @@ export default function UploadForm(
               className={styles.email}
               onChange={e => setEmail(e.target.value)}
             ></input>
-            <hr className={styles.divider} />
-            {rootCid && <a href={makeFileUrl(rootCid, files)}>download</a>}
+          </div>
+          <p className="fileExpiry">File expiry</p>
+          <div className="expiration">
+            <input
+              type="range"
+              name="expiration"
+              value={expiration}
+              max={48 * 60 * 60 * 1000}
+              min={60 * 1000}
+              step={60 * 1000}
+              onChange={e => setExpiration(Number(e.target.value))}
+              disabled
+            />
+            <p className="fileExpiry">{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
           </div>
           <button
             type="submit"
@@ -160,13 +180,55 @@ export default function UploadForm(
           </button>
         </form>
       </BlurContainer>
-      {isLoading && (
-        <BlurContainer isBackground>
-          <div className={styles.progressContainer}>
-            <Progress progress={percentUploaded} radius={100} stroke={10} />
+      <BlurContainer isBackground className={showProgress ? 'show' : 'hide'}>
+        <div className="containerContainer">
+          <div className="content">
+            <h1>{isLoading ? 'Uploading your file' : 'Your files are ferried!'}</h1>
+            <div className={styles.progressContainer}>
+              <Progress progress={percentUploaded} radius={100} stroke={10} />
+            </div>
+            {!isLoading && <div className="linkContainer">
+              <Link href={makeFileUrl(rootCid, files)}><a>{makeFileUrl(rootCid, files)}</a></Link>
+            </div>}
           </div>
-        </BlurContainer>
-      )}
+          <style jsx>
+            {`
+            div.containerContainer {
+              display: grid;
+              grid-template-rows: 1fr;
+              grid-template-columns: 1fr 1fr;
+            }
+            div.content {
+              grid-column-start: 2;
+              padding-top: 40px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+            }
+            div.linkContainer {
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+              padding: 8px 16px;
+              background: #FFFFFF;
+              box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+              border-radius: 10px;
+              width: 400px;
+              height: 36px;
+              margin-top: 36px;
+              }
+              a {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            `}
+          </style>
+        </div>
+      </BlurContainer>
     </div>
   )
 }

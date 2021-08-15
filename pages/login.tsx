@@ -69,9 +69,8 @@ export default function Login() {
               <form onSubmit={onSubmit} className={styles.form}>
                 <h1 className={styles.heading}>Welcome to Ferry</h1>
                 <p className={styles.description}>Give us your email and we will send you a magic link to login.</p>
-                {isLoggingIn
-                  ? <Spinner />
-                  : <>
+                {!isLoggingIn && 
+                  <>
                     <label className={styles.label} htmlFor="email"><span aria-hidden={true}>Email *</span>
                     </label>
                     <input className={styles.email} type="email" name="email" required placeholder="Email address" />

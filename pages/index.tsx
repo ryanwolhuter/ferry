@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
-import Progress from '../components/Progress'
 import UploadForm from '../components/UploadForm'
 import SubscribeForm from '../components/SubscribeForm'
 import { getContracts } from '../lib/contracts/ContractBooter';
@@ -62,7 +61,7 @@ export default function Home() {
     <Layout provider={provider} updateProvider={setProvider} contracts={contracts}>
       {initialized
         ? <>
-          <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button>
+          {/* <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button> */}
           {!showSubscribeForm && <UploadForm
             spaceUsed={spaceUsed}
             mutateUploads={mutateFiles}
@@ -70,7 +69,7 @@ export default function Home() {
           />}
           {showSubscribeForm && <SubscribeForm contracts={contracts} provider={provider}/>}
         </>
-        : <Progress />
+        : <div />
       }
     </Layout>
   )

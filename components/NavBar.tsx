@@ -16,7 +16,7 @@ export default function NavBar(props: any) {
   const { provider, updateProvider } = props
 
   const buttonLabel = provider ? "Disconnect Wallet" : "Connect Wallet"
-  const userAddress = provider ? provider.selectedAddress : "No wallet found"
+  const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : "Connect wallet"
 
   const handleLogIn = async () => {
     if (provider) {
@@ -35,18 +35,6 @@ export default function NavBar(props: any) {
     }
   }
 
-  // const test = async () => {
-  //   console.log(provider);
-
-  //   Contract.setProvider(provider);
-
-  //   const DaiContract = new Contract(abis.ERC20, contractAddresses.dai);
-
-  //   DaiContract.methods.approve(contractAddresses.ferry, 0).send({
-  //     from: provider.selectedAddress
-  //   })
-  // }
-
   async function logout() {
     await fetch('/api/logout')
   }
@@ -62,9 +50,7 @@ export default function NavBar(props: any) {
       <Link href="/about">
         <a className={styles.link}>About</a>
       </Link>
-      <Link href={(user && user.isPro)? "/dashboard" : "/subscribe"}>
-        <a className={styles.link}>Pro Account</a>
-      </Link>
+        <a onClick={e => props.toggleShowSubscribeForm()} className={styles.link}>Pro Account</a>
       {user &&
         <button className={styles.userMenu} onClick={handleLogIn}>
           <div>
@@ -79,6 +65,8 @@ export default function NavBar(props: any) {
               `}</style>
           </div>
           {user?.email}
+          <br />
+          {userAddress}
         </button>}
       {user &&
         <>

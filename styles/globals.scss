@@ -167,3 +167,15 @@ input[type="range"] {
   padding: 0;
 }
 
+.buttonsContainer {
+  display: flex;
+  justify-content: space-evenly;
+
+  button {
+    width: 120px;
+  }
+  button.other {
+    background: var(--pink-gradient);
+    color: var(--white);
+  }
+}

@@ -9,6 +9,7 @@ type LayoutProps = {
   provider?: any,
   updateProvider?: any,
   contracts?: any,
+  toggleShowSubscribeForm?: any,
   hasBackground?: boolean,
   hasNav?: boolean
 }
@@ -18,6 +19,7 @@ export default function Layout(
     provider,
     updateProvider,
     contracts,
+    toggleShowSubscribeForm,
     hasBackground = true,
     hasNav = true
   }: LayoutProps
@@ -32,7 +34,7 @@ export default function Layout(
       {hasBackground && <Background />}
 
       {/* @ts-ignore */}
-      {hasNav && <NavBar provider={provider} updateProvider={updateProvider} contracts={contracts}/>}
+      {hasNav && <NavBar provider={provider} updateProvider={updateProvider} contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm} />}
       <main className={styles.main}>
         <div className={styles.container}>{children}</div>
       </main>

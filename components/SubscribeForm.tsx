@@ -7,7 +7,8 @@ import Button from './Button'
 import { useRouter } from 'next/router'
 import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
 import { approveDaiFerry, paySubscription } from '../lib/contracts/ContractFunctions'
-
+import Image from 'next/image'
+import spinner from '../public/spinner.gif'
 
 export default function SubscribeForm(props: any) {
   const { provider, contracts } = props
@@ -78,13 +79,6 @@ export default function SubscribeForm(props: any) {
         <form onSubmit={e => { console.log("hello") }} className={styles.form}>
           {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
-            <input
-              type="file"
-              name="file"
-            ></input>
-            <label htmlFor="file" aria-hidden={true}>
-              Choose file
-            </label>
             <div className={styles.details}>
               <h1 className={styles.heading}>Buy a Subscription</h1>
               <p className={styles.spaceUsed}>You will be charged in DAI</p>
@@ -104,16 +98,17 @@ export default function SubscribeForm(props: any) {
             <h2>{getCostString()}</h2>
             <hr className={styles.divider} />
           </div>
-          <div>
-            <Button onClick={(e) => handleApprove(e)}>Approve</Button>
-            <Button onClick={(e) => handlePay(e)}>Pay {getCostString()}</Button>
+          <div className="buttonsContainer">
+            <Button className="default" onClick={(e) => handleApprove(e)}>Approve</Button>
+            <Button className="other" onClick={(e) => handlePay(e)}>Pay {getCostString()}</Button>
           </div>
         </form>
       </BlurContainer>
       {!isLoading && (
         <BlurContainer isBackground>
           <div className={styles.progressContainer}>
-            <Progress progress={20} radius={100} stroke={10} />
+            <Image src={spinner} alt="loading animation" />
+            {/* <Progress progress={20} radius={100} stroke={10} /> */}
             {/* 0. Show connect wallet if no contracts/provider */}
             {/* 1. Approving spinner */}
             {/* 2. Paying spinner */}

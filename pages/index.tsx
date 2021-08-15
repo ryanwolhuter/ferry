@@ -21,6 +21,10 @@ export default function Home() {
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
+  function toggleShowSubscribeForm() {
+    setShowSubscribeForm(!showSubscribeForm)
+  }
+
   useEffect(() => {
 
     // TODO use this
@@ -58,7 +62,7 @@ export default function Home() {
   }, [contracts, provider])
 
   return (
-    <Layout provider={provider} updateProvider={setProvider} contracts={contracts}>
+    <Layout provider={provider} updateProvider={setProvider} contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm}>
       {initialized
         ? <>
           <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button>

@@ -6,12 +6,16 @@ import BlurContainer from './BlurContainer'
 import Button from './Button'
 import { useRouter } from 'next/router'
 import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
+import { approveDaiFerry } from '../lib/contracts/ContractFunctions'
 
 
-export default function SubscribeForm() {
+export default function SubscribeForm(props: any) {
+  const {provider, contracts} = props
   const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState("START")
+  const [statusMessage, setStatusMessage] = useState("Enter details, approve, and pay")
   const [months, setMonths] = useState(1)
-  const [cost, setCost] = useState(2)
+  const [cost, setCost] = useState(1 * DaiPricePerMonth)
   const router = useRouter()
 
   const handleMonthsChange = (e: any) => {
@@ -27,10 +31,14 @@ export default function SubscribeForm() {
     return `$${cost}.00`
   }
 
-  const handleApprove = () => {
-
+  const handleApprove = async () => {
+    if (provider && provider.selectedAddress && contracts && contracts.daiContract){
+      // set status to APPROVING
+      setStatus("APPROVING")
+      const res = await approveDaiFerry(contracts.daiContract, provider.selectedAddress, cost)
+    }
   }
-  const handlePay = () => {
+  const handlePay = async () => {
 
   }
 
@@ -50,7 +58,7 @@ export default function SubscribeForm() {
   return (
     <div className={styles.formContainer}>
       <BlurContainer>
-        <form onSubmit={e => {console.log("hello")}} className={styles.form}>
+        <form onSubmit={e => { console.log("hello") }} className={styles.form}>
           {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
             <input

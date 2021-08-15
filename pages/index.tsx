@@ -59,7 +59,7 @@ export default function Home() {
   }, [contracts, provider])
 
   return (
-    <Layout provider={provider} updateProvider={setProvider}>
+    <Layout provider={provider} updateProvider={setProvider} contracts={contracts}>
       {initialized
         ? <>
           <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button>
@@ -68,7 +68,7 @@ export default function Home() {
             mutateUploads={mutateFiles}
             mutateSpaceUsed={mutateSpaceUsed}
           />}
-          {showSubscribeForm && <SubscribeForm />}
+          {showSubscribeForm && <SubscribeForm contracts={contracts} provider={provider}/>}
         </>
         : <Progress />
       }

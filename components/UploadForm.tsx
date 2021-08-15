@@ -140,7 +140,7 @@ export default function UploadForm(
           </div>
           <div className={styles.container}>
             {fileName
-              ? <div className={styles.fileDetails}>{fileName}</div>
+              ? <div className={styles.fileDetails}>{decodeURI(fileName)}</div>
               : <div className={styles.noFileChosen}>No file chosen</div>}
             <hr className={styles.divider} />
             <label htmlFor="email">

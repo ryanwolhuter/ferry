@@ -108,7 +108,6 @@ export default function UploadForm(
     setFileName('')
     setFileSize('')
     setEmail('')
-    setShowProgress(false)
   }
 
   async function handleSubscribe() {

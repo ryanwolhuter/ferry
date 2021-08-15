@@ -3,7 +3,6 @@ import { useUser } from '../lib/hooks'
 import Link from 'next/link'
 import Button from './Button'
 
-import Web3 from "web3";
 var Contract = require('web3-eth-contract');
 import Web3Modal from "web3modal";
 
@@ -39,11 +38,9 @@ export default function NavBar(props: any) {
 
     Contract.setProvider(provider);
 
-    // @ts-ignore
     const DaiContract = new Contract(abis.ERC20, contractAddresses.dai);
 
     DaiContract.methods.approve(contractAddresses.ferry, 0).send({
-      // @ts-ignore
       from: provider.selectedAddress
     })
   }

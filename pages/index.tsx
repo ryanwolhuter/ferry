@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react'
-// @ts-ignore
-import Web3 from "web3";
-import Web3Modal from "web3modal";
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
@@ -11,8 +8,8 @@ import BlurContainer from '../components/BlurContainer'
 import Uploads from '../components/Uploads'
 import { getContracts } from '../lib/contracts/ContractBooter';
 
-import { contractAddresses, abis } from '../constants/chain';
-import { balance, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
+import { getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
+import { isPro } from '../lib/contracts/contractUtils';
 
 
 export default function Home() {
@@ -27,10 +24,10 @@ export default function Home() {
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
-  console.log(provider, contracts)
-
   useEffect(() => {
-    console.log(provider, contracts);
+
+    // TODO use this
+    // isPro
 
     if (
       user && !userLoading
@@ -58,7 +55,7 @@ export default function Home() {
   }, [provider])
 
   useEffect(() => {
-    if(contracts && contracts.ferryContract && provider.selectedAddress){
+    if (contracts && contracts.ferryContract && provider && provider.selectedAddress) {
       getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
     }
   }, [contracts, provider])

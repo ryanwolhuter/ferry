@@ -1,4 +1,4 @@
-
+import { contractAddresses } from "../../constants/chain";
 
 export const paySubscription = async (FerryContract: any, address: string, amount: number) => {
     // 0/blank amount or no contract/address will cause fail
@@ -14,6 +14,8 @@ export const paySubscription = async (FerryContract: any, address: string, amoun
 export const getSubscriptionEnd = async (FerryContract: any, address: string) => {
     // if can't get time
     if (!FerryContract || !address) return null
+
+    console.log(FerryContract)
 
     FerryContract.methods.getMembershipExpiryTime(address).call((err: any, result: any) => {
         if (err) {

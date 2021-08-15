@@ -120,6 +120,36 @@ export default function Dashboard(props: any) {
 
   const showClaimNFTView = (provider && contracts && nftRandomNum !== 0 && nftIndex === 0)
 
+  const renderViewNFTView = () => {
+    return <div className="nft-details">
+      <h2>
+        Ferry #{nftIndex}
+      </h2>
+      {/* NFT image */}
+      <div>
+        <img src={nftSVG} alt={nftRarity + " Ferry NFT."} />
+      </div>
+      <h3>Properties</h3>
+      <p>{nftRarity}</p>
+      <button onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>
+    </div>
+  }
+
+  const renderClaimNFTView = () => {
+    return <div className="nft-details">
+      <h2>
+        Claim your Ferry NFT
+      </h2>
+      {/* Question mark image */}
+      <div>
+        {/* <img src={nftSVG} alt={nftRarity + " Ferry NFT."} /> */}
+      </div>
+
+      <button onClick={handleClaimNFT}>Claim Ferry NFT</button>
+    </div>
+  }
+
+
   return (
     <Layout hasBackground={false}>
       <div className="container">
@@ -150,22 +180,13 @@ export default function Dashboard(props: any) {
             {shipBalance} SHIP
           </div>
           <div className="nft">
-            1 FERRY
+            {showClaimNFTView ? 0 : 1} FERRY
           </div>
 
           <h1>Your NFTs</h1>
-          <div className="nft-details">
-            <h2>
-              Ferry #{nftIndex}
-            </h2>
-            {/* NFT image */}
-            <div>
-              <img src={nftSVG} alt={nftRarity + " Ferry NFT."} />
-            </div>
-            <h3>Properties</h3>
-            <p>{nftRarity}</p>
-            <button onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>
-          </div>
+
+          {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}
+
         </div>
         <style jsx>{`
           div.container {

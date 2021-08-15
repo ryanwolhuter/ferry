@@ -60,7 +60,9 @@ export default function SubscribeForm(props: any) {
       const res = await paySubscription(contracts.ferryContract, provider.selectedAddress, cost)
       // TODO check if error / paid
       setStatus("PAID")
+      // TODO add time delay
       console.log(status);
+      router.push('/dashboard')
     } else {
       setStatus("CONNECT WALLET")
     }

@@ -61,7 +61,7 @@ export default function Home() {
     <Layout provider={provider} updateProvider={setProvider} contracts={contracts}>
       {initialized
         ? <>
-          {/* <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button> */}
+          <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button>
           {!showSubscribeForm && <UploadForm
             spaceUsed={spaceUsed}
             mutateUploads={mutateFiles}

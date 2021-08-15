@@ -117,10 +117,9 @@ export default function UploadForm(
   }
 
   return (
-    <BlurContainer>
-      {isLoading
-        ? <Progress progress={percentUploaded} radius={100} stroke={10} />
-        : <form onSubmit={e => handleSubmit(e)} className={styles.form}>
+    <div className={styles.formContainer}>
+      <BlurContainer>
+        <form onSubmit={e => handleSubmit(e)} className={styles.form}>
           {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
             <input
@@ -137,9 +136,9 @@ export default function UploadForm(
             </div>
           </div>
           <div className={styles.container}>
-            {fileName 
-            ? <div className={styles.fileDetails}>{fileName}</div>
-            : <div className={styles.noFileChosen}>No file chosen</div>}
+            {fileName
+              ? <div className={styles.fileDetails}>{fileName}</div>
+              : <div className={styles.noFileChosen}>No file chosen</div>}
             <hr className={styles.divider} />
             <label htmlFor="email">
               To: (Optional)
@@ -160,7 +159,14 @@ export default function UploadForm(
           >Ferry it
           </button>
         </form>
-      }
-    </BlurContainer>
+      </BlurContainer>
+      {isLoading && (
+        <BlurContainer isBackground>
+          <div className={styles.progressContainer}>
+            <Progress progress={percentUploaded} radius={100} stroke={10} />
+          </div>
+        </BlurContainer>
+      )}
+    </div>
   )
 }

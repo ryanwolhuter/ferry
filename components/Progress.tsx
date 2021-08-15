@@ -45,6 +45,7 @@ export default function Progress({ radius = 0, stroke = 0, progress = 0 }) {
               width: 100%;
               height: 100%;
               position: relative;
+              grid-area: progress;
             }
 
             div.progress {

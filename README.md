@@ -1,5 +1,8 @@
 
-# Ferry
+# Ferry ⛵
+
+![image](https://user-images.githubusercontent.com/52714090/129492704-c1e0b2f1-fd0e-4376-842c-e3718a1ea2be.png)
+
 
 run `npm i` to install dependencies
 

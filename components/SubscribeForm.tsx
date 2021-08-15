@@ -87,7 +87,7 @@ export default function SubscribeForm(props: any) {
             </label>
             <div className={styles.details}>
               <h1 className={styles.heading}>Buy a Subscription</h1>
-              <p className={styles.spaceUsed}>You will be charged in Dai</p>
+              <p className={styles.spaceUsed}>You will be charged in DAI</p>
             </div>
           </div>
           <div className={styles.container}>
@@ -106,7 +106,7 @@ export default function SubscribeForm(props: any) {
           </div>
           <div>
             <Button onClick={(e) => handleApprove(e)}>Approve</Button>
-            <Button onClick={(e) => handlePay(e)}>Pay</Button>
+            <Button onClick={(e) => handlePay(e)}>Pay {getCostString()}</Button>
           </div>
         </form>
       </BlurContainer>

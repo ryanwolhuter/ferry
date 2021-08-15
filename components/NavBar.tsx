@@ -47,6 +47,10 @@ export default function NavBar(props: any) {
   //   })
   // }
 
+  async function logout() {
+    await fetch('/api/logout')
+  }
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.imageWrapper}>
@@ -62,7 +66,7 @@ export default function NavBar(props: any) {
         <a className={styles.link}>Pro Account</a>
       </Link>
       {user &&
-        <button className={styles.userMenu}>
+        <button onClick={e => logout()} className={styles.userMenu}>
           <div>
             <style jsx>{`
                 div {

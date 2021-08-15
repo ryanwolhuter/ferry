@@ -38,3 +38,16 @@
 .getStarted {
   padding: 12px 64px;
 }
+
+.email {
+  margin-bottom: 16px;
+}
+
+.termsAndConditions {
+  font-weight: bold;
+}
+
+.termsAndConditionsLink {
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -67,15 +67,17 @@ export default function Login() {
           ? (
             <section className={styles.container}>
               <form onSubmit={onSubmit} className={styles.form}>
-                <h1 className={styles.heading}>Log in</h1>
+                <h1 className={styles.heading}>Welcome to Ferry</h1>
+                <p className={styles.description}>Give us your email and we will send you a magic link to login.</p>
                 {isLoggingIn
                   ? <Spinner />
                   : <>
                     <label className={styles.label} htmlFor="email"><span aria-hidden={true}>Email *</span>
                     </label>
-                    <input type="email" name="email" required placeholder="Email Address" />
+                    <input className={styles.email} type="email" name="email" required placeholder="Email address" />
 
                     <Button disabled={isLoggingIn} type="submit" className="default">Login</Button>
+                    <p className={styles.termsAndConditions}>By using our app, you agree to our <a className={styles.termsAndConditionsLink}>Ts &amp; Cs on our About Page</a></p>
                   </>}
 
                 {errorMsg && <p className="error">{errorMsg}</p>}

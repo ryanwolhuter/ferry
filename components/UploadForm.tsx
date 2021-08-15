@@ -9,6 +9,7 @@ import prettyBytes from 'pretty-bytes'
 import { Mutator, Upload } from '../lib'
 import BlurContainer from './BlurContainer'
 import Link from 'next/link'
+import { useUser } from '../lib/hooks'
 
 type UploadFormProps = {
   spaceUsed: number,
@@ -28,6 +29,7 @@ export default function UploadForm(
   const [fileName, setFileName] = useState('')
   const [showProgress, setShowProgress] = useState(false)
   const [expiration, setExpiration] = useState(24 * 60 * 60 * 1000)
+  const { user } = useUser()
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -99,16 +101,16 @@ export default function UploadForm(
     })
 
     const fileUrl = makeFileUrl(cid, files)
+    const sender = user?.email
 
     if (email) {
-      sendEmail(email, fileUrl)
+      sendEmail(email, fileUrl, sender)
     }
 
     setFiles([])
     setFileName('')
     setFileSize('')
     setEmail('')
-    setShowProgress(false)
   }
 
   async function handleSubscribe() {

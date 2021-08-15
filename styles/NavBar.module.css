@@ -31,4 +31,5 @@
   padding-left: 12px;
   background: rgba(251, 251, 251, 0.05);
   box-shadow: 0px 0px 25px rgba(98, 11, 129, 0.12);
+  cursor: pointer;
 }

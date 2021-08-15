@@ -47,6 +47,10 @@ export default function NavBar(props: any) {
   //   })
   // }
 
+  async function logout() {
+    await fetch('/api/logout')
+  }
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.imageWrapper}>

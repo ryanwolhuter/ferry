@@ -98,7 +98,7 @@ export default function SubscribeForm(props: any) {
           <h2>Approving...</h2>
           <div style={{
             width: "200px",
-            marginLeft: "96px",
+            marginLeft: "250px",
             marginTop: "32px"
           }}>
             <Image className="ferry-spinner" src={spinner} alt="loading animation" />
@@ -117,7 +117,7 @@ export default function SubscribeForm(props: any) {
           <h2>Paying...</h2>
           <div style={{
             width: "200px",
-            marginLeft: "96px",
+            marginLeft: "250px",
             marginTop: "32px"
           }}>
             <Image className="ferry-spinner" src={spinner} alt="loading animation" />

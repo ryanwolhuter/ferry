@@ -3,7 +3,7 @@ import Uploads from "../components/Uploads";
 import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getSHIPBalance, getAccountNFTDetails } from '../lib/contracts/ContractFunctions';
+import { getSHIPBalance, getAccountNFTDetails, mintNFT } from '../lib/contracts/ContractFunctions';
 import { CommonSVG, EpicSVG, LegendarySVG, PolygonscanURL, RareSVG } from '../constants/chain';
 
 // TODO use these instead of links
@@ -17,6 +17,7 @@ export default function Dashboard(props: any) {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
   const [shipBalance, setShipBalance] = useState(0)
+  const [nftRandomNum, setNftRandomNum] = useState(0)
   const [nftIndex, setNftIndex] = useState(0)
   const [nftTokenID, setNftTokenID] = useState(38)
   const [nftRarity, setNftRarity] = useState("")
@@ -31,7 +32,7 @@ export default function Dashboard(props: any) {
 
   // TODO add SVGs
   // TODO add NFT available to mint btn
-  
+
   useEffect(async () => {
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract && contracts.shipTokenContract) {
 
@@ -41,24 +42,26 @@ export default function Dashboard(props: any) {
       const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
       console.log(nftData);
 
+      // setNftRandomNum()
+
       // TODO fix with nftData.randomNum
       // TODO handle data case where NFT available to mint
-      const rarityScore = (999 % 1000)+1
+      const rarityScore = (999 % 1000) + 1
 
-      if(rarityScore === 1000){
+      if (rarityScore === 1000) {
         setNftRarity("Legendary")
         setNftSVG(LegendarySVG)
-      } else if(rarityScore > 980) {
+      } else if (rarityScore > 980) {
         setNftRarity("Epic")
         setNftSVG(EpicSVG)
-      } else if(rarityScore > 780) {
+      } else if (rarityScore > 780) {
         setNftRarity("Rare")
         setNftSVG(RareSVG)
       } else {
         setNftRarity("Common")
         setNftSVG(CommonSVG)
       }
-      
+
     }
   }, [contracts, provider])
 
@@ -98,12 +101,24 @@ export default function Dashboard(props: any) {
   // TODO might not need this?
   // const asyncUpdateState = async (targetFunction: any,  callbackSetter: any) => {
   //   let res = await targetFunction()
-    
+
   // }
 
   const viewNFTOnPolygonscan = () => {
-    window.open(PolygonscanURL+nftTokenID,'_blank');
+    window.open(PolygonscanURL + nftTokenID, '_blank');
   }
+
+  const handleClaimNFT = async () => {
+    if (provider && provider.selectedAddress && contracts && contracts.ferryContract) {
+      const res = await mintNFT(contracts.ferryContract, provider.selectedAddress)
+
+      // Once minted, get all NFT data for state
+      const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
+      // TODO fill in rest of state setting
+    }
+  }
+
+  const showClaimNFTView = (provider && contracts && nftRandomNum !== 0 && nftIndex === 0)
 
   return (
     <Layout hasBackground={false}>
@@ -145,7 +160,7 @@ export default function Dashboard(props: any) {
             </h2>
             {/* NFT image */}
             <div>
-              <img src={LegendarySVG} alt={nftRarity+" Ferry NFT."}/>
+              <img src={nftSVG} alt={nftRarity + " Ferry NFT."} />
             </div>
             <h3>Properties</h3>
             <p>{nftRarity}</p>

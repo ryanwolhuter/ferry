@@ -8,7 +8,16 @@ import { useRouter } from 'next/router'
 
 export default function SubscribeForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [months, setMonths] = useState(1)
   const router = useRouter()
+
+  const handleMonthsChange = (e: any) => {
+    let m = 1
+    if(e.target.value) m = Math.floor(parseInt(e.target.value))
+    m = (m < 1) ? 1 : m
+    m = (m > 24) ? 24 : m
+    setMonths(m)
+  }
 
   function handleSubmit(e: any) {
 
@@ -53,6 +62,8 @@ export default function SubscribeForm() {
               type="number"
               name="subscriptionDuration"
               className={styles.email}
+              onChange={handleMonthsChange}
+              value={months}
             ></input>
             <hr className={styles.divider} />
           </div>

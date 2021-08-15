@@ -3,10 +3,18 @@ import Uploads from "../components/Uploads";
 import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { getSHIPBalance, getAccountNFTDetails } from '../lib/contracts/ContractFunctions';
+import { PolygonscanURL } from '../constants/chain';
 
-export default function Dashboard() {
+export default function Dashboard(props: any) {
+  const { provider, contracts } = props
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
+  const [shipBalance, setShipBalance] = useState(0)
+  const [nftIndex, setNftIndex] = useState(0)
+  const [nftTokenID, setNftTokenID] = useState(38)
+  const [nftRarity, setNftRarity] = useState("")
+
   const isFirstRender = useFirstRender()
 
   const { user, loading: userLoading } = useUser()
@@ -14,11 +22,32 @@ export default function Dashboard() {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
   const { subscriptionExpires, loading: subscriptionExpiresLoading, mutate: mutateSubscriptionExpires } = useSubscriptionExpires()
 
+  
+  useEffect(async () => {
+    if (provider && provider.selectedAddress && contracts && contracts.ferryContract && contracts.shipTokenContract) {
+
+      const shipBal = await getSHIPBalance(contracts.shipTokenContract, provider.selectedAddress)
+      console.log(shipBal);
+      const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
+      console.log(nftData);
+
+      // TODO fix with nftData.randomNum
+      const rarityScore = (999 % 1000)+1
+
+      if(rarityScore === 1000){
+        setNftRarity("Legendary")
+      } else if(rarityScore > 980) {
+        setNftRarity("Epic")
+      } else if(rarityScore > 780) {
+        setNftRarity("Rare")
+      } else {
+        setNftRarity("Common")
+      }
+      
+    }
+  }, [contracts, provider])
+
   useEffect(() => {
-
-    // TODO use this
-    // isPro
-
     if (
       user
       && !userLoading
@@ -51,6 +80,16 @@ export default function Dashboard() {
   }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
 
 
+  // TODO might not need this?
+  // const asyncUpdateState = async (targetFunction: any,  callbackSetter: any) => {
+  //   let res = await targetFunction()
+    
+  // }
+
+  const viewNFTOnPolygonscan = () => {
+    window.open(PolygonscanURL+nftTokenID,'_blank');
+  }
+
   return (
     <Layout hasBackground={false}>
       <div className="container">
@@ -75,23 +114,24 @@ export default function Dashboard() {
           <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
         </div>
         <div className="tokens">
+          {/* TODO add Connect Wallet view on panel */}
           <h1>Token Balances</h1>
           <div className="gov">
-            25 $SHIP
+            {shipBalance} SHIP
           </div>
           <div className="nft">
-            1 ZORA
+            1 FERRY
           </div>
 
           <h1>Your NFTs</h1>
           <div className="nft-details">
             <h2>
-              Ferry #001
+              Ferry #{nftIndex}
             </h2>
             {/* NFT image */}
             <h3>Properties</h3>
-            <p>Legendary</p>
-            <button>See on Polygon scan</button>
+            <p>{nftRarity}</p>
+            <button onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>
           </div>
         </div>
         <style jsx>{`

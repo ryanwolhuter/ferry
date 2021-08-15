@@ -62,10 +62,10 @@ export const getSHIPBalance = async (ShipTokenContract: any, address: string) =>
     })
 }
 
-export const getAccountNFTDetails = async (MinterContract: any, address: string) => {
-    if (!MinterContract || !address) return null
+export const getAccountNFTDetails = async (FerryContract: any, address: string) => {
+    if (!FerryContract || !address) return null
 
-    MinterContract.methods.getAccountNFT(address).call((err: any, result: any) => {
+    FerryContract.methods.getAccountNFT(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)
             return null

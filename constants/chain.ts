@@ -2,6 +2,7 @@
 export const chainID = 80001
 export const maxSubscribeMonths = 24
 export const DaiPricePerMonth = 2
+export const PolygonscanURL = "https://mumbai.polygonscan.com/token/0xabefbc9fd2f806065b4f3c237d4b59d9a97bcac7?a="
 export const contractAddresses = {
     shipToken: "0xDFa0D38387edad2176F6dE96ddE2833C9949606E",
     shipStaking: "0x8B910250892cc78c41FcF5889744Fb638Fead54d",

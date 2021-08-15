@@ -1,5 +1,16 @@
 
 
+export const paySubscription = async (FerryContract: any, address: string, amount: number) => {
+    // 0/blank amount or no contract/address will cause fail
+    if (!FerryContract || !address || !amount) return null
+
+    const res = await FerryContract.methods.paySubscription(address, amount).send({
+        from: address
+    })
+
+    console.log(res)
+}
+
 export const getSubscriptionEnd = async (FerryContract: any, address: string) => {
     // if can't get time
     if (!FerryContract || !address) return null

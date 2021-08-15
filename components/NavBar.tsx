@@ -15,6 +15,7 @@ export default function NavBar(props: any) {
   const { provider, updateProvider } = props
 
   const buttonLabel = provider ? "Disconnect Wallet" : "Connect Wallet"
+  const userAddress = provider ? provider.selectedAddress : "No wallet found"
 
   const handleClick = async () => {
     if (provider) {
@@ -56,7 +57,7 @@ export default function NavBar(props: any) {
             flexDirection: 'column',
           }}>
             <span>{user.email}</span>
-            <span>Account: {provider.selectedAddress ?? "no address"}</span>
+            <span>Account: {userAddress}</span>
           </div>
 
           <Button onClick={handleClick}>{buttonLabel}</Button>

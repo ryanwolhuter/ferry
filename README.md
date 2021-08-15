@@ -10,6 +10,8 @@ Check out the [Ferry smart contract repo here](https://github.com/BenSparksCode/
 
 ### Instructions
 
+See `.env.local` for required api keys
+
 run `npm i` to install dependencies
 
 run `npm run dev` to start the dev server

@@ -6,6 +6,11 @@ import { useRouter } from 'next/router';
 import { getSHIPBalance, getAccountNFTDetails } from '../lib/contracts/ContractFunctions';
 import { PolygonscanURL } from '../constants/chain';
 
+const LegendarySVG = require("../assets/LEGENDARY.svg")
+const EpicSVG = require("../assets/EPIC.svg")
+const RareSVG = require("../assets/RARE.svg")
+const CommonSVG = require("../assets/COMMON.svg")
+
 export default function Dashboard(props: any) {
   const { provider, contracts } = props
   const router = useRouter()
@@ -14,6 +19,7 @@ export default function Dashboard(props: any) {
   const [nftIndex, setNftIndex] = useState(0)
   const [nftTokenID, setNftTokenID] = useState(38)
   const [nftRarity, setNftRarity] = useState("")
+  const [nftSVG, setNftSVG] = useState<any>(null)
 
   const isFirstRender = useFirstRender()
 
@@ -40,12 +46,16 @@ export default function Dashboard(props: any) {
 
       if(rarityScore === 1000){
         setNftRarity("Legendary")
+        setNftSVG(LegendarySVG)
       } else if(rarityScore > 980) {
         setNftRarity("Epic")
+        setNftSVG(EpicSVG)
       } else if(rarityScore > 780) {
         setNftRarity("Rare")
+        setNftSVG(RareSVG)
       } else {
         setNftRarity("Common")
+        setNftSVG(CommonSVG)
       }
       
     }
@@ -133,6 +143,9 @@ export default function Dashboard(props: any) {
               Ferry #{nftIndex}
             </h2>
             {/* NFT image */}
+            <div>
+              <img src={nftSVG} alt={nftRarity+" Ferry NFT."}/>
+            </div>
             <h3>Properties</h3>
             <p>{nftRarity}</p>
             <button onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>

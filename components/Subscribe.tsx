@@ -32,6 +32,8 @@ export default function Subscribe(props: any) {
         <>
             <input type="text" value={dai} />
 
+            {/* shows you time subscribed for based on DAI paid */}
+
             <Button onClick={handleApprove}>Approve</Button>
             <Button onClick={handlePay}>Pay</Button>
         </>

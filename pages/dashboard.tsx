@@ -3,19 +3,20 @@ import Uploads from "../components/Uploads";
 import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getSHIPBalance, getAccountNFTDetails, mintNFT } from '../lib/contracts/ContractFunctions';
-import { CommonSVG, EpicSVG, LegendarySVG, PolygonscanURL, RareSVG } from '../constants/chain';
+import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
+// import { CommonSVG, EpicSVG, LegendarySVG, PolygonscanURL, RareSVG } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
+import { getContracts } from '../lib/contracts/ContractBooter';
 
 // TODO use these instead of links
-// const LegendarySVG = require("../assets/LEGENDARY.svg")
-// const EpicSVG = require("../assets/EPIC.svg")
-// const RareSVG = require("../assets/RARE.svg")
-// const CommonSVG = require("../assets/COMMON.svg")
+const LegendarySVG = require("../public/assets/LEGENDARY.svg")
+const EpicSVG = require("../public/assets/EPIC.svg")
+const RareSVG = require("../public/assets/RARE.svg")
+const CommonSVG = require("../public/assets/COMMON.svg")
 
 export default function Dashboard(props: any) {
-  const { provider, contracts } = props
+  // const { provider, contracts } = props
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
   const [shipBalance, setShipBalance] = useState(0)
@@ -24,6 +25,9 @@ export default function Dashboard(props: any) {
   const [nftTokenID, setNftTokenID] = useState(38)
   const [nftRarity, setNftRarity] = useState("")
   const [nftSVG, setNftSVG] = useState<any>("")
+
+  const [provider, setProvider] = useState<any>(null)
+  const [contracts, setContracts] = useState<any>()
 
   const isFirstRender = useFirstRender()
 
@@ -34,6 +38,20 @@ export default function Dashboard(props: any) {
 
   // TODO add SVGs
   // TODO add NFT available to mint btn
+
+  useEffect(() => {
+    if (provider && provider.selectedAddress) {
+      const contracts = getContracts(provider)
+      console.log(contracts);
+      setContracts(contracts)
+    }
+  }, [provider])
+
+  useEffect(() => {
+    if (contracts && contracts.ferryContract && provider && provider.selectedAddress) {
+      getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
+    }
+  }, [contracts, provider])
 
   useEffect(() => {
     const getOnChainData = async () => {
@@ -156,7 +174,7 @@ export default function Dashboard(props: any) {
 
 
   return (
-    <Layout hasBackground={false}>
+    <Layout hasBackground={false} provider={provider} updateProvider={setProvider} contracts={contracts}>
       <div className="container">
         <div className="menu">
           <button className="account">⭑</button>

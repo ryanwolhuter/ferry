@@ -2,15 +2,18 @@ import { ethers } from "ethers";
 import { contractAddresses } from "../../constants/chain";
 
 // TODO test
+// amount = number of $ or DAI e.g. 1 if $1
 export const approveDaiFerry = async (DaiContract: any, userAddress: string, amount: number) => {
     // 0/blank amount or no contract/address will cause fail
     if (!DaiContract || !userAddress || !amount) return null
 
-    const res = await DaiContract.methods.approve(contractAddresses.ferry, amount).send({
+    const scaledAmount = ethers.utils.parseUnits(amount+"", "ether")
+    const res = await DaiContract.methods.approve(contractAddresses.ferry, scaledAmount).send({
         from: userAddress
     })
 
     console.log(res)
+    return res
 }
 
 // TODO test

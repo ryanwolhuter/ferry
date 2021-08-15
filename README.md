@@ -3,6 +3,8 @@
 
 ![image](https://user-images.githubusercontent.com/52714090/129492704-c1e0b2f1-fd0e-4376-842c-e3718a1ea2be.png)
 
+### Ferry Smart Contract repo 👇
+
 Check out the [Ferry smart contract repo here](https://github.com/BenSparksCode/ferry-contracts).
 
 

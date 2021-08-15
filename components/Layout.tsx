@@ -8,6 +8,7 @@ type LayoutProps = {
   children: JSX.Element,
   provider?: any,
   updateProvider?: any,
+  contracts?: any,
   hasBackground?: boolean,
   hasNav?: boolean
 }
@@ -16,6 +17,7 @@ export default function Layout(
   { children,
     provider,
     updateProvider,
+    contracts,
     hasBackground = true,
     hasNav = true
   }: LayoutProps
@@ -30,7 +32,7 @@ export default function Layout(
       {hasBackground && <Background />}
 
       {/* @ts-ignore */}
-      {hasNav && <NavBar provider={provider} updateProvider={updateProvider} />}
+      {hasNav && <NavBar provider={provider} updateProvider={updateProvider} contracts={contracts}/>}
       <main className={styles.main}>
         <div className={styles.container}>{children}</div>
       </main>

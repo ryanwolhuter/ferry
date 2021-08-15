@@ -14,7 +14,7 @@ export default function BlurContainer({ children, isFullScreen, isBackground }: 
       div {
         padding: ${isFullScreen ? '0' : '32'}px;
         border-radius: ${isFullScreen ? '0' : '30'}px;
-        backdrop-filter: ${isBackground ? 'blur(70px)' : 'blur(140px)'};
+        backdrop-filter: ${isBackground || isFullScreen ? 'blur(70px)' : 'blur(140px)'};
         grid-column-start: 1;
         grid-row-start: 1;
         grid-row-end: 1;

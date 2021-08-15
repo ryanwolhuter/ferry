@@ -2,8 +2,10 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  justify-content: center;
+  justify-content: start;
   align-content: center;
+  padding: 120px;
+  padding-bottom: 240px;
 }
 
 .form {
@@ -14,4 +16,25 @@
 
 .label {
   display: none;
+}
+
+.logo {
+  width: 100px;
+}
+
+.heading {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  margin-bottom: 0;
+}
+
+.description {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 26px;
+}
+
+.getStarted {
+  padding: 12px 64px;
 }

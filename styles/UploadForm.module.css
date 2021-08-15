@@ -11,7 +11,7 @@
 .form {
   display: grid;
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .fileInputContainer {
@@ -83,6 +83,6 @@
 
 .submitButton {
   position: absolute;
-  bottom: -96px;
+  bottom: -76px;
   left: calc(50% - 50px);
 }

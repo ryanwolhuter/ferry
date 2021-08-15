@@ -27,6 +27,7 @@ export default function UploadForm(
   const [fileSize, setFileSize] = useState('')
   const [fileName, setFileName] = useState('')
   const [showProgress, setShowProgress] = useState(false)
+  const [expiration, setExpiration] = useState(24 * 60 * 60 * 1000)
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -153,6 +154,20 @@ export default function UploadForm(
               onChange={e => setEmail(e.target.value)}
             ></input>
           </div>
+          <p className="fileExpiry">File expiry</p>
+          <div className="expiration">
+            <input
+              type="range"
+              name="expiration"
+              value={expiration}
+              max={48 * 60 * 60 * 1000}
+              min={60 * 1000}
+              step={60 * 1000}
+              onChange={e => setExpiration(Number(e.target.value))}
+              disabled
+            />
+            <p className="fileExpiry">{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
+          </div>
           <button
             type="submit"
             className={`${styles.submitButton} default`}
@@ -161,19 +176,19 @@ export default function UploadForm(
           </button>
         </form>
       </BlurContainer>
-        <BlurContainer isBackground className={showProgress ? 'show' : 'hide'}>
-          <div className="containerContainer">
-            <div className="content">
-              <h1>{isLoading ? 'Uploading your file' : 'Your files are ferried!'}</h1>
-              <div className={styles.progressContainer}>
-                <Progress progress={percentUploaded} radius={100} stroke={10} />
-              </div>
-              {!isLoading && <div className="linkContainer">
-                <Link href={makeFileUrl(rootCid, files)}><a>{makeFileUrl(rootCid, files)}</a></Link>
-              </div>}
+      <BlurContainer isBackground className={showProgress ? 'show' : 'hide'}>
+        <div className="containerContainer">
+          <div className="content">
+            <h1>{isLoading ? 'Uploading your file' : 'Your files are ferried!'}</h1>
+            <div className={styles.progressContainer}>
+              <Progress progress={percentUploaded} radius={100} stroke={10} />
             </div>
-            <style jsx>
-              {`
+            {!isLoading && <div className="linkContainer">
+              <Link href={makeFileUrl(rootCid, files)}><a>{makeFileUrl(rootCid, files)}</a></Link>
+            </div>}
+          </div>
+          <style jsx>
+            {`
             div.containerContainer {
               display: grid;
               grid-template-rows: 1fr;
@@ -207,9 +222,9 @@ export default function UploadForm(
                 text-overflow: ellipsis;
               }
             `}
-            </style>
-          </div>
-        </BlurContainer>
+          </style>
+        </div>
+      </BlurContainer>
     </div>
   )
 }

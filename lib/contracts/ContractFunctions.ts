@@ -1,11 +1,5 @@
 
 
-export const balance = async (TokenContract: any, address: string) => {
-    let bal = await TokenContract.balanceOf(address)
-    console.log(bal, bal.toString())
-    return bal
-}
-
 export const getSubscriptionEnd = async (FerryContract: any, address: string) => {
     // if can't get time
     if (!FerryContract || !address) return null
@@ -24,7 +18,27 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
 export const getSHIPBalance = async (ShipTokenContract: any, address: string) => {
     if (!ShipTokenContract || !address) return null
 
-    let bal = await ShipTokenContract.balanceOf(address)
-    console.log(bal, bal.toString())
-    return bal
+    ShipTokenContract.methods.balanceOf(address).call((err: any, result: any) => {
+        if (err) {
+            console.log(err)
+            return null
+        } else {
+            console.log(result)
+            return result
+        }
+    })
+}
+
+export const getAccountNFTDetails = async (MinterContract: any, address: string) => {
+    if (!MinterContract || !address) return null
+
+    MinterContract.methods.getAccountNFT(address).call((err: any, result: any) => {
+        if (err) {
+            console.log(err)
+            return null
+        } else {
+            console.log(result)
+            return result
+        }
+    })
 }

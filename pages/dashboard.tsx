@@ -22,16 +22,20 @@ export default function Dashboard(props: any) {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
   const { subscriptionExpires, loading: subscriptionExpiresLoading, mutate: mutateSubscriptionExpires } = useSubscriptionExpires()
 
+  // TODO add SVGs
+  // TODO add NFT available to mint btn
   
   useEffect(async () => {
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract && contracts.shipTokenContract) {
 
+      // TODO handle data returned with state setters
       const shipBal = await getSHIPBalance(contracts.shipTokenContract, provider.selectedAddress)
       console.log(shipBal);
       const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
       console.log(nftData);
 
       // TODO fix with nftData.randomNum
+      // TODO handle data case where NFT available to mint
       const rarityScore = (999 % 1000)+1
 
       if(rarityScore === 1000){

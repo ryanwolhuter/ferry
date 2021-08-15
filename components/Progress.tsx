@@ -5,7 +5,7 @@ export default function Progress({ radius = 0, stroke = 0, progress = 0 }) {
   const strokeDashoffset = circumference - progress / 100 * circumference
 
   return (
-    <div className="container">
+    <div className="progressContainer">
       <div className="progress">
         {progress <= 100 ? progress : 100}%
       </div>
@@ -41,11 +41,10 @@ export default function Progress({ radius = 0, stroke = 0, progress = 0 }) {
               backdrop-filter: blur(4px);
             }
 
-            div.container {
+            div.progressContainer {
               width: 100%;
               height: 100%;
               position: relative;
-              grid-area: progress;
             }
 
             div.progress {

@@ -19,6 +19,11 @@ export function useUserSpaceUsed() {
   return { spaceUsed: data ?? 0, loading: isValidating, mutate }
 }
 
+export function useSubscriptionExpires() {
+  const { data, isValidating, mutate } = useSWR('/api/subscription-expires', jsonFetcher('subscriptionExpires'))
+  return { subscriptionExpires: data ?? 0, loading: isValidating, mutate }
+}
+
 export function useUser() {
   const { data, isValidating } = useSWR('/api/user', jsonFetcher())
   const user = data?.user ?? null

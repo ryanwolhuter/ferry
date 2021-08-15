@@ -31,6 +31,16 @@ export class UserModel {
       )
   }
 
+  async getUserSubscriptionExpiration(token: string) {
+    return await getClient(token)
+      .query(
+        Select(
+          ['data', 'subscriptionExpires'],
+          Get(CurrentIdentity())
+        )
+      )
+  }
+
   async obtainFaunaDBToken(user: object | null) {
     if (!user) return null
 

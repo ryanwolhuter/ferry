@@ -82,7 +82,7 @@ export default function SubscribeForm(props: any) {
   const renderHintPanel = () => {
     if (status == "START") {
       return (
-        <div>
+        <div className='helper-text-in-pay'>
           <h2>Choose the duration of your subscription then click Approve</h2>
         </div>
       )
@@ -96,7 +96,13 @@ export default function SubscribeForm(props: any) {
       return (
         <div>
           <h2>Approving...</h2>
-          <Image src={spinner} alt="loading animation" />
+          <div style={{
+            width: "200px",
+            marginLeft: "250px",
+            marginTop: "32px"
+          }}>
+            <Image className="ferry-spinner" src={spinner} alt="loading animation" />
+          </div>
         </div>
       )
     } else if (status == "APPROVED") {
@@ -109,7 +115,13 @@ export default function SubscribeForm(props: any) {
       return (
         <div>
           <h2>Paying...</h2>
-          <Image src={spinner} alt="loading animation" />
+          <div style={{
+            width: "200px",
+            marginLeft: "250px",
+            marginTop: "32px"
+          }}>
+            <Image className="ferry-spinner" src={spinner} alt="loading animation" />
+          </div>
         </div>
       )
     } else if (status == "PAID") {
@@ -124,7 +136,7 @@ export default function SubscribeForm(props: any) {
           <h2>Choose the duration of your subscription then click Approve</h2>
         </div>
       )
-    } 
+    }
   }
 
   return (
@@ -176,7 +188,6 @@ export default function SubscribeForm(props: any) {
             zIndex: 10,
           }}>
             {renderHintPanel()}
-            {/* <Image src={spinner} alt="loading animation" /> */}
           </div>
         </BlurContainer>
       )}

@@ -253,6 +253,20 @@ input[type="range"] {
   }
 }
 
+.helper-text-in-pay{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.ferry-spinner{
+  width: 150px;
+  height: 150px;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 100%;
+}
+
 .menu {
   p {
     font-size: 12px;

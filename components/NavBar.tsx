@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Button from './Button'
 import Image from 'next/image'
 import logo from '../public/logo.svg'
+import { useRouter } from 'next/router'
 
 var Contract = require('web3-eth-contract');
 import Web3Modal from "web3modal";
@@ -12,6 +13,7 @@ import { contractAddresses, abis } from '../constants/chain'
 
 export default function NavBar(props: any) {
   const { user } = useUser()
+  const router = useRouter()
 
   const { provider, updateProvider } = props
 
@@ -41,7 +43,7 @@ export default function NavBar(props: any) {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.imageWrapper}>
+      <div onClick={e => router.push('/')} className={styles.imageWrapper}>
         <Image
           src={logo}
           alt="Ferry logo"

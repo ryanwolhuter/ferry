@@ -39,18 +39,22 @@ export default function Dashboard(props: any) {
   useEffect(() => {
     const getOnChainData = async () => {
       if (provider && provider.selectedAddress && contracts && contracts.ferryContract && contracts.shipTokenContract) {
-
-        // TODO handle data returned with state setters
         const shipBal = await getSHIPBalance(contracts.shipTokenContract, provider.selectedAddress)
         console.log(shipBal);
         const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
         console.log(nftData);
 
-        // setNftRandomNum()
+        if (nftData && nftData.randomNum) {
+          // taking last 4 digits of random num
+          let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
+          setNftRandomNum(actualRandomNum)
+        }
+
+        console.log("extracted random num:", nftRandomNum);
 
         // TODO fix with nftData.randomNum
         // TODO handle data case where NFT available to mint
-        const rarityScore = (999 % 1000) + 1
+        const rarityScore = (nftRandomNum % 1000) + 1
 
         if (rarityScore === 1000) {
           setNftRarity("Legendary")
@@ -66,6 +70,9 @@ export default function Dashboard(props: any) {
           setNftSVG(CommonSVG)
         }
 
+        if (shipBal) setShipBalance(shipBal)
+        if (nftData && nftData.index) setNftIndex(nftData.index)
+        if (nftData && nftData.tokenID) setNftTokenID(nftData.tokenID)
       }
     }
     getOnChainData()

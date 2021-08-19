@@ -11,7 +11,7 @@ export const approveDaiFerry = async (DaiContract: any, userAddress: string, amo
         from: userAddress,
         gasPrice: gasPrice
     })
-    
+
     return res
 }
 
@@ -59,7 +59,7 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
 
 export const getSHIPBalance = async (ShipTokenContract: any, address: string) => {
     if (!ShipTokenContract || !address) return null
-
+    // TODO add scaling - still in BN form
     return ShipTokenContract.methods.balanceOf(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)

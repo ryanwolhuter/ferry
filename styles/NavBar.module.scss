@@ -22,6 +22,16 @@
 .link {
   text-decoration: none;
   text-align: center;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+  height: 100%;
+
+  &:hover {
+    color: var(--purple);
+    border-bottom: 2px solid var(--purple);
+  }
 }
 
 .userMenu {

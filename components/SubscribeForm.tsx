@@ -73,7 +73,7 @@ export default function SubscribeForm(props: any) {
 
   async function handleSubscribe(provider, contracts) {
 
-    const expiration = (await getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress) ?? 0).toString()
+    const expiration = Number(await getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress) ?? 0)
 
     console.log("Expiry:", expiration);
 

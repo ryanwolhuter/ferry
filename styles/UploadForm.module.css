@@ -85,3 +85,7 @@
   bottom: -56px;
   left: calc(50% - 50px);
 }
+
+.fileExpiry {
+  margin: 0;
+}

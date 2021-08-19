@@ -52,7 +52,7 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
 
     console.log(FerryContract)
 
-    FerryContract.methods.getMembershipExpiryTime(address).call((err: any, result: any) => {
+    return FerryContract.methods.getMembershipExpiryTime(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)
             return null

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
+import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed, useSubscriptionExpires } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import UploadForm from '../components/UploadForm'
@@ -12,6 +12,7 @@ export default function Home() {
 
   const isFirstRender = useFirstRender()
   const { user, loading: userLoading } = useUser()
+  const { subscriptionExpires, loading: subscriptionExpiresLoading } = useSubscriptionExpires()
   const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
 
@@ -25,10 +26,11 @@ export default function Home() {
       user && !userLoading
       && files && !filesLoading
       && !spaceUsedLoading
+      && !subscriptionExpiresLoading
       && !initialized) {
       setInitialized(true)
     }
-  }, [user, spaceUsedLoading, filesLoading, userLoading, initialized, files])
+  }, [user, spaceUsedLoading, filesLoading, userLoading, initialized, files, subscriptionExpiresLoading])
 
   useEffect(() => {
     // if no user is logged in,
@@ -45,6 +47,7 @@ export default function Home() {
           {/* <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button> */}
           {!showSubscribeForm && <UploadForm
             spaceUsed={spaceUsed}
+            subscriptionExpires={subscriptionExpires ?? 0}
             mutateUploads={mutateFiles}
             mutateSpaceUsed={mutateSpaceUsed}
           />}

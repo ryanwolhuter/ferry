@@ -6,12 +6,17 @@ import { useUser } from '../lib/hooks'
 import Link from 'next/link'
 import Image from 'next/image'
 import logo from '../public/logo.svg'
+import { useRouter } from 'next/router'
 
 import AppContext from '../context/AppContext'
 
 export default function NavBar(props: any) {
   const { user } = useUser()
+  
   const { setProvider, provider } = useContext(AppContext);
+  
+  const router = useRouter()
+        
   const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : "Connect wallet"
 
   const handleLogIn = async () => {
@@ -37,7 +42,7 @@ export default function NavBar(props: any) {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.imageWrapper}>
+      <div onClick={e => router.push('/')} className={styles.imageWrapper}>
         <Image
           src={logo}
           alt="Ferry logo"

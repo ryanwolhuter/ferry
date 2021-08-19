@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
 import Layout from '../components/Layout'
 import BlurContainer from '../components/BlurContainer'
-import Spinner from '../components/Progress'
+import Spinner from '../components/Spinner'
 import Button from '../components/Button'
 import styles from '../styles/Login.module.css'
 import logoLandingPage from '../public/logo-landing-page.svg'
@@ -40,7 +40,7 @@ export default function Login() {
         body: JSON.stringify({ email })
       })
       if (res.status === 200) {
-        router.push('/')
+        await router.push('/')
       } else {
         throw new Error(await res.text())
       }
@@ -69,8 +69,9 @@ export default function Login() {
               <form onSubmit={onSubmit} className={styles.form}>
                 <h1 className={styles.heading}>Welcome to Ferry</h1>
                 <p className={styles.description}>Give us your email and we will send you a magic link to login.</p>
-                {!isLoggingIn && 
-                  <>
+                {isLoggingIn
+                  ? <Spinner />
+                  : <>
                     <label className={styles.label} htmlFor="email"><span aria-hidden={true}>Email *</span>
                     </label>
                     <input className={styles.email} type="email" name="email" required placeholder="Email address" />

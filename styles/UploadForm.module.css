@@ -6,18 +6,17 @@
   padding-left: 160px;
   padding-right: 160px;
   padding-top: 120px;
+  padding-bottom: 80px;
 }
 
 .form {
   display: grid;
   position: relative;
-  margin-bottom: 20px;
 }
 
 .fileInputContainer {
   display: flex;
   align-items: center;
-  margin: 32px 0px;
 }
 
 .container {
@@ -83,6 +82,6 @@
 
 .submitButton {
   position: absolute;
-  bottom: -76px;
+  bottom: -56px;
   left: calc(50% - 50px);
 }

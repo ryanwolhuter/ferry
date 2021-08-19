@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { contractAddresses, gasPrice } from "../../constants/chain";
 
-// TODO test
 // amount = number of $ or DAI e.g. 1 if $1
 export const approveDaiFerry = async (DaiContract: any, userAddress: string, amount: number) => {
     // 0/blank amount or no contract/address will cause fail
@@ -12,12 +11,10 @@ export const approveDaiFerry = async (DaiContract: any, userAddress: string, amo
         from: userAddress,
         gasPrice: gasPrice
     })
-
-    console.log(res)
+    
     return res
 }
 
-// TODO test
 // amount = number of $ or DAI e.g. 1 if $1
 export const paySubscription = async (FerryContract: any, address: string, amount: number) => {
     // 0/blank amount or no contract/address will cause fail
@@ -29,7 +26,6 @@ export const paySubscription = async (FerryContract: any, address: string, amoun
         gasPrice: gasPrice
     })
 
-    console.log(res)
     return res
 }
 
@@ -50,9 +46,7 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
     // if can't get time
     if (!FerryContract || !address) return null
 
-    console.log(FerryContract)
-
-    FerryContract.methods.getMembershipExpiryTime(address).call((err: any, result: any) => {
+    return FerryContract.methods.getMembershipExpiryTime(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)
             return null
@@ -66,7 +60,7 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
 export const getSHIPBalance = async (ShipTokenContract: any, address: string) => {
     if (!ShipTokenContract || !address) return null
 
-    ShipTokenContract.methods.balanceOf(address).call((err: any, result: any) => {
+    return ShipTokenContract.methods.balanceOf(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)
             return null
@@ -80,7 +74,7 @@ export const getSHIPBalance = async (ShipTokenContract: any, address: string) =>
 export const getAccountNFTDetails = async (FerryContract: any, address: string) => {
     if (!FerryContract || !address) return null
 
-    FerryContract.methods.getAccountNFT(address).call((err: any, result: any) => {
+    return FerryContract.methods.getAccountNFT(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)
             return null

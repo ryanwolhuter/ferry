@@ -7,10 +7,8 @@ import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } fro
 import { PolygonscanURL } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
-import { getContracts } from '../lib/contracts/ContractBooter';
 import AppContext from '../context/AppContext';
 
-// TODO use these instead of links
 const LegendarySVG = require("../public/assets/LEGENDARY.svg")
 const EpicSVG = require("../public/assets/EPIC.svg")
 const RareSVG = require("../public/assets/RARE.svg")
@@ -26,7 +24,7 @@ export default function Dashboard(props: any) {
   const [nftRarity, setNftRarity] = useState("")
   const [nftSVG, setNftSVG] = useState<any>("")
 
-  const { setProvider, provider, setContracts, contracts } = useContext(AppContext);
+  const { provider, contracts } = useContext(AppContext);
 
   const isFirstRender = useFirstRender()
 

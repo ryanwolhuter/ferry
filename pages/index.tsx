@@ -4,16 +4,10 @@ import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import UploadForm from '../components/UploadForm'
 import SubscribeForm from '../components/SubscribeForm'
-import { getContracts } from '../lib/contracts/ContractBooter';
-import { getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
-
 
 export default function Home() {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
-  const [provider, setProvider] = useState<any>(null)
-  const [contracts, setContracts] = useState<any>()
-  const [subEndTime, setSubEndTime] = useState(0)
   const [showSubscribeForm, setShowSubscribeForm] = useState(false)
 
   const isFirstRender = useFirstRender()
@@ -26,9 +20,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-
-    // TODO use this
-    // isPro
 
     if (
       user && !userLoading
@@ -47,22 +38,8 @@ export default function Home() {
     }
   }, [user, userLoading, isFirstRender, router])
 
-  useEffect(() => {
-    if (provider && provider.selectedAddress) {
-      const contracts = getContracts(provider)
-      console.log(contracts);
-      setContracts(contracts)
-    }
-  }, [provider])
-
-  useEffect(() => {
-    if (contracts && contracts.ferryContract && provider && provider.selectedAddress) {
-      getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
-    }
-  }, [contracts, provider])
-
   return (
-    <Layout provider={provider} updateProvider={setProvider} contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm}>
+    <Layout toggleShowSubscribeForm={toggleShowSubscribeForm}>
       {initialized
         ? <>
           {/* <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button> */}
@@ -71,7 +48,7 @@ export default function Home() {
             mutateUploads={mutateFiles}
             mutateSpaceUsed={mutateSpaceUsed}
           />}
-          {showSubscribeForm && <SubscribeForm contracts={contracts} provider={provider}/>}
+          {showSubscribeForm && <SubscribeForm />}
         </>
         : <div />
       }

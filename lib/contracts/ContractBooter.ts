@@ -3,6 +3,14 @@ import { contractAddresses, abis } from '../../constants/chain';
 import Web3 from "web3";
 var Contract = require('web3-eth-contract');
 
+export type ContractSet = {
+    ferryContract: any,
+    minterContract: any,
+    shipTokenContract: any,
+    shipStakingContract: any,
+    daiContract: any
+}
+
 export function getContracts(provider: any) {
 
     if (!provider || !provider.selectedAddress) {

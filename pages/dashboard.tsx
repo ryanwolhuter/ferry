@@ -1,13 +1,14 @@
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed, useSubscriptionExpires } from '../lib/hooks'
 import Uploads from "../components/Uploads";
 import Layout from '../components/Layout';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
 import { PolygonscanURL } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
 import { getContracts } from '../lib/contracts/ContractBooter';
+import AppContext from '../context/AppContext';
 
 // TODO use these instead of links
 const LegendarySVG = require("../public/assets/LEGENDARY.svg")
@@ -16,7 +17,6 @@ const RareSVG = require("../public/assets/RARE.svg")
 const CommonSVG = require("../public/assets/COMMON.svg")
 
 export default function Dashboard(props: any) {
-  // const { provider, contracts } = props
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
   const [shipBalance, setShipBalance] = useState(0)
@@ -26,8 +26,7 @@ export default function Dashboard(props: any) {
   const [nftRarity, setNftRarity] = useState("")
   const [nftSVG, setNftSVG] = useState<any>("")
 
-  const [provider, setProvider] = useState<any>(null)
-  const [contracts, setContracts] = useState<any>()
+  const { setProvider, provider, setContracts, contracts } = useContext(AppContext);
 
   const isFirstRender = useFirstRender()
 
@@ -36,22 +35,8 @@ export default function Dashboard(props: any) {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
   const { subscriptionExpires, loading: subscriptionExpiresLoading, mutate: mutateSubscriptionExpires } = useSubscriptionExpires()
 
-  // TODO add SVGs
   // TODO add NFT available to mint btn
 
-  useEffect(() => {
-    if (provider && provider.selectedAddress) {
-      const contracts = getContracts(provider)
-      console.log(contracts);
-      setContracts(contracts)
-    }
-  }, [provider])
-
-  useEffect(() => {
-    if (contracts && contracts.ferryContract && provider && provider.selectedAddress) {
-      getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
-    }
-  }, [contracts, provider])
 
   useEffect(() => {
     const getOnChainData = async () => {
@@ -172,9 +157,22 @@ export default function Dashboard(props: any) {
     </div>
   }
 
+  const renderConnectWalletView = () => {
+    return <div className="nft-details" style={{
+      width: "100%",
+      display: "flex",
+      flexDirection: 'row',
+      justifyContent: 'center',
+    }}>
+      <h3>
+        Connect Wallet
+      </h3>
+    </div>
+  }
+
 
   return (
-    <Layout hasBackground={false} provider={provider} updateProvider={setProvider} contracts={contracts}>
+    <Layout hasBackground={false}>
       <div className="container">
         <div className="menu">
           <button className="account">⭑</button>
@@ -214,24 +212,36 @@ export default function Dashboard(props: any) {
           <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
         </div>
         <div className="tokens">
-          {/* TODO add Connect Wallet view on panel */}
-          <h1>Token Balances</h1>
-          <div className="stats">
-          <div className="gov stat">
-            <h2>Gove ERC20</h2>
-            <p className="bigNumber">{shipBalance}</p>
-            <p className="bigUnit">SHIP</p>
-          </div>
-          <div className="nft stat">
-            <h2>NFT ERC721</h2>
-            <p className="bigNumber">{showClaimNFTView ? 0 : 1}</p>
-             <p className="bigUnit">FERRY</p>
-          </div>
+          <h1 style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>Token Balances</h1>
 
-          </div>
-          <h1>Your NFTs</h1>
+          {
+            provider && provider.selectedAddress ?
+              <div>
+                <div className="stats">
+                  <div className="gov stat">
+                    <h2>ERC20</h2>
+                    <p className="bigNumber">{shipBalance}</p>
+                    <p className="bigUnit">SHIP</p>
+                  </div>
+                  <div className="nft stat">
+                    <h2>NFT</h2>
+                    <p className="bigNumber">{showClaimNFTView ? 0 : 1}</p>
+                    <p className="bigUnit">FERRY</p>
+                  </div>
+                </div>
+                <h1>Your NFTs</h1>
+                {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}
+              </div> :
+              renderConnectWalletView()
+          }
 
-          {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}
+
+
 
         </div>
         <style jsx>{`

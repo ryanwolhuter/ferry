@@ -8,12 +8,14 @@ import logo from '../public/logo.svg'
 var Contract = require('web3-eth-contract');
 import Web3Modal from "web3modal";
 
+import { setProvider, bootContracts } from "../context/Actions"
+
 import { contractAddresses, abis } from '../constants/chain'
 
 export default function NavBar(props: any) {
   const { user } = useUser()
 
-  const { provider, updateProvider } = props
+  const { provider, updateProvider, dispatch } = props
 
   const buttonLabel = provider ? "Disconnect Wallet" : "Connect Wallet"
   const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : "Connect wallet"
@@ -31,7 +33,9 @@ export default function NavBar(props: any) {
         providerOptions // required
       });
       const prov = await web3Modal.connect();
+      setProvider(prov, dispatch)
       updateProvider(prov)
+
     }
   }
 
@@ -50,7 +54,7 @@ export default function NavBar(props: any) {
       <Link href="/about">
         <a className={styles.link}>About</a>
       </Link>
-        <a onClick={e => props.toggleShowSubscribeForm()} className={styles.link}>Pro Account</a>
+      <a onClick={e => props.toggleShowSubscribeForm()} className={styles.link}>Pro Account</a>
       {user &&
         <button className={styles.userMenu} onClick={handleLogIn}>
           <div>

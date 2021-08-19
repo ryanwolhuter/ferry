@@ -49,8 +49,8 @@ export default function About() {
           }
           section {
             background: var(--white);
-            padding-left: 160px;
-            padding-right: 160px;
+            padding-left: 200px;
+            padding-right: 200px;
             padding-top: 80px;
           }
         `}

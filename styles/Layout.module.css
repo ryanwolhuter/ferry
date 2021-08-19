@@ -8,6 +8,6 @@
 .main {
   height: 100vh;
   display: grid;
-  justify-content: start;
+  /* justify-content: start; */
   align-items: center;
 }

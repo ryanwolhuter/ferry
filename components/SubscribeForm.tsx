@@ -6,7 +6,7 @@ import BlurContainer from './BlurContainer'
 import Button from './Button'
 import { useRouter } from 'next/router'
 import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
-import { approveDaiFerry, paySubscription } from '../lib/contracts/ContractFunctions'
+import { approveDaiFerry, getSubscriptionEnd, paySubscription } from '../lib/contracts/ContractFunctions'
 import Image from 'next/image'
 import spinner from '../public/spinner.gif'
 
@@ -56,8 +56,9 @@ export default function SubscribeForm(props: any) {
     e.preventDefault()
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract) {
       setStatus("PAYING")
-      console.log(status);
+      console.log(status)
       const res = await paySubscription(contracts.ferryContract, provider.selectedAddress, cost)
+      await handleSubscribe(provider, contracts)
       // TODO check if error / paid
       setStatus("PAID")
       // TODO add time delay
@@ -68,8 +69,12 @@ export default function SubscribeForm(props: any) {
     }
   }
 
-  async function handleSubscribe() {
-    const expiration = Date.now() + (30 * 24 * 60 * 60 * 1000)
+  async function handleSubscribe(provider, contracts) {
+
+    const expiration = (await getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress) ?? 0).toString()
+
+    console.log("Expiry:", expiration);
+
     try {
       const response = await fetch('/api/user', {
         method: 'POST',

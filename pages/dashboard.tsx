@@ -7,10 +7,8 @@ import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } fro
 import { PolygonscanURL } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
-import { getContracts } from '../lib/contracts/ContractBooter';
 import AppContext from '../context/AppContext';
 
-// TODO use these instead of links
 const LegendarySVG = require("../public/assets/LEGENDARY.svg")
 const EpicSVG = require("../public/assets/EPIC.svg")
 const RareSVG = require("../public/assets/RARE.svg")
@@ -26,7 +24,11 @@ export default function Dashboard(props: any) {
   const [nftRarity, setNftRarity] = useState("")
   const [nftSVG, setNftSVG] = useState<any>("")
 
-  const { setProvider, provider, setContracts, contracts } = useContext(AppContext);
+  const [showWaitingForRandomNum, setShowWaitingForRandomNum] = useState(true)
+  const [showClaimNFTView, setShowClaimNFTView] = useState(false)
+
+
+  const { provider, contracts } = useContext(AppContext);
 
   const isFirstRender = useFirstRender()
 
@@ -39,20 +41,53 @@ export default function Dashboard(props: any) {
 
 
   useEffect(() => {
+    if (provider && provider.selectedAddress && contracts && contracts.ferryContract && !nftRandomNum) {
+      const interval = setInterval(async () => {
+
+        console.log("I werk", nftRandomNum);
+
+        let randNumOutput = 0
+
+        const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
+        if (nftData && nftData.randomNum) {
+          console.log("MADE IT HERE", nftData, nftRandomNum);
+          // taking last 4 digits of random num
+          let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
+          setNftRandomNum(actualRandomNum)
+          randNumOutput = actualRandomNum
+        }
+
+        console.log("trying to clear interval:", nftRandomNum);
+        if (randNumOutput) {
+          setShowWaitingForRandomNum(false)
+          setShowClaimNFTView(parseInt(nftData.index) === 0)
+          clearInterval(interval)
+        }
+
+      }, 2000);
+    }
+  }, [contracts, provider])
+
+
+  useEffect(() => {
     const getOnChainData = async () => {
       if (provider && provider.selectedAddress && contracts && contracts.ferryContract && contracts.shipTokenContract) {
-
-        // TODO handle data returned with state setters
         const shipBal = await getSHIPBalance(contracts.shipTokenContract, provider.selectedAddress)
         console.log(shipBal);
         const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
         console.log(nftData);
 
-        // setNftRandomNum()
+        if (nftData && nftData.randomNum) {
+          // taking last 4 digits of random num
+          let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
+          setNftRandomNum(actualRandomNum)
+        }
+
+        console.log("extracted random num:", nftRandomNum);
 
         // TODO fix with nftData.randomNum
         // TODO handle data case where NFT available to mint
-        const rarityScore = (999 % 1000) + 1
+        const rarityScore = (nftRandomNum % 1000) + 1
 
         if (rarityScore === 1000) {
           setNftRarity("Legendary")
@@ -68,6 +103,9 @@ export default function Dashboard(props: any) {
           setNftSVG(CommonSVG)
         }
 
+        if (shipBal) setShipBalance(shipBal)
+        if (nftData && nftData.index) setNftIndex(nftData.index)
+        if (nftData && nftData.tokenID) setNftTokenID(nftData.tokenID)
       }
     }
     getOnChainData()
@@ -105,13 +143,6 @@ export default function Dashboard(props: any) {
     }
   }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
 
-
-  // TODO might not need this?
-  // const asyncUpdateState = async (targetFunction: any,  callbackSetter: any) => {
-  //   let res = await targetFunction()
-
-  // }
-
   const viewNFTOnPolygonscan = () => {
     window.open(PolygonscanURL + nftTokenID, '_blank');
   }
@@ -119,14 +150,39 @@ export default function Dashboard(props: any) {
   const handleClaimNFT = async () => {
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract) {
       const res = await mintNFT(contracts.ferryContract, provider.selectedAddress)
-
       // Once minted, get all NFT data for state
       const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
-      // TODO fill in rest of state setting
+      console.log(nftData);
+
+      if (nftData && nftData.randomNum) {
+        // taking last 4 digits of random num
+        let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
+        setNftRandomNum(actualRandomNum)
+      }
+
+      console.log("extracted random num:", nftRandomNum);
+      const rarityScore = (nftRandomNum % 1000) + 1
+
+      if (rarityScore === 1000) {
+        setNftRarity("Legendary")
+        setNftSVG(LegendarySVG)
+      } else if (rarityScore > 980) {
+        setNftRarity("Epic")
+        setNftSVG(EpicSVG)
+      } else if (rarityScore > 780) {
+        setNftRarity("Rare")
+        setNftSVG(RareSVG)
+      } else {
+        setNftRarity("Common")
+        setNftSVG(CommonSVG)
+      }
+
+      if (nftData && nftData.index) setNftIndex(nftData.index)
+      if (nftData && nftData.tokenID) setNftTokenID(nftData.tokenID)
+
+      setShowClaimNFTView(false)
     }
   }
-
-  const showClaimNFTView = (provider && contracts && nftRandomNum !== 0 && nftIndex === 0)
 
   const renderViewNFTView = () => {
     return <div className="nft-details">
@@ -170,6 +226,8 @@ export default function Dashboard(props: any) {
     </div>
   }
 
+  console.log("waiting:", showWaitingForRandomNum);
+  console.log("show claim:", showClaimNFTView);
 
   return (
     <Layout hasBackground={false}>
@@ -235,7 +293,11 @@ export default function Dashboard(props: any) {
                   </div>
                 </div>
                 <h1>Your NFTs</h1>
-                {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}
+                {
+                  showWaitingForRandomNum ?
+                    <h3>Waiting...</h3> : //TODO add loader
+                    showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()
+                }
               </div> :
               renderConnectWalletView()
           }

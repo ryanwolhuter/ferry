@@ -1,25 +1,17 @@
 import { useContext } from "react";
 import Web3Modal from "web3modal";
-var Contract = require('web3-eth-contract');
 
 import styles from '../styles/NavBar.module.css'
 import { useUser } from '../lib/hooks'
 import Link from 'next/link'
-import Button from './Button'
 import Image from 'next/image'
 import logo from '../public/logo.svg'
 
-
-import { contractAddresses, abis } from '../constants/chain'
 import AppContext from '../context/AppContext'
 
 export default function NavBar(props: any) {
   const { user } = useUser()
   const { setProvider, provider } = useContext(AppContext);
-
-  const { updateProvider, } = props
-
-  const buttonLabel = provider ? "Disconnect Wallet" : "Connect Wallet"
   const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : "Connect wallet"
 
   const handleLogIn = async () => {

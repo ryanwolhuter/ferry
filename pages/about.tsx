@@ -7,34 +7,40 @@ export default function About() {
         <h1>About</h1>
       </header>
       <section className="about">
-        <h2>About Ferry</h2>
+        <h2>Welcome to Ferry!</h2>
 
-        <h3>NFT Drop</h3>
-        <p>For this hackathon we have decided to give any hacker who buys a paid sub a sepcial NFT commemrotating the HackFS 2021 ETHglobal Hakcahton!</p>
+        <p>Ferry is a short term file transfer tooling for Web 3. This simple Dapp can be used for quick and UX friendly file transfers on IPFS/Filecoin made for the everyday user, for free! Subscribers can get extended features including, link management, extended file size and longer file persistence.</p>
 
-        <p>To get your special NFT, all you need to do is buy a paid sub (on test net). The price of this will be [price] and can be paid in wFilecoin or ETH or DAI. You will also have the chance to gain a special NFT by random distribution. Here are the rarity tiers we haev setup:</p>
+        <p>For our early adopters we are offering added rewards in a form of a special randomly distributed NFT that comes with community benefits and access to rewards in the future. </p>
 
-        <ul>
-          <li>78% chance you get a Common (green)</li>
-          <li>20% chance you get a Rare (blue)</li>
-          <li>1.9% chance you get an Epic (purple)</li>
-          <li>0.1% chance you get a Legendary (gold)</li>
-        </ul>
+        <h2>FAQs</h2>
 
-        <p>To get yours, simply go to this link, or press the pro account button at the top, good luck!</p>
+        <h3>What is Ferry?</h3>
 
-        <h3>$SHIP Governance Token</h3>
-        <p>For this hackathon we are also introducing a governance token to keep the content that gets used on our tool safe for ewveryone to use.</p>
         <p>
-          if you woudl like to join us, follow this link or press the Join us button at the top of teh screen.</p>
+          Quite simply, our tool sends files from one person to another, similar to other Web 2 file transfer tools you have used but now, decentralised!
+        </p>
+
+        <h3>Who is Ferry for?</h3>
+
+        <p>We would love it if everyone would use our tool to Ferry their files! Anyone who wants to use this tool for work as a tech industry freelancer, journalist or creative who needs to send files that are larger than the usual email size.</p>
+
+        <p>We see this as a common motivation for all users - the need to send files without using a really big centralised storage platform.</p>
+
+        <h3>How do I use Ferry?</h3>
+
+        <p>You can start using ferry straight away for free.</p> <p>All you have to do is login with your email address and you will get a Magic link and your Ferry account will be automatically created.</p> 
+        <p>After you login, you can add files and put in your recipient’s email address. And that’s it!</p> 
+        <p>Once you press “ferry it”, your files will be uploaded and the link generated sent to your friend’s email address.</p> 
+        <p>Want a little bit more control? Subscribe to a pro account with a connected web 3 wallet and pay as little as $2/ month.</p>
       </section>
       <section className="termsAndConditions">
         <h2>Terms and Conditions</h2>
-        <p>SMASH & CO, a simplified joint stock company with a sole partner and with a paid up capital of €575,000, enrolled on the Trade and Companies Registry of Lyon, under number 828 889 493, whose head office is located at 2 rue Claire – 69009 Lyon (hereinafter referred to as “SMASH & CO”), publishes and operates the Internet site accessible at the following address https://fromsmash.com (hereinafter referred to as the “the SITE”).
+        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
-          The SITE offers a new generation file transfer service and additional services in the framework of the Premium version.
+        <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 
-          ANY USE WHATSOEVER OF THE SITE OBLIGATORILY IMPLIES UNRERSERVED ACCEPTANCE BY THE USER OF THE PRESENT GENERAL CONDITIONS OF USE (GCU).</p>
+        <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
       </section>
       <style jsx>
         {`

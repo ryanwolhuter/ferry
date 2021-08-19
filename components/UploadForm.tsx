@@ -13,12 +13,13 @@ import { useUser } from '../lib/hooks'
 
 type UploadFormProps = {
   spaceUsed: number,
+  subscriptionExpires: number,
   mutateSpaceUsed: Mutator,
   mutateUploads: Mutator
 }
 
 export default function UploadForm(
-  { spaceUsed, mutateSpaceUsed, mutateUploads }: UploadFormProps
+  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateUploads }: UploadFormProps
 ) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
@@ -126,6 +127,12 @@ export default function UploadForm(
     }
   }
 
+  function isPro() {
+    if (!subscriptionExpires) return false
+
+    return subscriptionExpires > Date.now()
+  }
+
   return (
     <div className={styles.formContainer}>
       <BlurContainer>
@@ -160,7 +167,7 @@ export default function UploadForm(
               onChange={e => setEmail(e.target.value)}
             ></input>
           </div>
-          <p className="fileExpiry">File expiry</p>
+          <p className={styles.fileExpiry}>File expiry</p>
           <div className="expiration">
             <input
               type="range"
@@ -170,9 +177,9 @@ export default function UploadForm(
               min={60 * 1000}
               step={60 * 1000}
               onChange={e => setExpiration(Number(e.target.value))}
-              disabled
+              disabled={!isPro()}
             />
-            <p className="fileExpiry">{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
+            <p className={styles.fileExpiry}>{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
           </div>
           <button
             type="submit"
@@ -226,6 +233,11 @@ export default function UploadForm(
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+              }
+
+              div.expiration {
+                display: flex;
+                align-items: center;
               }
             `}
           </style>

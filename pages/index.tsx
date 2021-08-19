@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed } from '../lib/hooks'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
@@ -6,12 +6,14 @@ import UploadForm from '../components/UploadForm'
 import SubscribeForm from '../components/SubscribeForm'
 import { getContracts } from '../lib/contracts/ContractBooter';
 import { getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
+import AppContext from '../context/AppContext'
 
 
 export default function Home() {
+  const { provider } = useContext(AppContext);
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
-  const [provider, setProvider] = useState<any>(null)
+  // const [provider, setProvider] = useState<any>(null)
   const [contracts, setContracts] = useState<any>()
   const [subEndTime, setSubEndTime] = useState(0)
   const [showSubscribeForm, setShowSubscribeForm] = useState(false)
@@ -62,7 +64,9 @@ export default function Home() {
   }, [contracts, provider])
 
   return (
-    <Layout provider={provider} updateProvider={setProvider} contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm}>
+    <Layout provider={provider}
+    // updateProvider={setProvider}
+    contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm}>
       {initialized
         ? <>
           {/* <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button> */}

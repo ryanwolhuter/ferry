@@ -1,15 +1,24 @@
+import { useEffect, useState } from 'react';
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 // @ts-ignore
 
-import { StoreProvider } from '../context/Store';
+import AppContext from '../context/AppContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
+  const [provider, setProvider] = useState(null)
+  const [contracts, setContracts] = useState([])
+
   return (
-    <StoreProvider>
+    <AppContext.Provider value={{
+      provider,
+      setProvider,
+      contracts,
+      setContracts,
+    }}>
       <Component {...pageProps} />
-    </StoreProvider>
+    </AppContext.Provider>
   )
 }
 export default MyApp

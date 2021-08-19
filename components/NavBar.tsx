@@ -25,7 +25,7 @@ export default function NavBar(props: any) {
   const handleLogIn = async () => {
     if (provider) {
       // Disconnect Wallet
-      updateProvider(null)
+      setProvider(null)
     } else {
       // Connect Wallet
       const providerOptions = {}

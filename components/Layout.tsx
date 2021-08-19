@@ -2,10 +2,11 @@ import Head from 'next/head'
 import Background from './Background'
 import NavBar from './NavBar'
 import styles from '../styles/Layout.module.css'
+import { ReactNode } from 'react'
 
 
 type LayoutProps = {
-  children: JSX.Element,
+  children: ReactNode,
   provider?: any,
   updateProvider?: any,
   contracts?: any,

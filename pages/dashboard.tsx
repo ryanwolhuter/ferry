@@ -26,7 +26,7 @@ export default function Dashboard(props: any) {
   const [nftRarity, setNftRarity] = useState("")
   const [nftSVG, setNftSVG] = useState<any>("")
 
-  const { setProvider, provider, setContracts, contracts} = useContext(AppContext);
+  const { setProvider, provider, setContracts, contracts } = useContext(AppContext);
 
   const isFirstRender = useFirstRender()
 
@@ -157,9 +157,22 @@ export default function Dashboard(props: any) {
     </div>
   }
 
+  const renderConnectWalletView = () => {
+    return <div className="nft-details" style={{
+      width: "100%",
+      display: "flex",
+      flexDirection: 'row',
+      justifyContent: 'center',
+    }}>
+      <h3>
+        Connect Wallet
+      </h3>
+    </div>
+  }
+
 
   return (
-    <Layout hasBackground={false} provider={provider} updateProvider={setProvider} contracts={contracts}>
+    <Layout hasBackground={false}>
       <div className="container">
         <div className="menu">
           <button className="account">⭑</button>
@@ -199,24 +212,36 @@ export default function Dashboard(props: any) {
           <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
         </div>
         <div className="tokens">
-          {/* TODO add Connect Wallet view on panel */}
-          <h1>Token Balances</h1>
-          <div className="stats">
-          <div className="gov stat">
-            <h2>Gov ERC20</h2>
-            <p className="bigNumber">{shipBalance}</p>
-            <p className="bigUnit">SHIP</p>
-          </div>
-          <div className="nft stat">
-            <h2>NFT ERC721</h2>
-            <p className="bigNumber">{showClaimNFTView ? 0 : 1}</p>
-             <p className="bigUnit">FERRY</p>
-          </div>
+          <h1 style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>Token Balances</h1>
 
-          </div>
-          <h1>Your NFTs</h1>
+          {
+            provider && provider.selectedAddress ?
+              <div>
+                <div className="stats">
+                  <div className="gov stat">
+                    <h2>ERC20</h2>
+                    <p className="bigNumber">{shipBalance}</p>
+                    <p className="bigUnit">SHIP</p>
+                  </div>
+                  <div className="nft stat">
+                    <h2>NFT</h2>
+                    <p className="bigNumber">{showClaimNFTView ? 0 : 1}</p>
+                    <p className="bigUnit">FERRY</p>
+                  </div>
+                </div>
+                <h1>Your NFTs</h1>
+                {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}
+              </div> :
+              renderConnectWalletView()
+          }
 
-          {showClaimNFTView ? renderClaimNFTView() : renderViewNFTView()}
+
+
 
         </div>
         <style jsx>{`

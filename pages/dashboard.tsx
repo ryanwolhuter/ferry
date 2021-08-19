@@ -1,13 +1,14 @@
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed, useSubscriptionExpires } from '../lib/hooks'
 import Uploads from "../components/Uploads";
 import Layout from '../components/Layout';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
 import { PolygonscanURL } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
 import { getContracts } from '../lib/contracts/ContractBooter';
+import AppContext from '../context/AppContext';
 
 // TODO use these instead of links
 const LegendarySVG = require("../public/assets/LEGENDARY.svg")
@@ -26,8 +27,7 @@ export default function Dashboard(props: any) {
   const [nftRarity, setNftRarity] = useState("")
   const [nftSVG, setNftSVG] = useState<any>("")
 
-  const [provider, setProvider] = useState<any>(null)
-  const [contracts, setContracts] = useState<any>()
+  const { setProvider, provider, setContracts, contracts} = useContext(AppContext);
 
   const isFirstRender = useFirstRender()
 
@@ -36,22 +36,8 @@ export default function Dashboard(props: any) {
   const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
   const { subscriptionExpires, loading: subscriptionExpiresLoading, mutate: mutateSubscriptionExpires } = useSubscriptionExpires()
 
-  // TODO add SVGs
   // TODO add NFT available to mint btn
 
-  useEffect(() => {
-    if (provider && provider.selectedAddress) {
-      const contracts = getContracts(provider)
-      console.log(contracts);
-      setContracts(contracts)
-    }
-  }, [provider])
-
-  useEffect(() => {
-    if (contracts && contracts.ferryContract && provider && provider.selectedAddress) {
-      getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress)
-    }
-  }, [contracts, provider])
 
   useEffect(() => {
     const getOnChainData = async () => {

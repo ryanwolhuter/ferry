@@ -4,12 +4,20 @@ import type { AppProps } from 'next/app'
 // @ts-ignore
 
 import AppContext from '../context/AppContext';
-import { getContracts } from '../lib/contracts/ContractBooter';
+import { ContractSet, getContracts } from '../lib/contracts/ContractBooter';
+
+export const InitialContracts = {
+  ferryContract: null,
+  minterContract: null,
+  shipTokenContract: null,
+  shipStakingContract: null,
+  daiContract: null
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
 
   const [provider, setProvider] = useState(null)
-  const [contracts, setContracts] = useState<any>([])
+  const [contracts, setContracts] = useState<ContractSet>(InitialContracts)
 
   useEffect(() => {
     if (provider && provider.selectedAddress) {

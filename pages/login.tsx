@@ -40,7 +40,7 @@ export default function Login() {
         body: JSON.stringify({ email })
       })
       if (res.status === 200) {
-        router.push('/')
+        await router.push('/')
       } else {
         throw new Error(await res.text())
       }

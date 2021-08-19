@@ -46,14 +46,19 @@ export default function Dashboard(props: any) {
 
         console.log("I werk", nftRandomNum);
 
+        let randNumOutput = 0
+
         const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
         if (nftData && nftData.randomNum) {
+          console.log("MADE IT HERE", nftData, nftRandomNum);
           // taking last 4 digits of random num
           let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
           setNftRandomNum(actualRandomNum)
+          randNumOutput = actualRandomNum
         }
 
-        if (nftRandomNum) {
+        console.log("trying to clear interval:", nftRandomNum);
+        if (randNumOutput) {
           setShowWaitingForRandomNum(false)
 
           clearInterval(interval)
@@ -62,10 +67,6 @@ export default function Dashboard(props: any) {
       }, 2000);
     }
   }, [contracts, provider])
-
-  const checkNFTDetails = async () => {
-
-  }
 
 
   useEffect(() => {
@@ -152,7 +153,7 @@ export default function Dashboard(props: any) {
       // Once minted, get all NFT data for state
       const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
       // TODO fill in rest of state setting
-      
+
 
       setShowClaimNFTView(false)
 

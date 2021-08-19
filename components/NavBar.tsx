@@ -52,7 +52,7 @@ export default function NavBar(props: any) {
       <Link href="/about">
         <a className={styles.link}>About</a>
       </Link>
-        <a onClick={e => props.toggleShowSubscribeForm()} className={styles.link}>Pro Account</a>
+      <a onClick={e => props.toggleShowSubscribeForm()} className={styles.link}>Pro Account</a>
       {user &&
         <button className={styles.userMenu} onClick={handleLogIn}>
           <div>

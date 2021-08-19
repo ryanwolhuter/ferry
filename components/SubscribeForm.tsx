@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import BlurContainer from './BlurContainer'
@@ -9,9 +9,10 @@ import { DaiPricePerMonth, maxSubscribeMonths } from '../constants/chain'
 import { approveDaiFerry, getSubscriptionEnd, paySubscription } from '../lib/contracts/ContractFunctions'
 import Image from 'next/image'
 import spinner from '../public/spinner.gif'
+import AppContext from '../context/AppContext'
 
 export default function SubscribeForm(props: any) {
-  const { provider, contracts } = props
+  const { setProvider, provider, setContracts, contracts} = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState("START")
   const [statusMessage, setStatusMessage] = useState("Enter details, approve, and pay")
@@ -39,6 +40,7 @@ export default function SubscribeForm(props: any) {
   }
 
   const handleApprove = async (e: any) => {
+    console.log(provider && provider.selectedAddress && contracts && contracts.daiContract);
     e.preventDefault()
     if (provider && provider.selectedAddress && contracts && contracts.daiContract) {
       setStatus("APPROVING")

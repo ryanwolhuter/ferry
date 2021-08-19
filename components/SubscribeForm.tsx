@@ -12,7 +12,7 @@ import spinner from '../public/spinner.gif'
 import AppContext from '../context/AppContext'
 
 export default function SubscribeForm(props: any) {
-  const { setProvider, provider, setContracts, contracts} = useContext(AppContext);
+  const { provider, contracts} = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState("START")
   const [statusMessage, setStatusMessage] = useState("Enter details, approve, and pay")

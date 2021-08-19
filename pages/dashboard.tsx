@@ -17,7 +17,6 @@ const RareSVG = require("../public/assets/RARE.svg")
 const CommonSVG = require("../public/assets/COMMON.svg")
 
 export default function Dashboard(props: any) {
-  // const { provider, contracts } = props
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
   const [shipBalance, setShipBalance] = useState(0)
@@ -204,7 +203,7 @@ export default function Dashboard(props: any) {
           <h1>Token Balances</h1>
           <div className="stats">
           <div className="gov stat">
-            <h2>Gove ERC20</h2>
+            <h2>Gov ERC20</h2>
             <p className="bigNumber">{shipBalance}</p>
             <p className="bigUnit">SHIP</p>
           </div>

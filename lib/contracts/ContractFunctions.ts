@@ -46,6 +46,7 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
     // if can't get time
     if (!FerryContract || !address) return null
 
+
     return FerryContract.methods.getMembershipExpiryTime(address).call((err: any, result: any) => {
         if (err) {
             console.log(err)

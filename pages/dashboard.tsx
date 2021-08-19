@@ -109,7 +109,7 @@ export default function Dashboard(props: any) {
       }
     }
     getOnChainData()
-  }, [contracts, provider])
+  }, [contracts, nftRandomNum, provider])
 
   useEffect(() => {
     if (
@@ -131,17 +131,17 @@ export default function Dashboard(props: any) {
     }
   }, [user, userLoading, isFirstRender, router])
 
-  useEffect(() => {
-    function isPro() {
-      if (!subscriptionExpires) return false
+  // useEffect(() => {
+  //   function isPro() {
+  //     if (!subscriptionExpires) return false
 
-      return subscriptionExpires > Date.now()
-    }
+  //     return subscriptionExpires > Date.now()
+  //   }
 
-    if (!(isPro() || subscriptionExpiresLoading) && !isFirstRender) {
-      router.push('/')
-    }
-  }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
+  //   if (!(isPro() || subscriptionExpiresLoading) && !isFirstRender) {
+  //     router.push('/')
+  //   }
+  // }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
 
   const viewNFTOnPolygonscan = () => {
     window.open(PolygonscanURL + nftTokenID, '_blank');

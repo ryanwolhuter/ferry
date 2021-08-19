@@ -60,7 +60,7 @@ export default function Dashboard(props: any) {
         console.log("trying to clear interval:", nftRandomNum);
         if (randNumOutput) {
           setShowWaitingForRandomNum(false)
-
+          setShowClaimNFTView(parseInt(nftData.index) === 0)
           clearInterval(interval)
         }
 
@@ -152,16 +152,37 @@ export default function Dashboard(props: any) {
       const res = await mintNFT(contracts.ferryContract, provider.selectedAddress)
       // Once minted, get all NFT data for state
       const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
-      // TODO fill in rest of state setting
+      console.log(nftData);
 
+      if (nftData && nftData.randomNum) {
+        // taking last 4 digits of random num
+        let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
+        setNftRandomNum(actualRandomNum)
+      }
+
+      console.log("extracted random num:", nftRandomNum);
+      const rarityScore = (nftRandomNum % 1000) + 1
+
+      if (rarityScore === 1000) {
+        setNftRarity("Legendary")
+        setNftSVG(LegendarySVG)
+      } else if (rarityScore > 980) {
+        setNftRarity("Epic")
+        setNftSVG(EpicSVG)
+      } else if (rarityScore > 780) {
+        setNftRarity("Rare")
+        setNftSVG(RareSVG)
+      } else {
+        setNftRarity("Common")
+        setNftSVG(CommonSVG)
+      }
+
+      if (nftData && nftData.index) setNftIndex(nftData.index)
+      if (nftData && nftData.tokenID) setNftTokenID(nftData.tokenID)
 
       setShowClaimNFTView(false)
-
     }
   }
-
-  // const showClaimNFTView = (provider && contracts && nftRandomNum !== 0 && nftIndex === 0)
-  // const showWaitingForRandomNum = (provider && contracts && nftRandomNum == 0 && nftIndex === 0)
 
   const renderViewNFTView = () => {
     return <div className="nft-details">

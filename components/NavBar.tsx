@@ -9,17 +9,20 @@ import logo from '../public/logo.svg'
 import { useRouter } from 'next/router'
 
 import AppContext from '../context/AppContext'
+import { useState } from "react";
 
 export default function NavBar(props: any) {
   const { user } = useUser()
-  
+
   const { setProvider, provider } = useContext(AppContext);
-  
+
   const router = useRouter()
-        
+
+  const [showUserOptions, setShowUserOptions] = useState(false)
+
   const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : "Connect wallet"
 
-  const handleLogIn = async () => {
+  const handleConnectWallet = async () => {
     if (provider) {
       // Disconnect Wallet
       setProvider(null)
@@ -38,6 +41,7 @@ export default function NavBar(props: any) {
 
   async function logout() {
     await fetch('/api/logout')
+    await router.push('/login')
   }
 
   return (
@@ -53,7 +57,7 @@ export default function NavBar(props: any) {
       </Link>
       <a onClick={e => props.toggleShowSubscribeForm()} className={styles.link}>Pro Account</a>
       {user &&
-        <button className={styles.userMenu} onClick={handleLogIn}>
+        <button className={styles.userMenu} onClick={e => setShowUserOptions(!showUserOptions)}>
           <div>
             <style jsx>{`
                 div {
@@ -69,23 +73,11 @@ export default function NavBar(props: any) {
           <br />
           {userAddress}
         </button>}
-      {user &&
-        <>
-          {/* <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-            <span>{user.email}</span>
-            <span>Account: {userAddress}</span>
-          </div> */}
-
-          {/* <Button onClick={handleClick}>{buttonLabel}</Button> */}
-          {/* <Button onClick={test}>Test</Button> */}
-
-          {/* <Link href="/api/logout">
-            <a>Logout</a>
-          </Link> */}
-        </>}
+          <div className={`${styles.userOptions} ${showUserOptions ? '' : styles.hidden}`}>
+              <button onClick={e => handleConnectWallet()} className={styles.button}>Connect Wallet</button>
+              <button onClick={async e => await router.push('/dashboard')} className={styles.button}>Dashboard</button>
+              <button onClick={e => logout()} className={styles.button}>Logout</button>
+          </div>
     </nav>
   )
 }

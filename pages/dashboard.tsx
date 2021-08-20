@@ -8,11 +8,10 @@ import { PolygonscanURL } from '../constants/chain';
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes';
 import AppContext from '../context/AppContext';
-
-const LegendarySVG = require("../public/assets/LEGENDARY.svg")
-const EpicSVG = require("../public/assets/EPIC.svg")
-const RareSVG = require("../public/assets/RARE.svg")
-const CommonSVG = require("../public/assets/COMMON.svg")
+import legendaryNft from '../public/assets/legendary.png'
+import epicNft from '../public/assets/epic.png'
+import rareNft from '../public/assets/rare.png'
+import commonNft from '../public/assets/common.png'
 
 export default function Dashboard(props: any) {
   const router = useRouter()
@@ -22,7 +21,7 @@ export default function Dashboard(props: any) {
   const [nftIndex, setNftIndex] = useState(0)
   const [nftTokenID, setNftTokenID] = useState(38)
   const [nftRarity, setNftRarity] = useState("")
-  const [nftSVG, setNftSVG] = useState<any>("")
+  const [nftImageSource, setNftImageSource] = useState<any>("")
 
   const [showWaitingForRandomNum, setShowWaitingForRandomNum] = useState(true)
   const [showClaimNFTView, setShowClaimNFTView] = useState(false)
@@ -91,16 +90,16 @@ export default function Dashboard(props: any) {
 
         if (rarityScore === 1000) {
           setNftRarity("Legendary")
-          setNftSVG(LegendarySVG)
+          setNftImageSource(legendaryNft)
         } else if (rarityScore > 980) {
           setNftRarity("Epic")
-          setNftSVG(EpicSVG)
+          setNftImageSource(epicNft)
         } else if (rarityScore > 780) {
           setNftRarity("Rare")
-          setNftSVG(RareSVG)
+          setNftImageSource(rareNft)
         } else {
           setNftRarity("Common")
-          setNftSVG(CommonSVG)
+          setNftImageSource(commonNft)
         }
 
         if (shipBal) setShipBalance(shipBal)
@@ -165,16 +164,16 @@ export default function Dashboard(props: any) {
 
       if (rarityScore === 1000) {
         setNftRarity("Legendary")
-        setNftSVG(LegendarySVG)
+        setNftImageSource(legendaryNft)
       } else if (rarityScore > 980) {
         setNftRarity("Epic")
-        setNftSVG(EpicSVG)
+        setNftImageSource(epicNft)
       } else if (rarityScore > 780) {
         setNftRarity("Rare")
-        setNftSVG(RareSVG)
+        setNftImageSource(rareNft)
       } else {
         setNftRarity("Common")
-        setNftSVG(CommonSVG)
+        setNftImageSource(commonNft)
       }
 
       if (nftData && nftData.index) setNftIndex(nftData.index)
@@ -191,7 +190,7 @@ export default function Dashboard(props: any) {
       </h2>
       {/* NFT image */}
       <div className="nftContainer">
-        {nftSVG && <Image src={nftSVG} alt={nftRarity + " Ferry NFT."} />}
+        {nftImageSource && <Image src={nftImageSource} alt={nftRarity + " Ferry NFT."} />}
       </div>
       <h3>Properties</h3>
       <p>{nftRarity}</p>
@@ -206,7 +205,7 @@ export default function Dashboard(props: any) {
       </h2>
       {/* Question mark image */}
       <div>
-        {/* <img src={nftSVG} alt={nftRarity + " Ferry NFT."} /> */}
+        {/* <img src={nftImageSource} alt={nftRarity + " Ferry NFT."} /> */}
       </div>
 
       <button onClick={handleClaimNFT}>Claim Ferry NFT</button>

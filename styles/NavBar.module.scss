@@ -29,7 +29,9 @@
   height: 100%;
 
   &:hover {
-    color: var(--purple);
+    background: var(--purple-pink-orange-gradient);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     border-bottom: 2px solid var(--purple);
   }
 }

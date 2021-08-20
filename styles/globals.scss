@@ -237,11 +237,14 @@ input[type="range"] {
       font-weight: normal;
     }
 
-    .bigNumber {
+    p.bigNumber {
       font-style: normal;
       font-weight: bold;
       font-size: 32px;
       line-height: 46px;
+      background: var(--purple-pink-orange-gradient);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .bigUnit {

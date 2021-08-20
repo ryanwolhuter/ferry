@@ -66,7 +66,7 @@ export default function Dashboard(props: any) {
 
       }, 2000);
     }
-  }, [contracts, provider])
+  }, [contracts, nftRandomNum, provider])
 
 
   useEffect(() => {

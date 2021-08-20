@@ -3,10 +3,11 @@ import spinner from '../public/spinner.gif'
 
 export default function Spinner() {
   return (
-    <div className="spinner">
+    <div>
       <Image
         src={spinner}
         alt="loading animation"
+        className="ferry-spinner"
       />
     </div>
   )

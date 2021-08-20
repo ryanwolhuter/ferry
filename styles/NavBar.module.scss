@@ -87,6 +87,8 @@
   }
 
   &:nth-child(3) {
-    background: var(--pink-gradient);
+    background: var(--white);
+    border: 1px solid var(--pink);
+    color: var(--pink);
   }
 }

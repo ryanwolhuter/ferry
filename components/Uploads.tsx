@@ -61,16 +61,25 @@ export default function Uploads(
       <tbody>
         {uploads.map(({ name, cid, id: faunaId, size, expiration }) => (
           <tr key={cid + Math.random()}>
-              <td>
+            <td>
               <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>
                 <a>{name}</a>
               </Link>
-              </td>
-              <td>{prettyBytes(size)}</td>
-              <td>{(new Date(expiration).toLocaleTimeString())}</td>
+            </td>
+            <td>{prettyBytes(size)}</td>
+            <td>{(new Date(expiration).toLocaleTimeString())}</td>
           </tr>
         ))}
       </tbody>
+      <style jsx>{`
+        a {
+          text-decoration: none;
+        }
+
+        td {
+          padding: 16px;
+        }
+        `}</style>
     </table>
   )
 }

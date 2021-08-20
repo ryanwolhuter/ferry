@@ -185,22 +185,22 @@ export default function Dashboard(props: any) {
   }
 
   const renderViewNFTView = () => {
-    return <div className="nft-details">
-      <h2>
+    return <div className="nftDetails">
+      <h2 className="nftName">
         Ferry #{nftIndex}
       </h2>
       {/* NFT image */}
-      <div>
+      <div className="nftContainer">
         {nftSVG && <Image src={nftSVG} alt={nftRarity + " Ferry NFT."} />}
       </div>
-      <h3>Properties:</h3>
+      <h3>Properties</h3>
       <p>{nftRarity}</p>
       <button className="viewOnPolyscan" onClick={viewNFTOnPolygonscan}>View on Polygonscan</button>
     </div>
   }
 
   const renderClaimNFTView = () => {
-    return <div className="nft-details">
+    return <div className="nftDetails">
       <h2>
         Claim your Ferry NFT
       </h2>
@@ -214,7 +214,7 @@ export default function Dashboard(props: any) {
   }
 
   const renderConnectWalletView = () => {
-    return <div className="nft-details" style={{
+    return <div className="nftDetails" style={{
       width: "100%",
       display: "flex",
       flexDirection: 'row',
@@ -270,12 +270,7 @@ export default function Dashboard(props: any) {
           <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
         </div>
         <div className="tokens">
-          <h1 style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>Token Balances</h1>
+          <h1>Token Balances</h1>
 
           {
             provider && provider.selectedAddress ?
@@ -316,7 +311,7 @@ export default function Dashboard(props: any) {
           }
 
           div.userDetails {
-            margin-top: 108px;
+            margin-top: 48px;
           }
 
           div.details {

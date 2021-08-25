@@ -114,19 +114,6 @@ export default function UploadForm(
     setEmail('')
   }
 
-  async function handleSubscribe() {
-    const expiration = Date.now() + (30 * 24 * 60 * 60 * 1000)
-    try {
-      const response = await fetch('/api/user', {
-        method: 'POST',
-        body: JSON.stringify({ expiration })
-      })
-      console.log(response)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   function isPro() {
     if (!subscriptionExpires) return false
 
@@ -137,7 +124,6 @@ export default function UploadForm(
     <div className={styles.formContainer}>
       <BlurContainer>
         <form onSubmit={e => handleSubmit(e)} className={styles.form}>
-          {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
             <input
               type="file"

@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "../../lib/cookie";
-import { UserModel } from "../../lib/models/userModel";
-import { createHandlers } from "../../lib/restUtils";
+import { NextApiRequest, NextApiResponse } from 'next'
+import { getSession } from '../../lib/cookie'
+import { UserModel } from '../../lib/models/userModel'
+import { createHandlers } from '../../lib/restUtils'
 
 const handlers = {
   GET: async function (req: NextApiRequest, res: NextApiResponse) {

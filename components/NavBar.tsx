@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import Web3Modal from "web3modal";
+import { useContext } from 'react'
+import Web3Modal from 'web3modal'
 
 import styles from '../styles/NavBar.module.scss'
 import { useUser } from '../lib/hooks'
@@ -9,18 +9,18 @@ import logo from '../public/logo.svg'
 import { useRouter } from 'next/router'
 
 import AppContext from '../context/AppContext'
-import { useState } from "react";
+import { useState } from 'react'
 
 export default function NavBar(props: any) {
   const { user } = useUser()
 
-  const { setProvider, provider } = useContext(AppContext);
+  const { setProvider, provider } = useContext(AppContext)
 
   const router = useRouter()
 
   const [showUserOptions, setShowUserOptions] = useState(false)
 
-  const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : "Connect wallet"
+  const userAddress = provider ? provider.selectedAddress.substring(0, 18) + '...' : 'Connect wallet'
 
   const handleConnectWallet = async () => {
     if (provider) {
@@ -30,11 +30,11 @@ export default function NavBar(props: any) {
       // Connect Wallet
       const providerOptions = {}
       const web3Modal = new Web3Modal({
-        network: "mumbai", // optional
+        network: 'mumbai', // optional
         cacheProvider: true, // optional
         providerOptions // required
-      });
-      const prov = await web3Modal.connect();
+      })
+      const prov = await web3Modal.connect()
       setProvider(prov)
     }
   }

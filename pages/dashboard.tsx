@@ -1,13 +1,13 @@
 import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed, useSubscriptionExpires } from '../lib/hooks'
-import Uploads from "../components/Uploads";
-import Layout from '../components/Layout';
-import { useEffect, useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions';
-import { PolygonscanURL } from '../constants/chain';
+import Uploads from '../components/Uploads'
+import Layout from '../components/Layout'
+import { useEffect, useState, useContext } from 'react'
+import { useRouter } from 'next/router'
+import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions'
+import { PolygonscanURL } from '../constants/chain'
 import Image from 'next/image'
-import prettyBytes from 'pretty-bytes';
-import AppContext from '../context/AppContext';
+import prettyBytes from 'pretty-bytes'
+import AppContext from '../context/AppContext'
 import legendaryNft from '../public/assets/legendary.png'
 import epicNft from '../public/assets/epic.png'
 import rareNft from '../public/assets/rare.png'
@@ -20,14 +20,14 @@ export default function Dashboard(props: any) {
   const [nftRandomNum, setNftRandomNum] = useState(0)
   const [nftIndex, setNftIndex] = useState(0)
   const [nftTokenID, setNftTokenID] = useState(38)
-  const [nftRarity, setNftRarity] = useState("")
-  const [nftImageSource, setNftImageSource] = useState<any>("")
+  const [nftRarity, setNftRarity] = useState('')
+  const [nftImageSource, setNftImageSource] = useState<any>('')
 
   const [showWaitingForRandomNum, setShowWaitingForRandomNum] = useState(true)
   const [showClaimNFTView, setShowClaimNFTView] = useState(false)
 
 
-  const { provider, contracts } = useContext(AppContext);
+  const { provider, contracts } = useContext(AppContext)
 
   const isFirstRender = useFirstRender()
 
@@ -43,27 +43,27 @@ export default function Dashboard(props: any) {
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract && !nftRandomNum) {
       const interval = setInterval(async () => {
 
-        console.log("I werk", nftRandomNum);
+        console.log('I werk', nftRandomNum)
 
         let randNumOutput = 0
 
         const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
         if (nftData && nftData.randomNum) {
-          console.log("MADE IT HERE", nftData, nftRandomNum);
+          console.log('MADE IT HERE', nftData, nftRandomNum)
           // taking last 4 digits of random num
           let actualRandomNum = parseInt(nftData.randomNum.slice(-4))
           setNftRandomNum(actualRandomNum)
           randNumOutput = actualRandomNum
         }
 
-        console.log("trying to clear interval:", nftRandomNum);
+        console.log('trying to clear interval:', nftRandomNum)
         if (randNumOutput) {
           setShowWaitingForRandomNum(false)
           setShowClaimNFTView(parseInt(nftData.index) === 0)
           clearInterval(interval)
         }
 
-      }, 2000);
+      }, 2000)
     }
   }, [contracts, nftRandomNum, provider])
 
@@ -72,9 +72,9 @@ export default function Dashboard(props: any) {
     const getOnChainData = async () => {
       if (provider && provider.selectedAddress && contracts && contracts.ferryContract && contracts.shipTokenContract) {
         const shipBal = await getSHIPBalance(contracts.shipTokenContract, provider.selectedAddress)
-        console.log(shipBal);
+        console.log(shipBal)
         const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
-        console.log(nftData);
+        console.log(nftData)
 
         if (nftData && nftData.randomNum) {
           // taking last 4 digits of random num
@@ -82,23 +82,23 @@ export default function Dashboard(props: any) {
           setNftRandomNum(actualRandomNum)
         }
 
-        console.log("extracted random num:", nftRandomNum);
+        console.log('extracted random num:', nftRandomNum)
 
         // TODO fix with nftData.randomNum
         // TODO handle data case where NFT available to mint
         const rarityScore = (nftRandomNum % 1000) + 1
 
         if (rarityScore === 1000) {
-          setNftRarity("Legendary")
+          setNftRarity('Legendary')
           setNftImageSource(legendaryNft)
         } else if (rarityScore > 980) {
-          setNftRarity("Epic")
+          setNftRarity('Epic')
           setNftImageSource(epicNft)
         } else if (rarityScore > 780) {
-          setNftRarity("Rare")
+          setNftRarity('Rare')
           setNftImageSource(rareNft)
         } else {
-          setNftRarity("Common")
+          setNftRarity('Common')
           setNftImageSource(commonNft)
         }
 
@@ -143,7 +143,7 @@ export default function Dashboard(props: any) {
   // }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
 
   const viewNFTOnPolygonscan = () => {
-    window.open(PolygonscanURL + nftTokenID, '_blank');
+    window.open(PolygonscanURL + nftTokenID, '_blank')
   }
 
   const handleClaimNFT = async () => {
@@ -151,7 +151,7 @@ export default function Dashboard(props: any) {
       const res = await mintNFT(contracts.ferryContract, provider.selectedAddress)
       // Once minted, get all NFT data for state
       const nftData = await getAccountNFTDetails(contracts.ferryContract, provider.selectedAddress)
-      console.log(nftData);
+      console.log(nftData)
 
       if (nftData && nftData.randomNum) {
         // taking last 4 digits of random num
@@ -159,20 +159,20 @@ export default function Dashboard(props: any) {
         setNftRandomNum(actualRandomNum)
       }
 
-      console.log("extracted random num:", nftRandomNum);
+      console.log('extracted random num:', nftRandomNum)
       const rarityScore = (nftRandomNum % 1000) + 1
 
       if (rarityScore === 1000) {
-        setNftRarity("Legendary")
+        setNftRarity('Legendary')
         setNftImageSource(legendaryNft)
       } else if (rarityScore > 980) {
-        setNftRarity("Epic")
+        setNftRarity('Epic')
         setNftImageSource(epicNft)
       } else if (rarityScore > 780) {
-        setNftRarity("Rare")
+        setNftRarity('Rare')
         setNftImageSource(rareNft)
       } else {
-        setNftRarity("Common")
+        setNftRarity('Common')
         setNftImageSource(commonNft)
       }
 
@@ -190,7 +190,7 @@ export default function Dashboard(props: any) {
       </h2>
       {/* NFT image */}
       <div className="nftContainer">
-        {nftImageSource && <Image src={nftImageSource} alt={nftRarity + " Ferry NFT."} />}
+        {nftImageSource && <Image src={nftImageSource} alt={nftRarity + ' Ferry NFT.'} />}
       </div>
       <h3>Properties</h3>
       <p>{nftRarity}</p>
@@ -214,8 +214,8 @@ export default function Dashboard(props: any) {
 
   const renderConnectWalletView = () => {
     return <div className="nftDetails" style={{
-      width: "100%",
-      display: "flex",
+      width: '100%',
+      display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
     }}>
@@ -225,8 +225,8 @@ export default function Dashboard(props: any) {
     </div>
   }
 
-  console.log("waiting:", showWaitingForRandomNum);
-  console.log("show claim:", showClaimNFTView);
+  console.log('waiting:', showWaitingForRandomNum)
+  console.log('show claim:', showClaimNFTView)
 
   return (
     <Layout hasBackground={false}>

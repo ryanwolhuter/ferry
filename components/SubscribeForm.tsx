@@ -12,17 +12,17 @@ import spinner from '../public/spinner.gif'
 import AppContext from '../context/AppContext'
 
 export default function SubscribeForm(props: any) {
-  const { provider, contracts} = useContext(AppContext);
+  const { provider, contracts} = useContext(AppContext)
   const [isLoading, setIsLoading] = useState(false)
-  const [status, setStatus] = useState("START")
-  const [statusMessage, setStatusMessage] = useState("Enter details, approve, and pay")
+  const [status, setStatus] = useState('START')
+  const [statusMessage, setStatusMessage] = useState('Enter details, approve, and pay')
   const [months, setMonths] = useState(1)
   const [cost, setCost] = useState(1 * DaiPricePerMonth)
   const router = useRouter()
 
   useEffect(() => {
     if (provider && provider.selectedAddress) {
-      setStatus("START")
+      setStatus('START')
     }
   }, [provider])
 
@@ -40,34 +40,34 @@ export default function SubscribeForm(props: any) {
   }
 
   const handleApprove = async (e: any) => {
-    console.log(provider && provider.selectedAddress && contracts && contracts.daiContract);
+    console.log(provider && provider.selectedAddress && contracts && contracts.daiContract)
     e.preventDefault()
     if (provider && provider.selectedAddress && contracts && contracts.daiContract) {
-      setStatus("APPROVING")
-      console.log(status);
+      setStatus('APPROVING')
+      console.log(status)
       const res = await approveDaiFerry(contracts.daiContract, provider.selectedAddress, cost)
       // TODO check if error / approved
-      setStatus("APPROVED")
-      console.log(status);
+      setStatus('APPROVED')
+      console.log(status)
     } else {
-      setStatus("CONNECT WALLET")
+      setStatus('CONNECT WALLET')
     }
   }
 
   const handlePay = async (e: any) => {
     e.preventDefault()
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract) {
-      setStatus("PAYING")
+      setStatus('PAYING')
       console.log(status)
       const res = await paySubscription(contracts.ferryContract, provider.selectedAddress, cost)
       await handleSubscribe(provider, contracts)
       // TODO check if error / paid
-      setStatus("PAID")
+      setStatus('PAID')
       // TODO add time delay
-      console.log(status);
+      console.log(status)
       router.push('/dashboard')
     } else {
-      setStatus("CONNECT WALLET")
+      setStatus('CONNECT WALLET')
     }
   }
 
@@ -75,7 +75,7 @@ export default function SubscribeForm(props: any) {
 
     const expiration = Number(await getSubscriptionEnd(contracts.ferryContract, provider.selectedAddress) ?? 0)
 
-    console.log("Expiry:", expiration);
+    console.log('Expiry:', expiration)
 
     try {
       const response = await fetch('/api/user', {
@@ -89,51 +89,51 @@ export default function SubscribeForm(props: any) {
   }
 
   const renderHintPanel = () => {
-    if (status == "START") {
+    if (status == 'START') {
       return (
         <div className='helper-text-in-pay'>
           <h2>Choose the duration of your subscription then click Approve</h2>
         </div>
       )
-    } else if (status == "CONNECT WALLET") {
+    } else if (status == 'CONNECT WALLET') {
       return (
         <div>
           <h2>Please connect your wallet</h2>
         </div>
       )
-    } else if (status == "APPROVING") {
+    } else if (status == 'APPROVING') {
       return (
         <div>
           <h2>Approving...</h2>
           <div style={{
-            width: "200px",
-            marginLeft: "250px",
-            marginTop: "32px"
+            width: '200px',
+            marginLeft: '250px',
+            marginTop: '32px'
           }}>
             <Image className="ferry-spinner" src={spinner} alt="loading animation" />
           </div>
         </div>
       )
-    } else if (status == "APPROVED") {
+    } else if (status == 'APPROVED') {
       return (
         <div>
           <h2>Click Pay to complete your purchase</h2>
         </div>
       )
-    } else if (status == "PAYING") {
+    } else if (status == 'PAYING') {
       return (
         <div>
           <h2>Paying...</h2>
           <div style={{
-            width: "200px",
-            marginLeft: "250px",
-            marginTop: "32px"
+            width: '200px',
+            marginLeft: '250px',
+            marginTop: '32px'
           }}>
             <Image className="ferry-spinner" src={spinner} alt="loading animation" />
           </div>
         </div>
       )
-    } else if (status == "PAID") {
+    } else if (status == 'PAID') {
       return (
         <div>
           <h2>Successfully subscribed! 🎉</h2>
@@ -151,7 +151,7 @@ export default function SubscribeForm(props: any) {
   return (
     <div className={styles.formContainer}>
       <BlurContainer>
-        <form onSubmit={e => { console.log("hello") }} className={styles.form}>
+        <form onSubmit={e => { console.log('hello') }} className={styles.form}>
           {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
             <div className={styles.details}>
@@ -165,7 +165,7 @@ export default function SubscribeForm(props: any) {
             </label>
             <input
               style={{
-                width: "100%"
+                width: '100%'
               }}
               type="number"
               name="subscriptionDuration"
@@ -176,10 +176,10 @@ export default function SubscribeForm(props: any) {
             <hr className={styles.divider} />
             <div style={{
               display: 'flex',
-              justifyContent: "space-between"
+              justifyContent: 'space-between'
             }}>
-              <h2 style={{ textAlign: "justify" }}>Total</h2>
-              <h2 style={{ textAlign: "justify" }}>{getCostString()}</h2>
+              <h2 style={{ textAlign: 'justify' }}>Total</h2>
+              <h2 style={{ textAlign: 'justify' }}>{getCostString()}</h2>
             </div>
 
 

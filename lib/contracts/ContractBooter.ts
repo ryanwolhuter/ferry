@@ -1,7 +1,7 @@
 
-import { contractAddresses, abis } from '../../constants/chain';
-import Web3 from "web3";
-var Contract = require('web3-eth-contract');
+import { contractAddresses, abis } from '../../constants/chain'
+import Web3 from 'web3'
+var Contract = require('web3-eth-contract')
 
 export type ContractSet = {
     ferryContract: any,
@@ -17,12 +17,12 @@ export function getContracts(provider: any) {
         return null
     }
 
-    Contract.setProvider(provider);
+    Contract.setProvider(provider)
 
     const ferryContract = new Contract(
         abis.FERRY,
         contractAddresses.ferry
-    );
+    )
 
     const minterContract = new Contract(
         abis.MINTER,
@@ -32,17 +32,17 @@ export function getContracts(provider: any) {
     const shipTokenContract = new Contract(
         abis.ERC20,
         contractAddresses.shipToken
-    );
+    )
 
     const shipStakingContract = new Contract(
         abis.ERC20,
         contractAddresses.shipStaking
-    );
+    )
 
     const daiContract = new Contract(
         abis.ERC20,
         contractAddresses.dai
-    );
+    )
 
     const contracts = {
         ferryContract,
@@ -50,6 +50,6 @@ export function getContracts(provider: any) {
         shipTokenContract,
         shipStakingContract,
         daiContract
-    };
-    return contracts;
+    }
+    return contracts
 }

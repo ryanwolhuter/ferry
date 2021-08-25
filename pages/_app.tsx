@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 // @ts-ignore
 
-import AppContext from '../context/AppContext';
-import { ContractSet, getContracts } from '../lib/contracts/ContractBooter';
+import AppContext from '../context/AppContext'
+import { ContractSet, getContracts } from '../lib/contracts/ContractBooter'
 
 export const InitialContracts = {
   ferryContract: null,
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (provider && provider.selectedAddress) {
       const newContracts = getContracts(provider)
-      console.log(newContracts);
+      console.log(newContracts)
       setContracts(newContracts)
     }
   }, [provider])

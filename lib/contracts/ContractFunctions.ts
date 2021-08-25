@@ -1,13 +1,13 @@
-import { ethers } from "ethers";
-import { contractAddresses, gasPrice } from "../../constants/chain";
-import Web3 from "web3";
+import { ethers } from 'ethers'
+import { contractAddresses, gasPrice } from '../../constants/chain'
+import Web3 from 'web3'
 
 // amount = number of $ or DAI e.g. 1 if $1
 export const approveDaiFerry = async (DaiContract: any, userAddress: string, amount: number) => {
     // 0/blank amount or no contract/address will cause fail
     if (!DaiContract || !userAddress || !amount) return null
 
-    const scaledAmount = ethers.utils.parseUnits(amount + "", "ether")
+    const scaledAmount = ethers.utils.parseUnits(amount + '', 'ether')
     const res = await DaiContract.methods.approve(contractAddresses.ferry, scaledAmount).send({
         from: userAddress,
         gasPrice: gasPrice
@@ -21,7 +21,7 @@ export const paySubscription = async (FerryContract: any, address: string, amoun
     // 0/blank amount or no contract/address will cause fail
     if (!FerryContract || !address || !amount) return null
 
-    const scaledAmount = ethers.utils.parseUnits(amount + "", "ether")
+    const scaledAmount = ethers.utils.parseUnits(amount + '', 'ether')
     const res = await FerryContract.methods.paySubscription(address, scaledAmount).send({
         from: address,
         gasPrice: gasPrice
@@ -60,7 +60,7 @@ export const getSubscriptionEnd = async (FerryContract: any, address: string) =>
 
 export const getSHIPBalance = async (ShipTokenContract: any, address: string) => {
     if (!ShipTokenContract || !address) return null
-    let balBN;
+    let balBN
     try {
         await ShipTokenContract.methods.balanceOf(address).call((err: any, result: any) => {
             if (err) {

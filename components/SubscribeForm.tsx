@@ -1,6 +1,5 @@
 
 import { useState, useEffect, useContext } from 'react'
-import Progress from './Progress'
 import styles from '../styles/UploadForm.module.css'
 import BlurContainer from './BlurContainer'
 import Button from './Button'

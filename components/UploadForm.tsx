@@ -11,15 +11,15 @@ import BlurContainer from './BlurContainer'
 import Link from 'next/link'
 import { useUser } from '../lib/hooks'
 
-type UploadFormProps = {
-  spaceUsed: number,
-  subscriptionExpires: number,
-  mutateSpaceUsed: Mutator,
+interface Props {
+  spaceUsed: number
+  subscriptionExpires: number
+  mutateSpaceUsed: Mutator
   mutateUploads: Mutator
 }
 
 export default function UploadForm(
-  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateUploads }: UploadFormProps
+  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateUploads }: Props
 ) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')

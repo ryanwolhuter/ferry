@@ -44,7 +44,6 @@ export default function Home() {
     <Layout toggleShowSubscribeForm={toggleShowSubscribeForm}>
       {initialized
         ? <>
-          {/* <button onClick={e => setShowSubscribeForm(!showSubscribeForm)}>toggle subscribe form</button> */}
           {!showSubscribeForm && <UploadForm
             spaceUsed={spaceUsed}
             subscriptionExpires={subscriptionExpires ?? 0}

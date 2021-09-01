@@ -21,7 +21,7 @@ export default function Uploads(
   async function handleDeleteFile(cid: string, faunaId: string, size: number) {
     // TODO implement delete on web3.storage when it is implemented
     // in the javascript client
-
+    
     mutateUploads((currentUploads: Upload[]) =>
       currentUploads.filter(
         upload => upload?.data?.cid !== cid),
@@ -37,19 +37,6 @@ export default function Uploads(
   }
 
   return (
-    //     <table>
-    //     <thead>
-    //         <tr>
-    //             <th colspan="2">The table header</th>
-    //         </tr>
-    //     </thead>
-    //     <tbody>
-    //         <tr>
-    //             <td>The table body</td>
-    //             <td>with two columns</td>
-    //         </tr>
-    //     </tbody>
-    // </table>
     <table>
       <thead>
         <tr>
@@ -59,7 +46,7 @@ export default function Uploads(
         </tr>
       </thead>
       <tbody>
-        {uploads.map(({ name, cid, id: faunaId, size, expiration }) => (
+        {uploads.map(({ name, cid, size, expiration }) => (
           <tr key={cid + Math.random()}>
             <td>
               <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>

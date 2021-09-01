@@ -4,26 +4,25 @@ import NavBar from './NavBar'
 import styles from '../styles/Layout.module.css'
 import { ReactNode } from 'react'
 
-
-type LayoutProps = {
-  children: ReactNode,
-  provider?: any,
-  updateProvider?: any,
-  contracts?: any,
-  toggleShowSubscribeForm?: any,
-  hasBackground?: boolean,
+interface Props {
+  children: ReactNode
+  provider?: any
+  updateProvider?: any
+  contracts?: any
+  toggleShowSubscribeForm?: any
+  hasBackground?: boolean
   hasNav?: boolean
 }
 
-export default function Layout(
-  { children,
-    provider,
-    updateProvider,
-    contracts,
-    toggleShowSubscribeForm,
-    hasBackground = true,
-    hasNav = true
-  }: LayoutProps
+export default function Layout({
+  children,
+  provider,
+  updateProvider,
+  contracts,
+  toggleShowSubscribeForm,
+  hasBackground = true,
+  hasNav = true
+}: Props
 ) {
 
   return (
@@ -34,7 +33,6 @@ export default function Layout(
       </Head>
       {hasBackground && <Background />}
 
-      {/* @ts-ignore */}
       {hasNav && <NavBar provider={provider} updateProvider={updateProvider} contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm} />}
       <main className={styles.main}>
         <div className={styles.container}>{children}</div>

@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
-// @ts-ignore
-
 import AppContext from '../context/AppContext'
 import { ContractSet, getContracts } from '../lib/contracts/ContractBooter'
 

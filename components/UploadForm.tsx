@@ -180,7 +180,7 @@ export default function UploadForm(
           <div className="content">
             <h1>{isLoading ? 'Uploading your file' : 'Your files are ferried!'}</h1>
             <div className={styles.progressContainer}>
-              <Progress progress={percentUploaded} radius={100} stroke={10} />
+              <Progress progress={percentUploaded} />
             </div>
             {!isLoading && <div className="linkContainer">
               <Link href={makeFileUrl(rootCid, files)}><a>{makeFileUrl(rootCid, files)}</a></Link>

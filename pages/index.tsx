@@ -11,10 +11,10 @@ export default function Home() {
   const [showSubscribeForm, setShowSubscribeForm] = useState(false)
 
   const isFirstRender = useFirstRender()
-  const { user, loading: userLoading } = useUser()
-  const { subscriptionExpires, loading: subscriptionExpiresLoading } = useSubscriptionExpires()
-  const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
-  const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
+  const { user, userLoading } = useUser()
+  const { subscriptionExpires, subscriptionExpiresLoading } = useSubscriptionExpires()
+  const { files, filesLoading, mutateFiles } = useAllFiles()
+  const { spaceUsed, spaceUsedLoading, mutateSpaceUsed } = useUserSpaceUsed()
 
   function toggleShowSubscribeForm() {
     setShowSubscribeForm(!showSubscribeForm)

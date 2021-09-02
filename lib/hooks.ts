@@ -11,23 +11,42 @@ const jsonFetcher = (selector?: string) => (url: string) =>
 
 export function useAllFiles() {
   const { data, isValidating, mutate } = useSWR('/api/files', jsonFetcher('files'))
-  return { files: data ?? [], loading: isValidating, mutate }
+
+  return {
+    files: data ?? [],
+    filesLoading: isValidating,
+    mutateFiles: mutate
+  }
 }
 
 export function useUserSpaceUsed() {
   const { data, isValidating, mutate } = useSWR('/api/space-used', jsonFetcher('spaceUsed'))
-  return { spaceUsed: data ?? 0, loading: isValidating, mutate }
+
+  return {
+    spaceUsed: data ?? 0,
+    spaceUsedLoading: isValidating,
+    mutateSpaceUsed: mutate
+  }
 }
 
 export function useSubscriptionExpires() {
   const { data, isValidating, mutate } = useSWR('/api/subscription-expires', jsonFetcher('subscriptionExpires'))
-  return { subscriptionExpires: data ?? 0, loading: isValidating, mutate }
+
+  return {
+    subscriptionExpires: data ?? 0,
+    subscriptionExpiresLoading: isValidating,
+    mutateSubscriptionExpires: mutate
+  }
 }
 
 export function useUser() {
-  const { data, isValidating } = useSWR('/api/user', jsonFetcher())
-  const user = data?.user ?? null
-  return { user, loading: isValidating }
+  const { data, isValidating, mutate } = useSWR('/api/user', jsonFetcher())
+
+  return { 
+    user: data?.user ?? null, 
+    userLoading: isValidating,
+    mutateUser: mutate
+   }
 }
 
 export function useIsMounted() {

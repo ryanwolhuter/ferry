@@ -1,6 +1,6 @@
-import useSWR from "swr";
+import useSWR from 'swr'
 import { get } from 'lodash'
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react'
 
 const jsonFetcher = (selector?: string) => (url: string) =>
   fetch(url)

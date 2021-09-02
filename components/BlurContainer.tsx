@@ -1,11 +1,9 @@
-import styles from '../styles/BlurContainer.module.css'
-// @ts-ignore
-import classNames from 'classnames'
+import { ReactNode } from 'react'
 
-type Props = {
-  children: JSX.Element,
-  isFullScreen?: boolean,
-  isBackground?: boolean,
+interface Props {
+  children: ReactNode
+  isFullScreen?: boolean
+  isBackground?: boolean
   className?: string
 }
 

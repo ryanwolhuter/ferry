@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 import { Magic } from '@magic-sdk/admin'
-import { createSession } from "../../lib/cookie"
-import { createHandlers } from "../../lib/restUtils"
-import { UserModel } from "../../lib/models/userModel"
+import { createSession } from '../../lib/cookie'
+import { createHandlers } from '../../lib/restUtils'
+import { UserModel } from '../../lib/models/userModel'
 
 const handlers = {
   POST: async (req: NextApiRequest, res: NextApiResponse) => {

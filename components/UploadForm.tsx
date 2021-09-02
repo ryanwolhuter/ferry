@@ -4,22 +4,22 @@ import makeStorageClient from '../lib/storageClient'
 import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
 import Progress from './Progress'
-import styles from '../styles/UploadForm.module.css'
+import styles from './UploadForm.module.css'
 import prettyBytes from 'pretty-bytes'
 import { Mutator, Upload } from '../lib'
 import BlurContainer from './BlurContainer'
 import Link from 'next/link'
 import { useUser } from '../lib/hooks'
 
-type UploadFormProps = {
-  spaceUsed: number,
-  subscriptionExpires: number,
-  mutateSpaceUsed: Mutator,
+interface Props {
+  spaceUsed: number
+  subscriptionExpires: number
+  mutateSpaceUsed: Mutator
   mutateUploads: Mutator
 }
 
 export default function UploadForm(
-  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateUploads }: UploadFormProps
+  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateUploads }: Props
 ) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
@@ -114,19 +114,6 @@ export default function UploadForm(
     setEmail('')
   }
 
-  async function handleSubscribe() {
-    const expiration = Date.now() + (30 * 24 * 60 * 60 * 1000)
-    try {
-      const response = await fetch('/api/user', {
-        method: 'POST',
-        body: JSON.stringify({ expiration })
-      })
-      console.log(response)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   function isPro() {
     if (!subscriptionExpires) return false
 
@@ -137,7 +124,6 @@ export default function UploadForm(
     <div className={styles.formContainer}>
       <BlurContainer>
         <form onSubmit={e => handleSubmit(e)} className={styles.form}>
-          {/* <button type="button" onClick={e => handleSubscribe()}>subscribe</button> */}
           <div className={styles.fileInputContainer}>
             <input
               type="file"
@@ -194,7 +180,7 @@ export default function UploadForm(
           <div className="content">
             <h1>{isLoading ? 'Uploading your file' : 'Your files are ferried!'}</h1>
             <div className={styles.progressContainer}>
-              <Progress progress={percentUploaded} radius={100} stroke={10} />
+              <Progress progress={percentUploaded} />
             </div>
             {!isLoading && <div className="linkContainer">
               <Link href={makeFileUrl(rootCid, files)}><a>{makeFileUrl(rootCid, files)}</a></Link>

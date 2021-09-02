@@ -1,4 +1,4 @@
-export default function Progress({ radius = 0, stroke = 0, progress = 0 }) {
+export default function Progress({ radius = 100, stroke = 10, progress = 0 }) {
 
   const normalizedRadius = radius - stroke * 2
   const circumference = normalizedRadius * 2 * Math.PI

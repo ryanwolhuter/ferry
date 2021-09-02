@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Background from './Background'
 import NavBar from './NavBar'
-import styles from '../styles/Layout.module.css'
+import styles from './Layout.module.css'
 import { ReactNode } from 'react'
 
 interface Props {

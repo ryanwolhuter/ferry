@@ -6,7 +6,7 @@ import Layout from '../components/Layout'
 import BlurContainer from '../components/BlurContainer'
 import Spinner from '../components/Spinner'
 import Button from '../components/Button'
-import styles from '../styles/Login.module.css'
+import styles from './Login.module.css'
 import logoLandingPage from '../public/logo-landing-page.svg'
 import Image from 'next/image'
 

@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import Web3Modal from 'web3modal'
 
-import styles from '../styles/NavBar.module.scss'
+import styles from './NavBar.module.scss'
 import { useUser } from '../lib/hooks'
 import Link from 'next/link'
 import Image from 'next/image'

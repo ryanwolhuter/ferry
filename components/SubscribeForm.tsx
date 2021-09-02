@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useContext } from 'react'
-import styles from '../styles/UploadForm.module.css'
+import styles from './UploadForm.module.css'
 import BlurContainer from './BlurContainer'
 import Button from './Button'
 import { useRouter } from 'next/router'

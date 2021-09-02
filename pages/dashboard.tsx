@@ -31,10 +31,10 @@ export default function Dashboard(props: any) {
 
   const isFirstRender = useFirstRender()
 
-  const { user, loading: userLoading } = useUser()
-  const { files, loading: filesLoading, mutate: mutateFiles } = useAllFiles()
-  const { spaceUsed, loading: spaceUsedLoading, mutate: mutateSpaceUsed } = useUserSpaceUsed()
-  const { subscriptionExpires, loading: subscriptionExpiresLoading, mutate: mutateSubscriptionExpires } = useSubscriptionExpires()
+  const { user, userLoading } = useUser()
+  const { files, filesLoading, mutateFiles } = useAllFiles()
+  const { spaceUsed, spaceUsedLoading, mutateSpaceUsed } = useUserSpaceUsed()
+  const { subscriptionExpires, subscriptionExpiresLoading, mutateSubscriptionExpires } = useSubscriptionExpires()
 
   // TODO add NFT available to mint btn
 

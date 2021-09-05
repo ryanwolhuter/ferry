@@ -266,7 +266,7 @@ export default function Dashboard(props: any) {
           </div>
           <br />
           <h1>Link Management</h1>
-          <Uploads files={files} mutateUploads={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
+          <Uploads files={files} mutateFiles={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
         </div>
         <div className="tokens">
           <h1>Token Balances</h1>

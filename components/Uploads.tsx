@@ -4,12 +4,12 @@ import { Mutator, Upload } from '../lib'
 
 type UploadsProps = {
   files: any[],
-  mutateUploads: Mutator,
+  mutateFiles: Mutator,
   mutateSpaceUsed: Mutator
 }
 
 export default function Uploads(
-  { files, mutateUploads, mutateSpaceUsed }: UploadsProps
+  { files, mutateFiles, mutateSpaceUsed }: UploadsProps
 ) {
   const uploads = files.map(f => {
     return {
@@ -21,8 +21,8 @@ export default function Uploads(
   async function handleDeleteFile(cid: string, faunaId: string, size: number) {
     // TODO implement delete on web3.storage when it is implemented
     // in the javascript client
-    
-    mutateUploads((currentUploads: Upload[]) =>
+
+    mutateFiles((currentUploads: Upload[]) =>
       currentUploads.filter(
         upload => upload?.data?.cid !== cid),
       false)

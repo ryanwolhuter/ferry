@@ -47,7 +47,7 @@ export default function Home() {
           {!showSubscribeForm && <UploadForm
             spaceUsed={spaceUsed}
             subscriptionExpires={subscriptionExpires ?? 0}
-            mutateUploads={mutateFiles}
+            mutateFiles={mutateFiles}
             mutateSpaceUsed={mutateSpaceUsed}
           />}
           {showSubscribeForm && <SubscribeForm />}

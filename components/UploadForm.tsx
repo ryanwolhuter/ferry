@@ -6,31 +6,26 @@ import sendEmail from '../lib/sendEmail'
 import Progress from './Progress'
 import styles from './UploadForm.module.css'
 import prettyBytes from 'pretty-bytes'
-import { Mutator, Upload } from '../lib'
+import { Upload } from '../lib'
 import BlurContainer from './BlurContainer'
 import Link from 'next/link'
-import { useUser } from '../lib/hooks'
+import { useUser, useSubscriptionDetails, useSpaceUsed, useFiles } from '../lib/hooks'
 
-interface Props {
-  spaceUsed: number
-  subscriptionExpires: number
-  mutateSpaceUsed: Mutator
-  mutateUploads: Mutator
-}
+export default function UploadForm() {
 
-export default function UploadForm(
-  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateUploads }: Props
-) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState(10)
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [fileSize, setFileSize] = useState('')
   const [fileName, setFileName] = useState('')
   const [showProgress, setShowProgress] = useState(false)
   const [expiration, setExpiration] = useState(24 * 60 * 60 * 1000)
+
   const { user } = useUser()
+  const { subscriptionDetails } = useSubscriptionDetails()
+  const { spaceUsed, mutateSpaceUsed } = useSpaceUsed()
+  const { mutateFiles } = useFiles()
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -66,12 +61,11 @@ export default function UploadForm(
   function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
+
     if (!files.length) return
 
     const name = getFileName(files)
-    const size = getFileSize(files)
     setFileName(name)
-    setFileSize(prettyBytes(size))
   }
 
   async function handleSubmit(submitEvent: FormEvent) {
@@ -85,11 +79,9 @@ export default function UploadForm(
     const name = getFileName(files)
     const size = getFileSize(files)
 
-    mutateUploads((currentUploads: Upload[]) =>
+    mutateFiles((currentUploads: Upload[]) =>
       [...currentUploads,
-      {
-        data: { name, cid, size, expiration }
-      }],
+      { data: { name, cid, size, expiration } }],
       false)
 
     mutateSpaceUsed((currentSpaceUsed: number) =>
@@ -110,14 +102,7 @@ export default function UploadForm(
 
     setFiles([])
     setFileName('')
-    setFileSize('')
     setEmail('')
-  }
-
-  function isPro() {
-    if (!subscriptionExpires) return false
-
-    return subscriptionExpires > Date.now()
   }
 
   return (
@@ -163,7 +148,7 @@ export default function UploadForm(
               min={60 * 1000}
               step={60 * 1000}
               onChange={e => setExpiration(Number(e.target.value))}
-              disabled={!isPro()}
+              disabled={!subscriptionDetails.isPro}
             />
             <p className={styles.fileExpiry}>{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
           </div>

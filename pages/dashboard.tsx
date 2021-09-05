@@ -1,9 +1,9 @@
-import { useUser, useFirstRender, useAllFiles, useUserSpaceUsed, useSubscriptionExpires } from '../lib/hooks'
+import { useUser, useFirstRender, useFiles, useSpaceUsed, useSubscriptionDetails } from '../lib/hooks'
 import Uploads from '../components/Uploads'
 import Layout from '../components/Layout'
 import { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { getSHIPBalance, getAccountNFTDetails, mintNFT, getSubscriptionEnd } from '../lib/contracts/ContractFunctions'
+import { getSHIPBalance, getAccountNFTDetails, mintNFT } from '../lib/contracts/ContractFunctions'
 import { PolygonscanURL } from '../constants/chain'
 import Image from 'next/image'
 import prettyBytes from 'pretty-bytes'
@@ -13,7 +13,7 @@ import epicNft from '../public/assets/epic.png'
 import rareNft from '../public/assets/rare.png'
 import commonNft from '../public/assets/common.png'
 
-export default function Dashboard(props: any) {
+export default function Dashboard() {
   const router = useRouter()
   const [initialized, setInitialized] = useState(false)
   const [shipBalance, setShipBalance] = useState(0)
@@ -32,18 +32,14 @@ export default function Dashboard(props: any) {
   const isFirstRender = useFirstRender()
 
   const { user, userLoading } = useUser()
-  const { files, filesLoading, mutateFiles } = useAllFiles()
-  const { spaceUsed, spaceUsedLoading, mutateSpaceUsed } = useUserSpaceUsed()
-  const { subscriptionExpires, subscriptionExpiresLoading, mutateSubscriptionExpires } = useSubscriptionExpires()
+  const { spaceUsed, spaceUsedLoading } = useSpaceUsed()
+  const { subscriptionDetails, subscriptionDetailsLoading } = useSubscriptionDetails()
 
   // TODO add NFT available to mint btn
-
 
   useEffect(() => {
     if (provider && provider.selectedAddress && contracts && contracts.ferryContract && !nftRandomNum) {
       const interval = setInterval(async () => {
-
-        console.log('I werk', nftRandomNum)
 
         let randNumOutput = 0
 
@@ -114,21 +110,20 @@ export default function Dashboard(props: any) {
     if (
       user
       && !userLoading
-      && !filesLoading
       && !spaceUsedLoading
-      && !subscriptionExpiresLoading
+      && !subscriptionDetailsLoading
       && !initialized
     ) {
       setInitialized(true)
     }
-  }, [user, subscriptionExpiresLoading, spaceUsedLoading, filesLoading, userLoading, initialized])
+  }, [user, subscriptionDetailsLoading, spaceUsedLoading, userLoading, initialized])
 
   useEffect(() => {
     // redirect to home if not pro
-    if (!(user || userLoading) && !isFirstRender) {
+    if (!isFirstRender && !subscriptionDetails.isPro && !subscriptionDetailsLoading) {
       router.push('/')
     }
-  }, [user, userLoading, isFirstRender, router])
+  }, [isFirstRender, router, subscriptionDetails.isPro, subscriptionDetailsLoading])
 
   // useEffect(() => {
   //   function isPro() {
@@ -137,10 +132,10 @@ export default function Dashboard(props: any) {
   //     return subscriptionExpires > Date.now()
   //   }
 
-  //   if (!(isPro() || subscriptionExpiresLoading) && !isFirstRender) {
+  //   if (!(isPro() || subscriptionDetailsLoading) && !isFirstRender) {
   //     router.push('/')
   //   }
-  // }, [isFirstRender, router, subscriptionExpires, subscriptionExpiresLoading])
+  // }, [isFirstRender, router, subscriptionExpires, subscriptionDetailsLoading])
 
   const viewNFTOnPolygonscan = () => {
     window.open(PolygonscanURL + nftTokenID, '_blank')
@@ -266,7 +261,7 @@ export default function Dashboard(props: any) {
           </div>
           <br />
           <h1>Link Management</h1>
-          <Uploads files={files} mutateFiles={mutateFiles} mutateSpaceUsed={mutateSpaceUsed} />
+          <Uploads />
         </div>
         <div className="tokens">
           <h1>Token Balances</h1>

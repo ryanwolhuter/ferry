@@ -1,4 +1,4 @@
-import { Create, Index, Logout, Select, Tokens, Get, Match, Collection, Update, CurrentIdentity, Function, Call } from 'faunadb'
+import { Create, Index, Logout, Select, Tokens, Get, Match, Collection, CurrentIdentity, Function, Call } from 'faunadb'
 import { adminClient, getClient } from '../faunadb'
 export class UserModel {
   async createUser(email: string | null) {
@@ -31,7 +31,7 @@ export class UserModel {
       )
   }
 
-  async getUserSubscriptionExpiration(token: string) {
+  async getUserSubscriptionExpiration(token: string): Promise<number | null> {
     return await getClient(token)
       .query(
         Select(

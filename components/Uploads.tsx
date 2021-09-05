@@ -1,40 +1,35 @@
 import Link from 'next/link'
 import prettyBytes from 'pretty-bytes'
-import { Mutator, Upload } from '../lib'
+import { useFiles } from '../lib/hooks'
 
-type UploadsProps = {
-  files: any[],
-  mutateFiles: Mutator,
-  mutateSpaceUsed: Mutator
-}
+export default function Uploads() {
 
-export default function Uploads(
-  { files, mutateFiles, mutateSpaceUsed }: UploadsProps
-) {
-  const uploads = files.map(f => {
+  const { files } = useFiles()
+
+  const uploads = files?.map(f => {
     return {
       ...f.ref?.['@ref'],
       ...f.data
     }
   })
 
-  async function handleDeleteFile(cid: string, faunaId: string, size: number) {
-    // TODO implement delete on web3.storage when it is implemented
-    // in the javascript client
+  // async function handleDeleteFile(cid: string, faunaId: string, size: number) {
+  //   // TODO implement delete on web3.storage when it is implemented
+  //   // in the javascript client
 
-    mutateFiles((currentUploads: Upload[]) =>
-      currentUploads.filter(
-        upload => upload?.data?.cid !== cid),
-      false)
-    mutateSpaceUsed((currentSpaceUsed: number) =>
-      currentSpaceUsed - size,
-      false)
+  //   mutateFiles((currentUploads: Upload[]) =>
+  //     currentUploads.filter(
+  //       upload => upload?.data?.cid !== cid),
+  //     false)
+  //   mutateSpaceUsed((currentSpaceUsed: number) =>
+  //     currentSpaceUsed - size,
+  //     false)
 
-    await fetch('/api/files', {
-      method: 'DELETE',
-      body: JSON.stringify({ id: faunaId })
-    })
-  }
+  //   await fetch('/api/files', {
+  //     method: 'DELETE',
+  //     body: JSON.stringify({ id: faunaId })
+  //   })
+  // }
 
   return (
     <table>

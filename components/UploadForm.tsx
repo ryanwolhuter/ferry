@@ -6,22 +6,13 @@ import sendEmail from '../lib/sendEmail'
 import Progress from './Progress'
 import styles from './UploadForm.module.css'
 import prettyBytes from 'pretty-bytes'
-import { Mutator, Upload } from '../lib'
+import { Upload } from '../lib'
 import BlurContainer from './BlurContainer'
 import Link from 'next/link'
-import { useUser } from '../lib/hooks'
-import { isPro } from '../lib/utils'
+import { useUser, useSubscriptionDetails, useSpaceUsed, useFiles } from '../lib/hooks'
 
-interface Props {
-  spaceUsed: number
-  subscriptionExpires: number
-  mutateSpaceUsed: Mutator
-  mutateFiles: Mutator
-}
+export default function UploadForm() {
 
-export default function UploadForm(
-  { spaceUsed, subscriptionExpires, mutateSpaceUsed, mutateFiles }: Props
-) {
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState(10)
@@ -32,6 +23,9 @@ export default function UploadForm(
   const [expiration, setExpiration] = useState(24 * 60 * 60 * 1000)
 
   const { user } = useUser()
+  const { subscriptionDetails } = useSubscriptionDetails()
+  const { spaceUsed, mutateSpaceUsed } = useSpaceUsed()
+  const { mutateFiles } = useFiles()
 
   async function storeWithProgress(files: File[]) {
     try {
@@ -67,6 +61,7 @@ export default function UploadForm(
   function handleChooseFile(inputEvent: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(inputEvent?.target?.files ?? [])
     setFiles(files)
+
     if (!files.length) return
 
     const name = getFileName(files)
@@ -153,7 +148,7 @@ export default function UploadForm(
               min={60 * 1000}
               step={60 * 1000}
               onChange={e => setExpiration(Number(e.target.value))}
-              disabled={!isPro(subscriptionExpires)}
+              disabled={!subscriptionDetails.isPro}
             />
             <p className={styles.fileExpiry}>{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
           </div>

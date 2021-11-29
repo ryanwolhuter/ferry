@@ -9,6 +9,16 @@ const jsonFetcher = (selector?: string) => (url: string) =>
       ? get(data, selector, null)
       : data ?? null)
 
+export function useUser() {
+  const { data, isValidating, mutate } = useSWR('/api/user', jsonFetcher())
+
+  return {
+    user: data?.user ?? null,
+    userLoading: isValidating,
+    mutateUser: mutate
+  }
+}
+
 export function useFiles() {
   const { data, isValidating, mutate } = useSWR('/api/files', jsonFetcher('files'))
 
@@ -39,16 +49,6 @@ export function useSubscriptionDetails() {
     subscriptionDetails: { subscriptionExpires, isPro },
     subscriptionDetailsLoading: isValidating,
     mutateSubscriptionDetails: mutate
-  }
-}
-
-export function useUser() {
-  const { data, isValidating, mutate } = useSWR('/api/user', jsonFetcher())
-
-  return {
-    user: data?.user ?? null,
-    userLoading: isValidating,
-    mutateUser: mutate
   }
 }
 

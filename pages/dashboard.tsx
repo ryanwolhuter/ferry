@@ -1,4 +1,4 @@
-import { useUser, useFirstRender, useFiles, useSpaceUsed, useSubscriptionDetails } from '../lib/hooks'
+import { useUser, useFirstRender, useSpaceUsed, useSubscriptionDetails } from '../lib/hooks'
 import Uploads from '../components/Uploads'
 import Layout from '../components/Layout'
 import { useEffect, useState, useContext } from 'react'
@@ -124,18 +124,6 @@ export default function Dashboard() {
       router.push('/')
     }
   }, [isFirstRender, router, subscriptionDetails.isPro, subscriptionDetailsLoading])
-
-  // useEffect(() => {
-  //   function isPro() {
-  //     if (!subscriptionExpires) return false
-
-  //     return subscriptionExpires > Date.now()
-  //   }
-
-  //   if (!(isPro() || subscriptionDetailsLoading) && !isFirstRender) {
-  //     router.push('/')
-  //   }
-  // }, [isFirstRender, router, subscriptionExpires, subscriptionDetailsLoading])
 
   const viewNFTOnPolygonscan = () => {
     window.open(PolygonscanURL + nftTokenID, '_blank')

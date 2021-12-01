@@ -1,10 +1,18 @@
 import Image from 'next/image'
 import background from '../public/background.png'
-import styles from './Background.module.css'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  z-index: -1;
+`
 
 export default function Background() {
   return (
-    <div className={styles.bgWrap}>
+    <Wrapper>
       <Image
         priority
         alt="background image"
@@ -14,6 +22,6 @@ export default function Background() {
         quality={100}
         placeholder="blur"
       />
-    </div>
+    </Wrapper>
   )
 }

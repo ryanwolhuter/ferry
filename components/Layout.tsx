@@ -3,6 +3,7 @@ import Background from './Background'
 import NavBar from './NavBar'
 import styles from './Layout.module.css'
 import { ReactNode } from 'react'
+import styled from 'styled-components'
 
 interface Props {
   children: ReactNode
@@ -25,6 +26,19 @@ export default function Layout({
 }: Props
 ) {
 
+  const Main = styled.main`
+    height: 100vh;
+    display: grid;
+    align-items: center;
+  `
+
+  const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  `
+
   return (
     <>
       <Head>
@@ -34,9 +48,9 @@ export default function Layout({
       {hasBackground && <Background />}
 
       {hasNav && <NavBar provider={provider} updateProvider={updateProvider} contracts={contracts} toggleShowSubscribeForm={toggleShowSubscribeForm} />}
-      <main className={styles.main}>
-        <div className={styles.container}>{children}</div>
-      </main>
+      <Main>
+        <Wrapper>{children}</Wrapper>
+      </Main>
     </>
   )
 }

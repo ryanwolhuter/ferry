@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Background from './Background'
 import NavBar from './NavBar'
-import styles from './Layout.module.css'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 

@@ -3,11 +3,12 @@ import styled from 'styled-components'
 
 interface Props {
   children: ReactNode
+  show?: boolean
   isFullScreen?: boolean
   isBackground?: boolean
 }
 
-export default function BlurContainer({ children, isFullScreen, isBackground }: Props) {
+export default function BlurContainer({ children, isFullScreen, isBackground, show = true }: Props) {
 
   const Container = styled.div`
     padding: ${isFullScreen ? '0' : '32'}px;

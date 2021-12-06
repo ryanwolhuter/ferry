@@ -52,7 +52,7 @@ const PrimaryButton = styled(ButtonBase)`
     }
 `
 
-export default function Button({ variant, children, ...props }) {
+export default function Button({ variant = 'primary', children, ...props }) {
   let Button = PrimaryButton
       
   return (

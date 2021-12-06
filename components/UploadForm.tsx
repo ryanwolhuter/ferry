@@ -1,5 +1,4 @@
-
-import { useState, ChangeEvent, FormEvent } from 'react'
+import React, { useState, ChangeEvent, FormEvent } from 'react'
 import makeStorageClient from '../lib/storageClient'
 import { getFileName, getFileSize, makeFileUrl } from '../lib/fileUpload'
 import sendEmail from '../lib/sendEmail'
@@ -10,9 +9,13 @@ import { Upload } from '../lib'
 import BlurContainer from './BlurContainer'
 import Link from 'next/link'
 import { useUser, useSubscriptionDetails, useSpaceUsed, useFiles } from '../lib/hooks'
+import styled from 'styled-components'
+import FileInput from './FileInput'
+import EmailInput from './EmailInput'
+import RangeInput from './RangeInput'
+import Button from './Button'
 
 export default function UploadForm() {
-
   const [files, setFiles] = useState<File[]>([])
   const [rootCid, setRootCid] = useState('')
   const [percentUploaded, setPercentUploaded] = useState(10)
@@ -105,43 +108,37 @@ export default function UploadForm() {
     setEmail('')
   }
 
+  const Wrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    padding: 20px;
+    padding-left: 160px;
+    padding-right: 160px;
+    padding-top: 120px;
+    padding-bottom: 80px;
+  `
+
+  const Form = styled.form`
+    display: grid;
+    position: relative;
+  `
+
   return (
-    <div className={styles.formContainer}>
+    <Wrapper>
       <BlurContainer>
-        <form onSubmit={e => handleSubmit(e)} className={styles.form}>
-          <div className={styles.fileInputContainer}>
-            <input
-              type="file"
-              name="file"
-              onChange={e => handleChooseFile(e)}
-            ></input>
-            <label htmlFor="file" aria-hidden={true}>
-              Choose file
-            </label>
-            <div className={styles.details}>
-              <h1 className={styles.heading}>Add your files</h1>
-              <p className={styles.spaceUsed}>You have used {prettyBytes(spaceUsed)} of 2 GB</p>
-            </div>
-          </div>
-          <div className={styles.container}>
-            {fileName
-              ? <div className={styles.fileDetails}>{decodeURI(fileName)}</div>
-              : <div className={styles.noFileChosen}>No file chosen</div>}
-            <hr className={styles.divider} />
-            <label htmlFor="email">
-              To: (Optional)
-            </label>
-            <input
-              type="email"
-              name="email"
-              className={styles.email}
-              onChange={e => setEmail(e.target.value)}
-            ></input>
-          </div>
-          <p className={styles.fileExpiry}>File expiry</p>
-          <div className="expiration">
-            <input
-              type="range"
+        <Form onSubmit={e => handleSubmit(e)}>
+          <FileInput onChange={e => handleChooseFile(e)} />
+          <h1>Add your files</h1>
+          <p>You have used {prettyBytes(spaceUsed)} of 2 GB</p>
+          {fileName
+            ? <div>{decodeURI(fileName)}</div>
+            : <div>No file chosen</div>}
+          <hr />
+          <EmailInput onChange={e => setEmail(e.target.value)} />
+          <p>File expiry</p>
+          <div>
+            <RangeInput
               name="expiration"
               value={expiration}
               max={48 * 60 * 60 * 1000}
@@ -150,70 +147,24 @@ export default function UploadForm() {
               onChange={e => setExpiration(Number(e.target.value))}
               disabled={!subscriptionDetails.isPro}
             />
-            <p className={styles.fileExpiry}>{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
+            <p>{Math.ceil(expiration / 60 / 60 / 1000)} hours</p>
           </div>
-          <button
+          <Button
             type="submit"
-            className={`${styles.submitButton} default`}
             disabled={files.length === 0}
           >Ferry it
-          </button>
-        </form>
+          </Button>
+        </Form>
       </BlurContainer>
-      <BlurContainer isBackground className={showProgress ? 'show' : 'hide'}>
-        <div className="containerContainer">
-          <div className="content">
+      <BlurContainer isBackground show={showProgress}>
+          <div>
             <h1>{isLoading ? 'Uploading your file' : 'Your files are ferried!'}</h1>
-            <div className={styles.progressContainer}>
               <Progress progress={percentUploaded} />
-            </div>
-            {!isLoading && <div className="linkContainer">
+            {!isLoading && <div>
               <Link href={makeFileUrl(rootCid, files)}><a>{makeFileUrl(rootCid, files)}</a></Link>
             </div>}
           </div>
-          <style jsx>
-            {`
-            div.containerContainer {
-              display: grid;
-              grid-template-rows: 1fr;
-              grid-template-columns: 1fr 1fr;
-            }
-            div.content {
-              grid-column-start: 2;
-              padding-top: 40px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              text-align: center;
-            }
-            div.linkContainer {
-              display: flex;
-              flex-direction: row;
-              justify-content: center;
-              align-items: center;
-              padding: 8px 16px;
-              background: #FFFFFF;
-              box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-              border-radius: 10px;
-              width: 400px;
-              height: 36px;
-              margin-top: 36px;
-              }
-              a {
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-              }
-
-              div.expiration {
-                display: flex;
-                align-items: center;
-              }
-            `}
-          </style>
-        </div>
       </BlurContainer>
-    </div>
+    </Wrapper>
   )
 }

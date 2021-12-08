@@ -1,6 +1,51 @@
 import Link from 'next/link'
 import prettyBytes from 'pretty-bytes'
+import styled from 'styled-components'
 import { useFiles } from '../lib/hooks'
+
+const Table = styled.table`
+  border-radius: 20px 20px 0px 0px;
+  padding-bottom: 32px;
+  border-collapse: collapse;
+`
+const THead = styled.thead`
+    border-radius: 20px;
+    height: 72px;
+    box-shadow: 0px 0px 33px rgba(57, 29, 118, 0.18);
+    border-radius: 20px 20px 0px 0px;
+    padding: 24px;
+`
+
+const TBody = styled.tbody``
+
+const TR = styled.tr`
+    &:nth-child(even) {
+          background: white;
+        }
+
+    &:nth-child(odd) {
+      background: linear-gradient(90deg, #fcf8ff 39.37%, #fff9eb 100%);
+    }
+`
+
+const TH = styled.th`
+    text-align: start;
+    padding: 8px;
+    border-radius: 20px;
+
+  &:first-child {
+        padding-left: 24px;
+      }
+`
+
+const TD = styled.td`
+    min-width: 150px;
+    padding: 8px;
+`
+
+const A = styled.a`
+    text-decoration: none;
+    `
 
 export default function Uploads() {
 
@@ -32,36 +77,27 @@ export default function Uploads() {
   // }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>File Name</th>
-          <th>File Size</th>
-          <th>Expiry Date</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <THead>
+        <TR>
+          <TH>File Name</TH>
+          <TH>File Size</TH>
+          <TH>Expiry Date</TH>
+        </TR>
+      </THead>
+      <TBody>
         {uploads.map(({ name, cid, size, expiration }) => (
-          <tr key={cid + Math.random()}>
-            <td>
-              <Link href={`https://${cid}.ipfs.dweb.link/${name}`}>
-                <a>{name}</a>
+          <TR key={cid + Math.random()}>
+            <TD>
+              <Link href={`https://${cid}.ipfs.dweb.link/${name} `} passHref>
+                <A>{name}</A>
               </Link>
-            </td>
-            <td>{prettyBytes(size)}</td>
-            <td>{(new Date(expiration).toLocaleTimeString())}</td>
-          </tr>
+            </TD>
+            <TD>{prettyBytes(size)}</TD>
+            <TD>{(new Date(expiration).toLocaleTimeString())}</TD>
+          </TR>
         ))}
-      </tbody>
-      <style jsx>{`
-        a {
-          text-decoration: none;
-        }
-
-        td {
-          padding: 16px;
-        }
-        `}</style>
-    </table>
+      </TBody>
+    </Table>
   )
 }

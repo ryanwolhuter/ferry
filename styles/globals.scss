@@ -98,46 +98,6 @@
   display: grid;
 }
 
-table {
-  border-radius: 20px 20px 0px 0px;
-  padding-bottom: 32px;
-  border-collapse: collapse;
-
-  thead {
-    border-radius: 20px;
-    height: 72px;
-    box-shadow: 0px 0px 33px rgba(57, 29, 118, 0.18);
-    border-radius: 20px 20px 0px 0px;
-    padding: 24px;
-
-    tr {
-      th:first-child {
-        padding-left: 24px;
-      }
-    }
-  }
-
-  th {
-    text-align: start;
-    padding: 8px;
-    border-radius: 20px;
-  }
-
-  td {
-    min-width: 150px;
-    padding: 8px;
-  }
-
-  tbody {
-    tr:nth-child(even) {
-      background: white;
-    }
-
-    tr:nth-child(odd) {
-      background: linear-gradient(90deg, #fcf8ff 39.37%, #fff9eb 100%);
-    }
-  }
-}
 
 .tokens {
   margin-top: 48px;
